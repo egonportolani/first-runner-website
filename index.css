@@ -62,10 +62,8 @@ body.home-page {
 .mesh-overlay {
     position: absolute;
     inset: 0;
-    /* very dark overlay to keep it sleek and high contrast */
-    background: rgba(3, 4, 11, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: transparent;
+    z-index: -1;
 }
 
 .mesh-blob {
