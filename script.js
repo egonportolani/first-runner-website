@@ -56,25 +56,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3D Parallax effect fallback if CSS isn't enough
-    // We rely strongly on CSS transforms on hover for performance, 
-    // but we add slight dynamic tilt based on mouse movement over the whole screen
+    // 3D Parallax effect & Interactive Aesthetic
     const mockupGlass = document.getElementById('mockup');
 
-    if (window.innerWidth > 900 && mockupGlass) {
-        document.addEventListener('mousemove', (e) => {
-            // Very subtle mouse move effect, doesn't override the hover state completely
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 150;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 150;
+    document.addEventListener('mousemove', (e) => {
+        // Calculate mouse position relative to screen center (from -0.5 to 0.5)
+        const xCenter = (e.clientX / window.innerWidth) - 0.5;
+        const yCenter = (e.clientY / window.innerHeight) - 0.5;
 
-            // Apply only if the user is not actively hovering the mockup directly 
-            // (handled by CSS hover state overrides)
+        // Calculate raw percentage (from 0 to 1) for radial gradients
+        const xPct = e.clientX / window.innerWidth;
+        const yPct = e.clientY / window.innerHeight;
+
+        // Feed coordinates into CSS root variables
+        document.documentElement.style.setProperty('--mouse-x', xCenter);
+        document.documentElement.style.setProperty('--mouse-y', yCenter);
+        document.documentElement.style.setProperty('--mouse-pct-x', xPct);
+        document.documentElement.style.setProperty('--mouse-pct-y', yPct);
+
+        // Fallback or specific complex tilt for the Mockup Phone
+        if (window.innerWidth > 900 && mockupGlass) {
             if (!mockupGlass.matches(':hover')) {
-                mockupGlass.style.transform = `rotateX(${8 + yAxis}deg) rotateY(${xAxis}deg) scale(0.95)`;
+                // Subtle tilt when NOT hovering directly
+                mockupGlass.style.transform = `rotateX(${8 + (yCenter * -10)}deg) rotateY(${xCenter * 15}deg) scale(0.95)`;
             } else {
-                // When hovering, reset so CSS handles it
-                mockupGlass.style.transform = '';
+                // When hovering the container, rotate to face the user perfectly + dynamic glare
+                // (Glare handled by CSS radial gradient linked to var(--mouse-pct-))
+                mockupGlass.style.transform = `rotateX(${yCenter * -5}deg) rotateY(${xCenter * 5}deg) scale(1)`;
             }
-        });
-    }
+        }
+    });
 });
