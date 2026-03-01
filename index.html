@@ -21,23 +21,21 @@
     <nav class="navbar">
         <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 22H22L12 2Z" fill="url(#paint0_linear)" />
-                <defs>
-                    <linearGradient id="paint0_linear" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#00E5FF" />
-                        <stop offset="1" stop-color="#FF007F" />
-                    </linearGradient>
-                </defs>
+                <path d="M12 2L2 22H7L12 12L17 22H22L12 2Z" fill="#fff" />
             </svg>
-            <span translate="no">First Runner</span>
+            <span translate="no">AETHER FIT</span>
         </a>
         <div class="nav-links" id="nav-links">
-            <a href="index.html">Início</a>
-            <a href="features.html">Características</a>
-            <a href="roadmap.html">Roadmap</a>
-            <a href="#company">Empresa</a>
+            <a href="index.html">Home</a>
+            <a href="#">Workouts</a>
+            <a href="#">AI Coach</a>
+            <a href="#">progress</a>
+            <a href="#">Community</a>
         </div>
-        <button class="btn btn-secondary nav-btn desktop-only">Acesso Antecipado</button>
+        <div class="nav-actions desktop-only" style="display: flex; gap: 1rem;">
+            <button class="btn btn-ghost" style="border: 1px solid rgba(255,255,255,0.2);">Login</button>
+            <button class="btn btn-solid-white">Get Started</button>
+        </div>
         <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir Menu">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M4 6h16M4 12h16M4 18h16"></path>
@@ -45,65 +43,112 @@
         </button>
     </nav>
 
-    <main>
-        <section class="hero container">
+    <main class="aether-main">
+        <section class="hero-left container">
             <h1 class="hero-title fade-up" style="animation-delay: 0.1s;">
-                Desempenho Humano,<br>
-                <span class="text-gradient hover-glow">Impulsionado por IA.</span>
+                AI-POWERED PERSONAL<br>FITNESS PLATFORM.
             </h1>
             <p class="hero-subtitle fade-up" style="animation-delay: 0.2s;">
-                🛑 Pare de digitar, comece a interagir. O <span translate="no">First Runner</span> usa IA multimodal
-                para criar experiências de treinamento imersivas em tempo real que te levam além dos seus limites.
+                Elevate your training with personalized data,<br>intelligent coaching, and real-time insights.
             </p>
-            <div class="hero-ctas fade-up" style="animation-delay: 0.3s;">
-                <button class="btn btn-primary" id="btn-demo">Acesso Antecipado</button>
-                <button class="btn btn-ghost" id="btn-explore">Explorar Plataforma</button>
+            <div class="fade-up" style="animation-delay: 0.3s; margin-top: 2rem;">
+                <button class="btn btn-solid-white" style="font-size: 1rem; padding: 1rem 2rem;">Start Your
+                    Journey</button>
             </div>
-            <div class="coming-soon fade-up" style="animation-delay: 0.4s;">
-                <p>🚀 Em breve na <strong>App Store</strong> (iOS) e <strong>Google Play</strong> (Android)</p>
+        </section>
+
+        <section class="dashboard-grid container fade-up" style="animation-delay: 0.4s;">
+            <!-- Top Row: 2 widgets -->
+            <div class="widget-row top-row">
+                <!-- Widget 1: Today's Workout -->
+                <div class="aether-widget widget-left">
+                    <div class="aw-header">
+                        <div class="aw-logo-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L2 22H7L12 12L17 22H22L12 2Z" fill="#fff" />
+                            </svg>
+                        </div>
+                        <div class="aw-icons">
+                            <span class="icon" style="font-size: 1.1rem; opacity: 0.8;">📅</span>
+                            <span class="icon" style="font-size: 1.1rem; opacity: 0.8;">⚙️</span>
+                        </div>
+                    </div>
+                    <div class="aw-body split-body">
+                        <div class="aw-main-content">
+                            <div class="aw-subtitle">TODAY'S WORKOUT</div>
+                            <h2 class="aw-title">Morning HIIT (35 mins)</h2>
+                            <ul class="workout-list">
+                                <li><span class="dot dot-cyan"></span> Warm-up (5 mins)</li>
+                                <li><span class="dot dot-blue"></span> Main Set (25 mins)</li>
+                                <li><span class="dot dot-purple"></span> Cool-down (5 mins)</li>
+                            </ul>
+                            <div class="workout-metrics">
+                                <span class="metric">🔥 600 KCal</span>
+                                <span class="metric" style="color: #fff;">🤍 185 bpm</span>
+                            </div>
+                        </div>
+                        <div class="aw-side-content">
+                            <div class="aw-donut">
+                                <div class="donut-ring"></div>
+                            </div>
+                            <div class="aw-soundwave">
+                                <div class="bar bar-1"></div>
+                                <div class="bar bar-2"></div>
+                                <div class="bar bar-3"></div>
+                                <div class="bar bar-4"></div>
+                                <div class="bar bar-5"></div>
+                                <div class="bar bar-6"></div>
+                                <div class="bar bar-7"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget 2: AI Coach Insights -->
+                <div class="aether-widget widget-right">
+                    <div class="aw-header right-align">
+                        <div class="aw-subtitle">AI COACH INSIGHTS</div>
+                    </div>
+                    <div class="aw-body"
+                        style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
+                        <ul class="insight-list">
+                            <li><span class="lbl">Recommended Recovery:</span> <span class="val">12 hrs</span></li>
+                            <li><span class="lbl">Focus:</span> <span class="val">Core & Strength</span></li>
+                            <li><span class="lbl">Weekly Goal:</span> <span class="val">80% Complete</span></li>
+                        </ul>
+                        <div class="smooth-chart">
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="mockup-container fade-up" style="animation-delay: 0.5s;">
-                <div class="phone-mockup" id="mockup">
-                    <div class="phone-notch"></div>
-                    <div class="phone-screen">
-                        <div class="app-header">
-                            <div class="app-greeting">Olá, Corredor</div>
-                            <div class="app-avatar"></div>
-                        </div>
-                        <div class="app-main-stat">
-                            <div class="stat-circle">
-                                <span class="circle-value">12.4k</span>
-                                <span class="circle-label">Passos</span>
-                            </div>
-                        </div>
-                        <div class="app-cards">
-                            <div class="mini-card">
-                                <div class="mc-icon">⚡</div>
-                                <div class="mc-data">
-                                    <span class="mc-val">92%</span>
-                                    <span class="mc-lbl">Recuperação</span>
-                                </div>
-                            </div>
-                            <div class="mini-card">
-                                <div class="mc-icon">🔥</div>
-                                <div class="mc-data">
-                                    <span class="mc-val">450</span>
-                                    <span class="mc-lbl">Kcal</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="app-ai-insight">
-                            <div class="ai-badge">Gemini AI Insight</div>
-                            <p>Sua postura melhorou 15% na última corrida. Sugiro manter o ritmo hoje.</p>
-                        </div>
-                        <button class="app-btn">Iniciar Corrida</button>
+            <!-- Bottom Row: 3 cards -->
+            <div class="widget-row bottom-row">
+                <div class="aether-card">
+                    <div class="ac-icon">📋</div>
+                    <div class="ac-content">
+                        <h3 class="ac-title">PERSONALIZED PLANS</h3>
+                        <p class="ac-desc">Icon, custom programs, AI-driven adjustments.</p>
+                    </div>
+                </div>
+                <div class="aether-card">
+                    <div class="ac-icon">🎯</div>
+                    <div class="ac-content">
+                        <h3 class="ac-title">REAL-TIME TRACKING</h3>
+                        <p class="ac-desc">Icon, data integration, analytics.</p>
+                    </div>
+                </div>
+                <div class="aether-card">
+                    <div class="ac-icon">⏱️</div>
+                    <div class="ac-content">
+                        <h3 class="ac-title">PERFORMANCE METRICS</h3>
+                        <p class="ac-desc">Icon, progress visualization, and goals.</p>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Inside pages removed from Home page -->
     </main>
 
     <footer class="footer">
