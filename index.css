@@ -62,7 +62,8 @@ body.home-page {
 .mesh-overlay {
     position: absolute;
     inset: 0;
-    background: transparent;
+    /* Soft dark overlay to ensure High Contrast White Text */
+    background: rgba(3, 4, 11, 0.45);
     z-index: -1;
 }
 
