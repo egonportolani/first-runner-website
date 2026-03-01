@@ -178,11 +178,26 @@
                 </p>
             </div>
 
-            <button
-                class="group relative bg-white text-black px-12 py-6 rounded-2xl font-black text-sm tracking-[0.3em] uppercase flex items-center gap-6 hover:bg-cyan-50 transition-all shadow-[0_30px_60px_rgba(0,0,0,0.6)] active:scale-95">
-                Iniciar Jornada
-                <i data-lucide="chevron-right" class="w-6 h-6 group-hover:translate-x-3 transition-transform"></i>
-            </button>
+            <!-- Waitlist Capture -->
+            <form action="#" class="flex flex-col sm:flex-row gap-4 w-full max-w-xl group/waitlist">
+                <div class="relative flex-grow">
+                    <div
+                        class="absolute left-6 top-1/2 -translate-y-1/2 text-white/30 group-focus-within/waitlist:text-cyan-400 transition-colors">
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                    </div>
+                    <input type="email" placeholder="SEU MELHOR E-MAIL"
+                        class="w-full bg-white/5 backdrop-blur-md border border-white/20 rounded-2xl py-6 pl-14 pr-6 text-xs font-black uppercase tracking-widest text-white placeholder-white/30 focus:outline-none focus:border-cyan-400 focus:bg-white/10 transition-all shadow-[0_10px_30px_rgba(0,0,0,0.5)] h-full"
+                        required />
+                </div>
+                <button type="submit"
+                    class="bg-white text-black px-10 py-6 rounded-2xl font-black text-xs tracking-[0.3em] uppercase flex items-center justify-center gap-4 hover:bg-cyan-50 hover:shadow-[0_0_40px_rgba(255,255,255,0.8)] transition-all active:scale-95 flex-shrink-0">
+                    Entrar na Waitlist
+                    <i data-lucide="arrow-right"
+                        class="w-5 h-5 group-hover/waitlist:translate-x-1 transition-transform"></i>
+                </button>
+            </form>
+            <p class="mt-4 text-[10px] font-bold text-white/30 tracking-widest uppercase ml-4">Vagas limitadas para o
+                programa Alpha Tester.</p>
         </header>
 
         <!-- WIDGETS DE PERFORMANCE (GLASSMORPHISM) -->
