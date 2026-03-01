@@ -1,174 +1,366 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First Runner - Peak Performance, Powered by AI</title>
+    <title>AETHER FIT | AI-Powered Platform</title>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-panel {
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Soundwave animation (replacing React state) */
+        @keyframes soundwave {
+            0% {
+                transform: scaleY(0.5);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scaleY(1.2);
+                opacity: 1;
+            }
+        }
+
+        .bar-pulse {
+            animation: soundwave 1s infinite alternate ease-in-out;
+            transform-origin: bottom;
+        }
+    </style>
 </head>
 
-<body class="home-page">
-    <canvas id="particles-canvas"></canvas>
-    <div class="mesh-background">
-        <div class="mesh-overlay"></div>
+<body class="relative min-h-screen w-full bg-[#02040a] text-white font-sans overflow-x-hidden selection:bg-cyan-500/30">
+
+    <!-- BACKGROUND - CYBERRUN CITY HIGH PRECISION -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <!-- Camada base de imagem da cidade com desfoque leve -->
+        <!-- Using the original uploaded image from the user's project instead of unsplash -->
+        <div class="absolute inset-0 opacity-40 bg-[url('city_background.jpg')] bg-cover bg-center mix-blend-screen"
+            style="background-image: url('city_background.jpg');"></div>
+
+        <!-- Overlay de Vinheta Escura -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90 z-10"></div>
+
+        <!-- Rastros de Luz - Esquerda (Cyan/Blue) -->
+        <div class="absolute left-[-10%] bottom-0 w-[60%] h-[70%] bg-cyan-500/10 blur-[120px] rounded-full"></div>
+        <div
+            class="absolute left-[5%] bottom-0 w-[2px] h-[40%] bg-cyan-400 opacity-30 shadow-[0_0_20px_rgba(34,211,238,0.8)] rotate-[-45deg]">
+        </div>
+
+        <!-- Avenida Central (Magenta/Purple) -->
+        <div
+            class="absolute left-1/2 top-0 -translate-x-1/2 w-48 h-full bg-gradient-to-b from-transparent via-fuchsia-600/20 to-fuchsia-900/40 blur-3xl opacity-60">
+        </div>
+        <div
+            class="absolute left-1/2 bottom-0 -translate-x-1/2 w-[4px] h-full bg-fuchsia-500 opacity-20 shadow-[0_0_30px_rgba(217,70,239,0.5)]">
+        </div>
+
+        <!-- Texto Neon no Asfalto (Igual à imagem) -->
+        <div class="absolute left-1/2 bottom-[12%] -translate-x-1/2 text-center select-none opacity-60">
+            <h2
+                class="text-6xl md:text-7xl font-black text-cyan-400/40 italic tracking-tighter filter blur-[1px] leading-none uppercase">
+                FIRST RUN</h2>
+            <h3 class="text-xl md:text-2xl font-bold text-fuchsia-500/50 tracking-[0.4em] mt-[-5px] uppercase">CYBERRUN
+                CITY</h3>
+        </div>
+
+        <!-- Rastros de Luz - Direita (Amber/Gold) -->
+        <div class="absolute right-[-10%] bottom-0 w-[60%] h-[70%] bg-orange-500/10 blur-[120px] rounded-full"></div>
+        <div
+            class="absolute right-[5%] bottom-0 w-[2px] h-[45%] bg-orange-400 opacity-30 shadow-[0_0_20px_rgba(251,146,60,0.8)] rotate-[45deg]">
+        </div>
     </div>
 
-    <nav class="navbar">
-        <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 22H7L12 12L17 22H22L12 2Z" fill="#fff" />
-            </svg>
-            <span translate="no">AETHER FIT</span>
-        </a>
-        <div class="nav-links" id="nav-links">
-            <a href="index.html">Home</a>
-            <a href="#">Workouts</a>
-            <a href="#">AI Coach</a>
-            <a href="#">progress</a>
-            <a href="#">Community</a>
-        </div>
-        <div class="nav-actions desktop-only" style="display: flex; gap: 1rem;">
-            <button class="btn btn-ghost" style="border: 1px solid rgba(255,255,255,0.2);">Login</button>
-            <button class="btn btn-solid-white">Get Started</button>
-        </div>
-        <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir Menu">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-        </button>
-    </nav>
+    <!-- CAMADA DE CONTEÚDO -->
+    <div class="relative z-20 max-w-7xl mx-auto px-6 py-6 flex flex-col min-h-screen">
 
-    <main class="aether-main">
-        <section class="hero-left container">
-            <h1 class="hero-title fade-up" style="animation-delay: 0.1s;">
-                AI-POWERED PERSONAL<br>FITNESS PLATFORM.
+        <!-- CABEÇALHO (NAV) -->
+        <nav class="flex items-center justify-between mb-20 py-4">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-9 h-9 bg-white flex items-center justify-center rounded-lg shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                    <span class="text-black font-black text-xl italic">A</span>
+                </div>
+                <span class="text-xl font-bold tracking-tight">AETHER FIT</span>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-10 text-[13px] font-semibold tracking-wide opacity-70">
+                <a href="#" class="hover:text-white hover:opacity-100 transition-all">Home</a>
+                <a href="#" class="hover:text-white hover:opacity-100 transition-all">Workouts</a>
+                <a href="#" class="hover:text-white hover:opacity-100 transition-all">AI Coach</a>
+                <a href="#" class="hover:text-white hover:opacity-100 transition-all lowercase">progress</a>
+                <a href="#" class="hover:text-white hover:opacity-100 transition-all">Community</a>
+            </div>
+
+            <div class="flex items-center gap-5">
+                <button class="text-sm font-semibold opacity-80 hover:opacity-100 transition-opacity">Login</button>
+                <button
+                    class="bg-white text-black px-6 py-2.5 rounded-lg text-sm font-bold hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all active:scale-95">
+                    Get Started
+                </button>
+            </div>
+        </nav>
+
+        <!-- SECÇÃO HERO -->
+        <header class="mb-16 max-w-3xl">
+            <h1 class="text-5xl md:text-7xl font-black leading-[1.05] mb-6 tracking-tight">
+                AI-POWERED PERSONAL FITNESS PLATFORM.
             </h1>
-            <p class="hero-subtitle fade-up" style="animation-delay: 0.2s;">
-                Elevate your training with personalized data,<br>intelligent coaching, and real-time insights.
+            <p class="text-lg text-white/60 mb-10 max-w-xl leading-relaxed font-medium">
+                Elevate your training with personalized data, intelligent coaching, and real-time insights.
             </p>
-            <div class="fade-up" style="animation-delay: 0.3s; margin-top: 2rem;">
-                <button class="btn btn-solid-white" style="font-size: 1rem; padding: 1rem 2rem;">Start Your
-                    Journey</button>
-            </div>
-        </section>
+            <button
+                class="group bg-white text-black px-10 py-4 rounded-xl font-extrabold flex items-center gap-3 hover:bg-cyan-50 transition-all shadow-xl">
+                Start Your Journey
+                <i data-lucide="chevron-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+        </header>
 
-        <section class="dashboard-grid container fade-up" style="animation-delay: 0.4s;">
-            <!-- Top Row: 2 widgets -->
-            <div class="widget-row top-row">
-                <!-- Widget 1: Today's Workout -->
-                <div class="aether-widget widget-left">
-                    <div class="aw-header">
-                        <div class="aw-logo-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2L2 22H7L12 12L17 22H22L12 2Z" fill="#fff" />
-                            </svg>
+        <!-- WIDGETS PRINCIPAIS (Glassmorphism Pesado) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10">
+
+            <!-- TREINO DE HOJE (7 colunas) -->
+            <div
+                class="lg:col-span-7 backdrop-blur-2xl bg-white/5 border border-white/10 rounded-[32px] p-8 flex flex-col md:flex-row justify-between relative shadow-2xl overflow-hidden group">
+                <div class="flex flex-col flex-1 z-10">
+                    <div class="flex gap-4 mb-10">
+                        <div
+                            class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center border border-white/10 hover:bg-white/20 transition-colors">
+                            <span class="text-white font-black italic">A</span>
                         </div>
-                        <div class="aw-icons">
-                            <span class="icon" style="font-size: 1.1rem; opacity: 0.8;">📅</span>
-                            <span class="icon" style="font-size: 1.1rem; opacity: 0.8;">⚙️</span>
+                        <div
+                            class="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 cursor-pointer hover:bg-white/20 transition-colors">
+                            <i data-lucide="calendar" class="w-5 h-5 opacity-70"></i>
+                        </div>
+                        <div
+                            class="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 cursor-pointer hover:bg-white/20 transition-colors">
+                            <i data-lucide="settings" class="w-5 h-5 opacity-70"></i>
                         </div>
                     </div>
-                    <div class="aw-body split-body">
-                        <div class="aw-main-content">
-                            <div class="aw-subtitle">TODAY'S WORKOUT</div>
-                            <h2 class="aw-title">Morning HIIT (35 mins)</h2>
-                            <ul class="workout-list">
-                                <li><span class="dot dot-cyan"></span> Warm-up (5 mins)</li>
-                                <li><span class="dot dot-blue"></span> Main Set (25 mins)</li>
-                                <li><span class="dot dot-purple"></span> Cool-down (5 mins)</li>
-                            </ul>
-                            <div class="workout-metrics">
-                                <span class="metric">🔥 600 KCal</span>
-                                <span class="metric" style="color: #fff;">🤍 185 bpm</span>
+
+                    <div class="mb-8">
+                        <span class="text-[11px] font-bold tracking-[0.25em] opacity-40 block mb-2 uppercase">Today's
+                            Workout</span>
+                        <h3 class="text-3xl font-bold tracking-tight">Morning HIIT (35 mins)</h3>
+                    </div>
+
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-center gap-4 text-[15px] font-semibold">
+                            <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]">
+                            </div>
+                            Warm-up (5 mins)
+                        </li>
+                        <li class="flex items-center gap-4 text-[15px] font-semibold">
+                            <div class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)]">
+                            </div>
+                            Main Set (25 mins)
+                        </li>
+                        <li class="flex items-center gap-4 text-[15px] font-semibold">
+                            <div class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)]">
+                            </div>
+                            Cool-down (5 mins)
+                        </li>
+                    </ul>
+
+                    <div class="flex gap-10 mt-auto pt-4">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="flame" class="w-6 h-6 text-orange-500 fill-orange-500/20"></i>
+                            <span class="font-bold text-lg">600 KCal</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="heart" class="w-6 h-6 text-rose-500 fill-rose-500/20"></i>
+                            <span class="font-bold text-lg">185 bpm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualizações de Dados à Direita -->
+                <div class="flex flex-col items-center justify-between mt-10 md:mt-0 z-10">
+                    <!-- Gráfico de Donut (Anel de Progresso) -->
+                    <div class="relative w-40 h-40 flex items-center justify-center">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+                            <!-- Adjusted viewBox and cx, cy to fit properly without clipping borders -->
+                            <circle cx="80" cy="80" r="70" stroke="currentColor" stroke-width="10" fill="transparent"
+                                class="text-white/5"></circle>
+                            <circle cx="80" cy="80" r="70" stroke="url(#gradient-donut)" stroke-width="10"
+                                stroke-dasharray="440" stroke-dashoffset="120" stroke-linecap="round" fill="transparent"
+                                class="transition-all duration-1000 ease-out">
+                            </circle>
+                            <defs>
+                                <linearGradient id="gradient-donut" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#a855f7"></stop>
+                                    <stop offset="100%" stop-color="#22c55e"></stop>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div
+                                class="w-28 h-28 rounded-full border border-white/5 flex items-center justify-center bg-white/[0.02]">
+                                <span class="text-3xl font-black tracking-tighter">72%</span>
                             </div>
                         </div>
-                        <div class="aw-side-content">
-                            <div class="aw-donut">
-                                <div class="donut-ring"></div>
-                            </div>
-                            <div class="aw-soundwave">
-                                <div class="bar bar-1"></div>
-                                <div class="bar bar-2"></div>
-                                <div class="bar bar-3"></div>
-                                <div class="bar bar-4"></div>
-                                <div class="bar bar-5"></div>
-                                <div class="bar bar-6"></div>
-                                <div class="bar bar-7"></div>
-                            </div>
-                        </div>
+                    </div>
+
+                    <!-- Cápsula de Onda Sonora (Refatorado para CSS Puro) -->
+                    <div
+                        class="bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-4 mt-12 flex items-center gap-1.5 h-16 w-full max-w-[180px]">
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.1s; height: 30%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.3s; height: 60%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.2s; height: 40%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.5s; height: 80%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.4s; height: 50%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.7s; height: 90%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.6s; height: 70%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.8s; height: 50%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.5s; height: 80%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.9s; height: 40%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.3s; height: 60%;"></div>
+                        <div class="flex-1 bg-gradient-to-t from-fuchsia-600 to-cyan-400 rounded-full bar-pulse"
+                            style="animation-delay: 0.1s; height: 30%;"></div>
                     </div>
                 </div>
 
-                <!-- Widget 2: AI Coach Insights -->
-                <div class="aether-widget widget-right">
-                    <div class="aw-header right-align">
-                        <div class="aw-subtitle">AI COACH INSIGHTS</div>
-                    </div>
-                    <div class="aw-body"
-                        style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
-                        <ul class="insight-list">
-                            <li><span class="lbl">Recommended Recovery:</span> <span class="val">12 hrs</span></li>
-                            <li><span class="lbl">Focus:</span> <span class="val">Core & Strength</span></li>
-                            <li><span class="lbl">Weekly Goal:</span> <span class="val">80% Complete</span></li>
-                        </ul>
-                        <div class="smooth-chart">
-                            <div class="chart-line"></div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Brilho interno sutil -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/10 blur-[100px] -z-1"></div>
             </div>
 
-            <!-- Bottom Row: 3 cards -->
-            <div class="widget-row bottom-row">
-                <div class="aether-card">
-                    <div class="ac-icon">📋</div>
-                    <div class="ac-content">
-                        <h3 class="ac-title">PERSONALIZED PLANS</h3>
-                        <p class="ac-desc">Icon, custom programs, AI-driven adjustments.</p>
+            <!-- INSIGHTS DO COACH (5 colunas) -->
+            <div
+                class="lg:col-span-5 backdrop-blur-2xl bg-white/5 border border-white/10 rounded-[32px] p-8 flex flex-col justify-between shadow-2xl overflow-hidden relative group">
+                <div class="flex justify-between items-start mb-12">
+                    <div
+                        class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 shadow-inner">
+                        <i data-lucide="activity" class="w-7 h-7 text-cyan-400"></i>
                     </div>
+                    <span class="text-[11px] font-bold tracking-[0.25em] opacity-40 uppercase pt-2">AI Coach
+                        Insights</span>
                 </div>
-                <div class="aether-card">
-                    <div class="ac-icon">🎯</div>
-                    <div class="ac-content">
-                        <h3 class="ac-title">REAL-TIME TRACKING</h3>
-                        <p class="ac-desc">Icon, data integration, analytics.</p>
-                    </div>
-                </div>
-                <div class="aether-card">
-                    <div class="ac-icon">⏱️</div>
-                    <div class="ac-content">
-                        <h3 class="ac-title">PERFORMANCE METRICS</h3>
-                        <p class="ac-desc">Icon, progress visualization, and goals.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
 
-    <footer class="footer">
-        <div class="container footer-content border-top">
-            <div class="footer-brand">
-                <div class="logo"><span translate="no">First Runner</span></div>
-                <p class="footer-text">Criado com Gemini API.</p>
-                <div class="challenge-logo" style="margin-top: 1rem; margin-bottom: 0;">
-                    <img src="gemini_challenge_logo.png" alt="Gemini Live Agent Challenge Participant" />
+                <div class="space-y-8 mb-10">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-5">
+                        <span class="text-white/50 font-medium">Recommended Recovery</span>
+                        <span class="text-xl font-bold">12 hrs</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-5">
+                        <span class="text-white/50 font-medium">Focus</span>
+                        <span class="text-xl font-bold">Core & Strength</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-white/50 font-medium">Weekly Goal</span>
+                        <span class="text-xl font-bold">80% Complete</span>
+                    </div>
                 </div>
-            </div>
-            <div class="footer-links">
-                <a href="#">Privacidade</a>
-                <a href="#">Termos</a>
-                <a href="#">Carreiras</a>
+
+                <!-- Gráfico de Onda Suave -->
+                <div class="relative h-32 w-full mt-auto">
+                    <svg class="w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="none">
+                        <path d="M0 80 Q 50 20, 100 60 T 200 40 T 300 70 T 400 30 L 400 100 L 0 100 Z"
+                            fill="url(#gradient-area)" class="opacity-20" />
+                        <path d="M0 80 Q 50 20, 100 60 T 200 40 T 300 70 T 400 30" stroke="url(#gradient-line)"
+                            stroke-width="4" fill="transparent" stroke-linecap="round" />
+                        <defs>
+                            <linearGradient id="gradient-area" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#a855f7"></stop>
+                                <stop offset="100%" stop-color="#22c55e" stop-opacity="0"></stop>
+                            </linearGradient>
+                            <linearGradient id="gradient-line" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#a855f7"></stop>
+                                <stop offset="100%" stop-color="#22c55e"></stop>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
             </div>
         </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <!-- CARTÕES DE RECURSOS ABAIXO -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+
+            <div
+                class="backdrop-blur-2xl bg-white/5 border border-white/10 rounded-[24px] p-7 hover:bg-white/10 transition-all cursor-pointer group shadow-xl">
+                <div
+                    class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all">
+                    <i data-lucide="check-square" class="w-6 h-6 opacity-80"></i>
+                </div>
+                <h4 class="text-lg font-bold mb-3 tracking-tight">PERSONALIZED PLANS</h4>
+                <p class="text-sm text-white/40 leading-relaxed font-medium">
+                    Icon, custom programs, AI-driven adjustments.
+                </p>
+            </div>
+
+            <div
+                class="backdrop-blur-2xl bg-white/5 border border-white/10 rounded-[24px] p-7 hover:bg-white/10 transition-all cursor-pointer group shadow-xl relative overflow-hidden">
+                <div
+                    class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-fuchsia-500/20 transition-all">
+                    <i data-lucide="pie-chart" class="w-6 h-6 opacity-80"></i>
+                </div>
+                <h4 class="text-lg font-bold mb-3 tracking-tight">REAL-TIME TRACKING</h4>
+                <p class="text-sm text-white/40 leading-relaxed font-medium">
+                    Icon, data integration, analytics.
+                </p>
+            </div>
+
+            <div
+                class="backdrop-blur-2xl bg-white/5 border border-white/10 rounded-[24px] p-7 hover:bg-white/10 transition-all cursor-pointer group shadow-xl">
+                <div
+                    class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-orange-500/20 transition-all">
+                    <i data-lucide="gauge" class="w-6 h-6 opacity-80"></i>
+                </div>
+                <h4 class="text-lg font-bold mb-3 tracking-tight">PERFORMANCE METRICS</h4>
+                <p class="text-sm text-white/40 leading-relaxed font-medium">
+                    Icon, progress visualization, and goals.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- RODAPÉ -->
+        <footer
+            class="mt-auto py-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold tracking-[0.2em] opacity-30 uppercase">
+            <p>© 2024 AETHER FIT. FUTURE OF FITNESS.</p>
+            <div class="flex gap-10">
+                <a href="#" class="hover:opacity-100 transition-opacity">Privacy Policy</a>
+                <a href="#" class="hover:opacity-100 transition-opacity">Terms of Use</a>
+                <a href="#" class="hover:opacity-100 transition-opacity">Contact</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>
