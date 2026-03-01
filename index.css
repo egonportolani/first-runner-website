@@ -1,14 +1,13 @@
 :root {
-    --bg-dark: #000000;
+    --bg-dark: #050505;
     /* Deep dark background */
     --text-primary: #FFFFFF;
     --text-secondary: #94A3B8;
 
     /* Neons/Gradients defined in prompt */
     --neon-violet: #9D00FF;
-    --neon-cyan: #00E5FF;
-    --neon-magenta: #FF007F;
-    --neon-cyan: #06B6D4;
+    --neon-cyan: #00FFFF;
+    --neon-magenta: #FF00FF;
 
     /* Glassmorphism Variables */
     --glass-bg: rgba(255, 255, 255, 0.02);
@@ -46,6 +45,15 @@ body.home-page {
 /* --------------------------------------
    3D THEME & DYNAMIC BACKGROUND
 ---------------------------------------*/
+#particles-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
 .mesh-background {
     position: fixed;
     top: 0;
@@ -53,10 +61,7 @@ body.home-page {
     width: 100vw;
     height: 100vh;
     z-index: -2;
-    background: var(--bg-dark) url('web3_fitness_hero.png') center/cover no-repeat;
-    /* Use the generated image */
-    transform: scale(1.05) translate(calc(var(--mouse-x, 0) * -30px), calc(var(--mouse-y, 0) * -30px));
-    transition: transform 0.1s ease-out;
+    background: var(--bg-dark);
 }
 
 .mesh-overlay {
@@ -71,33 +76,33 @@ body.home-page {
     position: absolute;
     border-radius: 50%;
     filter: blur(140px);
-    opacity: 0.45;
+    opacity: 0.6;
     animation: drift 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mesh-violet {
     top: -10%;
     left: -5%;
-    width: 50vw;
-    height: 50vw;
-    background: var(--neon-violet);
+    width: 60vw;
+    height: 60vw;
+    background: var(--neon-cyan);
 }
 
 .mesh-cyan {
     bottom: -20%;
     right: -5%;
-    width: 45vw;
-    height: 45vw;
-    background: var(--neon-cyan);
+    width: 55vw;
+    height: 55vw;
+    background: var(--neon-magenta);
     animation-delay: -5s;
 }
 
 .mesh-magenta {
     top: 30%;
-    left: 35%;
-    width: 40vw;
-    height: 40vw;
-    background: var(--neon-magenta);
+    left: 20%;
+    width: 50vw;
+    height: 50vw;
+    background: var(--neon-cyan);
     animation-delay: -10s;
 }
 
@@ -107,7 +112,7 @@ body.home-page {
     }
 
     100% {
-        transform: translate(5vw, 5vh) scale(1.1);
+        transform: translate(15vw, 15vh) scale(1.2);
     }
 }
 
@@ -571,31 +576,32 @@ body.home-page {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
     padding: 3rem 2.5rem;
     border-radius: 24px;
     transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     position: relative;
 }
 
-/* Hover line effect on cards */
+/* Premium Glassmorphism Gradient Border */
 .feature-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    opacity: 0;
+    inset: 0;
+    border-radius: 24px;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.3;
     transition: opacity 0.4s;
 }
 
 .feature-card:hover {
     transform: translateY(-8px);
     background: rgba(255, 255, 255, 0.04);
-    border-color: var(--glass-border-highlight);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 255, 255, 0.1);
 }
 
 .feature-card:hover::before {
@@ -692,17 +698,35 @@ body.home-page {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
     padding: 2.5rem;
     border-radius: 20px;
     transition: all 0.4s ease;
+    position: relative;
+}
+
+.timeline-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--neon-magenta), var(--neon-cyan));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.3;
+    transition: opacity 0.4s;
 }
 
 .timeline-item:hover .timeline-content {
     transform: translateX(10px);
     background: rgba(255, 255, 255, 0.04);
-    border-color: var(--glass-border-highlight);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 0, 255, 0.1);
+}
+
+.timeline-item:hover .timeline-content::before {
+    opacity: 1;
 }
 
 .timeline-content h3 {

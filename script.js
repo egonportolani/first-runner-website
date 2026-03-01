@@ -87,3 +87,83 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// --- Particle Speed Lines Animation ---
+// Gerencia as "speed lines" de corrida solicitadas nos prompts
+const canvas = document.getElementById('particles-canvas');
+if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+        constructor() {
+            this.reset();
+        }
+
+        reset() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            // Particles flow right to left (negative speed)
+            this.speed = (Math.random() * 8) + 2;
+            // Thin lines representing speed
+            this.length = (Math.random() * 80) + 20;
+            this.thickness = Math.random() * 1.5 + 0.5;
+            // Mixed colors: aqua and magenta
+            this.color = Math.random() > 0.5 ? '#00FFFF' : '#FF00FF';
+            this.opacity = Math.random() * 0.4 + 0.1;
+        }
+
+        update() {
+            this.x -= this.speed;
+            if (this.x + this.length < 0) {
+                this.x = width;
+                this.y = Math.random() * height;
+            }
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.x + this.length, this.y);
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = this.thickness;
+            ctx.globalAlpha = this.opacity;
+            ctx.lineCap = 'round';
+            // Neon glow effect
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = this.color;
+            ctx.stroke();
+        }
+    }
+
+    // Initialize particles map
+    for (let i = 0; i < 120; i++) {
+        particles.push(new Particle());
+    }
+
+    function animate() {
+        // Create a slight trail effect by partially fading the previous frame
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = 'rgba(5, 5, 5, 0.4)';
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.globalCompositeOperation = 'lighter'; // Additive blending for neon glow
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
