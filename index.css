@@ -67,8 +67,11 @@ body.home-page {
 .mesh-overlay {
     position: absolute;
     inset: 0;
-    /* Soft dark overlay to ensure High Contrast White Text */
-    background: rgba(3, 4, 11, 0.45);
+    /* Heavy dark overlay for high contrast text readability */
+    background: rgba(3, 4, 11, 0.85);
+    backdrop-filter: blur(30px);
+    /* Blends the colors more smoothly behind the mask */
+    -webkit-backdrop-filter: blur(30px);
     z-index: -1;
 }
 
@@ -76,23 +79,24 @@ body.home-page {
     position: absolute;
     border-radius: 50%;
     filter: blur(140px);
-    opacity: 0.6;
+    opacity: 0.35;
+    /* Reduced from 0.6 to prevent blowing out the dark background */
     animation: drift 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mesh-violet {
     top: -10%;
     left: -5%;
-    width: 60vw;
-    height: 60vw;
+    width: 45vw;
+    height: 45vw;
     background: var(--neon-cyan);
 }
 
 .mesh-cyan {
     bottom: -20%;
     right: -5%;
-    width: 55vw;
-    height: 55vw;
+    width: 40vw;
+    height: 40vw;
     background: var(--neon-magenta);
     animation-delay: -5s;
 }
@@ -100,8 +104,8 @@ body.home-page {
 .mesh-magenta {
     top: 30%;
     left: 20%;
-    width: 50vw;
-    height: 50vw;
+    width: 35vw;
+    height: 35vw;
     background: var(--neon-cyan);
     animation-delay: -10s;
 }

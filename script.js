@@ -152,8 +152,9 @@ if (canvas) {
 
     function animate() {
         // Create a slight trail effect by partially fading the previous frame
+        // High opacity ensures the background stays deep black instead of blowing out to colored gray
         ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = 'rgba(5, 5, 5, 0.4)';
+        ctx.fillStyle = 'rgba(5, 5, 5, 0.8)'; // Increased from 0.4
         ctx.fillRect(0, 0, width, height);
 
         ctx.globalCompositeOperation = 'lighter'; // Additive blending for neon glow
