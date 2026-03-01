@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Runner - Entrada Segura</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #010206;
+            cursor: crosshair;
+        }
+
+        .tracking-tightest {
+            letter-spacing: -0.06em;
+        }
+
+        @keyframes kenburns {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+
+            50% {
+                transform: scale(1.1) translate(-1%, -0.5%);
+            }
+
+            100% {
+                transform: scale(1) translate(0, 0);
+            }
+        }
+
+        .animate-kenburns {
+            animation: kenburns 45s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body
+    class="relative min-h-screen w-full bg-[#010206] text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased flex flex-col">
+
+    <!-- CAMADA 1: FUNDO PROCEDURAL 4K (VERSÃO CRISTALINA) -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute inset-[-5%] w-[110%] h-[110%] bg-cover bg-center animate-kenburns opacity-60"
+            style="background-image: url('https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&q=95&w=2560')">
+        </div>
+
+        <div class="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-10">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/95 z-20"></div>
+
+        <svg class="absolute inset-0 w-full h-full z-20 opacity-70">
+            <defs>
+                <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="15" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+            </defs>
+            <line x1="0" y1="65%" x2="100%" y2="65%" stroke="#22d3ee" stroke-width="3" filter="url(#neon-glow)"
+                opacity="0.6" />
+            <path d="M 1200 1000 L 700 650" stroke="#fb923c" stroke-width="4" filter="url(#neon-glow)" opacity="0.4" />
+            <path d="M -200 1000 L 300 650" stroke="#22d3ee" stroke-width="3" filter="url(#neon-glow)" opacity="0.3" />
+        </svg>
+
+        <div class="absolute left-0 bottom-0 w-1/3 h-1/2 bg-cyan-900/10 blur-[150px] z-10"></div>
+        <div class="absolute right-0 bottom-0 w-1/3 h-1/2 bg-orange-900/10 blur-[150px] z-10"></div>
+    </div>
+
+    <!-- CAMADA 2: INTERFACE DE UTILIZADOR -->
+    <div class="relative z-40 max-w-7xl mx-auto px-6 py-6 flex flex-col min-h-screen w-full">
+
+        <!-- NAVEGAÇÃO SUPERIOR -->
+        <nav class="flex items-center justify-between mb-8 py-4">
+            <a href="index.html" class="flex items-center gap-4 group cursor-pointer hover:opacity-80 transition-all">
+                <div
+                    class="w-11 h-11 bg-white flex items-center justify-center rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-all duration-500">
+                    <span class="text-black font-black text-2xl italic">F</span>
+                </div>
+                <span class="text-2xl font-black tracking-tighter uppercase tracking-widest hidden sm:block">First
+                    Runner</span>
+            </a>
+
+            <div
+                class="hidden lg:flex items-center gap-12 text-[11px] font-black tracking-[0.2em] uppercase opacity-50">
+                <a href="index.html" class="hover:text-white transition-all">Início</a>
+                <a href="#" class="hover:text-white transition-all">Treinos</a>
+                <a href="#" class="hover:text-white transition-all">Coach IA</a>
+                <a href="roadmap.html" class="hover:text-white transition-all">Roadmap</a>
+                <a href="#" class="hover:text-white transition-all">Comunidade</a>
+            </div>
+
+            <div class="flex items-center gap-8 opacity-0 pointer-events-none">
+                <!-- Esconde os botões apenas para o balanço do CSS Flex-Between se manter -->
+                <button class="text-xs font-bold tracking-widest uppercase">Entrar</button>
+                <button class="px-8 py-3.5">Começar</button>
+            </div>
+        </nav>
+
+        <!-- SECÇÃO LOGIN -->
+        <main class="flex-1 flex items-center justify-center w-full">
+            <div
+                class="w-full max-w-md backdrop-blur-[60px] bg-white/[0.02] border border-white/10 rounded-[48px] p-10 md:p-14 shadow-2xl relative overflow-hidden group">
+
+                <!-- Ícone Desbloqueio Neural -->
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-2xl flex items-center justify-center border border-cyan-500/30 mb-8 mx-auto shadow-[0_0_30px_rgba(34,211,238,0.2)]">
+                    <i data-lucide="scan-face" class="w-8 h-8 text-cyan-400"></i>
+                </div>
+
+                <div class="text-center mb-10">
+                    <h2
+                        class="text-3xl font-black tracking-tighter mb-2 uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                        Sync Hub</h2>
+                    <p class="text-[10px] font-black tracking-[0.4em] text-white/40 uppercase">Acesse sua grade
+                        biométrica</p>
+                </div>
+
+                <form class="space-y-6">
+                    <div class="relative">
+                        <div class="absolute left-4 top-1/2 -translate-y-1/2 text-white/30">
+                            <i data-lucide="mail" class="w-5 h-5"></i>
+                        </div>
+                        <input type="email" placeholder="CÓDIGO DE ACESSO OU EMAIL"
+                            class="w-full bg-black/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-xs font-bold uppercase tracking-widest text-white placeholder-white/20 focus:outline-none focus:border-cyan-400/50 focus:bg-white/5 transition-all outline-none"
+                            required />
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute left-4 top-1/2 -translate-y-1/2 text-white/30">
+                            <i data-lucide="lock" class="w-5 h-5"></i>
+                        </div>
+                        <input type="password" placeholder="SENHA DA REDE NEURAL"
+                            class="w-full bg-black/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-xs font-bold uppercase tracking-widest text-white placeholder-white/20 focus:outline-none focus:border-cyan-400/50 focus:bg-white/5 transition-all outline-none"
+                            required />
+                    </div>
+
+                    <div
+                        class="flex items-center justify-between text-[10px] font-bold tracking-widest uppercase mt-4 mb-8">
+                        <label class="flex items-center gap-2 cursor-pointer group">
+                            <div
+                                class="w-4 h-4 rounded border border-white/20 flex items-center justify-center group-hover:border-cyan-400 transition-colors">
+                            </div>
+                            <span class="opacity-60 group-hover:opacity-100 transition-opacity">Manter Conexão</span>
+                        </label>
+                        <a href="#" class="text-cyan-400 hover:text-cyan-300 transition-colors">Esqueceu a senha?</a>
+                    </div>
+
+                    <button type="button"
+                        class="w-full bg-white text-black py-4 rounded-xl text-xs font-black tracking-[0.3em] uppercase hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] transition-all active:scale-95 flex items-center justify-center gap-3 group">
+                        <span>Estabelecer Uplink</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </form>
+
+                <div class="mt-8 pt-8 border-t border-white/5 text-center">
+                    <p class="text-[10px] font-bold tracking-widest uppercase opacity-40">
+                        Ainda não é um First Runner? <a href="#"
+                            class="text-cyan-400 hover:text-cyan-300 ml-1 transition-colors relative z-10">Recrute-se
+                            agora</a>
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <!-- RODAPÉ ESTATÍSTICO E LEGAL -->
+        <footer class="mt-auto py-8 text-center text-[10px] font-black tracking-[0.6em] opacity-20 uppercase">
+            <p>© 2026 FIRST RUNNER // SECURE UPLINK</p>
+        </footer>
+
+    </div>
+
+    <!-- Inicializar Ícones Lucide -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
