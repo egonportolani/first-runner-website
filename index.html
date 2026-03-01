@@ -27,7 +27,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Soundwave animation (replacing React state) */
+        /* Soundwave animation */
         @keyframes soundwave {
             0% {
                 transform: scaleY(0.5);
@@ -44,36 +44,78 @@
             animation: soundwave 1s infinite alternate ease-in-out;
             transform-origin: bottom;
         }
+
+        /* Cinematics Ken Burns Background Animation */
+        @keyframes kenburns {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+
+            50% {
+                transform: scale(1.05) translate(-1%, -1%);
+            }
+
+            100% {
+                transform: scale(1) translate(0, 0);
+            }
+        }
+
+        .animate-kenburns {
+            animation: kenburns 25s ease-in-out infinite;
+        }
+
+        /* Slow pulse for neon trails */
+        @keyframes neonTrail {
+
+            0%,
+            100% {
+                opacity: 0.2;
+            }
+
+            50% {
+                opacity: 0.4;
+                filter: brightness(1.2);
+            }
+        }
+
+        .animate-neon-trail {
+            animation: neonTrail 4s ease-in-out infinite;
+        }
     </style>
 </head>
 
 <body class="relative min-h-screen w-full bg-[#02040a] text-white font-sans overflow-x-hidden selection:bg-cyan-500/30">
 
     <!-- BACKGROUND - CYBERRUN CITY HIGH PRECISION -->
-    <div class="fixed inset-0 z-0 pointer-events-none">
-        <!-- Camada base da imagem 4K: Removendo mix-blend-screen e aumentando opacidade para remover efeito fosco -->
-        <div class="absolute inset-0 opacity-80 bg-[url('city_background.jpg')] bg-cover bg-center"
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <!-- Camada base da imagem 4K: Animação Ken Burns para movimento lento de câmera -->
+        <div class="absolute inset-[-5%] w-[110%] h-[110%] opacity-80 bg-[url('city_background.jpg')] bg-cover bg-center animate-kenburns"
             style="background-image: url('city_background.jpg');"></div>
 
+        <!-- Partículas de Velocidade renderizadas via JavaScript Canvas de forma transparente -->
+        <canvas id="particles-canvas" class="absolute inset-0 z-10 w-full h-full opacity-60 mix-blend-screen"></canvas>
+
         <!-- Overlay de Vinheta Escura Reduzida -->
-        <div class="absolute inset-0 bg-gradient-to-t from-[#02040a] via-[#02040a]/40 to-[#02040a]/80 z-10"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#02040a] via-[#02040a]/40 to-[#02040a]/80 z-20"></div>
 
-        <!-- Rastros de Luz - Esquerda (Cyan/Blue) -->
-        <div class="absolute left-[-10%] bottom-0 w-[60%] h-[70%] bg-cyan-500/10 blur-[120px] rounded-full"></div>
+        <!-- Rastros de Luz - Esquerda (Cyan/Blue) com Pulsação -->
         <div
-            class="absolute left-[5%] bottom-0 w-[2px] h-[40%] bg-cyan-400 opacity-30 shadow-[0_0_20px_rgba(34,211,238,0.8)] rotate-[-45deg]">
-        </div>
-
-        <!-- Avenida Central (Magenta/Purple) -->
-        <div
-            class="absolute left-1/2 top-0 -translate-x-1/2 w-48 h-full bg-gradient-to-b from-transparent via-fuchsia-600/20 to-fuchsia-900/40 blur-3xl opacity-60">
+            class="absolute left-[-10%] bottom-0 w-[60%] h-[70%] bg-cyan-500/10 blur-[120px] rounded-full animate-pulse z-20">
         </div>
         <div
-            class="absolute left-1/2 bottom-0 -translate-x-1/2 w-[4px] h-full bg-fuchsia-500 opacity-20 shadow-[0_0_30px_rgba(217,70,239,0.5)]">
+            class="absolute left-[5%] bottom-0 w-[2px] h-[40%] bg-cyan-400 opacity-30 shadow-[0_0_20px_rgba(34,211,238,0.8)] rotate-[-45deg] animate-neon-trail z-20">
         </div>
 
-        <!-- Texto Neon no Asfalto (Igual à imagem) -->
-        <div class="absolute left-1/2 bottom-[12%] -translate-x-1/2 text-center select-none opacity-60">
+        <!-- Avenida Central (Magenta/Purple) com Pulsação -->
+        <div
+            class="absolute left-1/2 top-0 -translate-x-1/2 w-48 h-full bg-gradient-to-b from-transparent via-fuchsia-600/20 to-fuchsia-900/40 blur-3xl opacity-60 animate-pulse z-20">
+        </div>
+        <div
+            class="absolute left-1/2 bottom-0 -translate-x-1/2 w-[4px] h-full bg-fuchsia-500 opacity-20 shadow-[0_0_30px_rgba(217,70,239,0.5)] animate-neon-trail z-20">
+        </div>
+
+        <!-- Texto Neon no Asfalto -->
+        <div class="absolute left-1/2 bottom-[12%] -translate-x-1/2 text-center select-none opacity-60 z-20">
             <h2
                 class="text-6xl md:text-7xl font-black text-cyan-400/40 italic tracking-tighter filter blur-[1px] leading-none uppercase">
                 FIRST RUN</h2>
@@ -81,10 +123,12 @@
                 CITY</h3>
         </div>
 
-        <!-- Rastros de Luz - Direita (Amber/Gold) -->
-        <div class="absolute right-[-10%] bottom-0 w-[60%] h-[70%] bg-orange-500/10 blur-[120px] rounded-full"></div>
+        <!-- Rastros de Luz - Direita (Amber/Gold) com Pulsação -->
         <div
-            class="absolute right-[5%] bottom-0 w-[2px] h-[45%] bg-orange-400 opacity-30 shadow-[0_0_20px_rgba(251,146,60,0.8)] rotate-[45deg]">
+            class="absolute right-[-10%] bottom-0 w-[60%] h-[70%] bg-orange-500/10 blur-[120px] rounded-full animate-pulse z-20">
+        </div>
+        <div
+            class="absolute right-[5%] bottom-0 w-[2px] h-[45%] bg-orange-400 opacity-30 shadow-[0_0_20px_rgba(251,146,60,0.8)] rotate-[45deg] animate-neon-trail z-20">
         </div>
     </div>
 
@@ -360,6 +404,7 @@
     <script>
         lucide.createIcons();
     </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
