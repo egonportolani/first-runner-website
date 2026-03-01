@@ -61,63 +61,21 @@ body.home-page {
     width: 100vw;
     height: 100vh;
     z-index: -2;
-    background: var(--bg-dark);
+    background: var(--bg-dark) url('city_background.jpg') center/cover no-repeat;
+    /* Use the user-provided amazing image */
+    transform: scale(1.05) translate(calc(var(--mouse-x, 0) * -30px), calc(var(--mouse-y, 0) * -30px));
+    transition: transform 0.1s ease-out;
 }
 
 .mesh-overlay {
     position: absolute;
     inset: 0;
     /* Heavy dark overlay for high contrast text readability */
-    background: rgba(3, 4, 11, 0.85);
+    background: rgba(3, 4, 11, 0.75);
     backdrop-filter: blur(30px);
     /* Blends the colors more smoothly behind the mask */
     -webkit-backdrop-filter: blur(30px);
     z-index: -1;
-}
-
-.mesh-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(140px);
-    opacity: 0.35;
-    /* Reduced from 0.6 to prevent blowing out the dark background */
-    animation: drift 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.mesh-violet {
-    top: -10%;
-    left: -5%;
-    width: 45vw;
-    height: 45vw;
-    background: var(--neon-cyan);
-}
-
-.mesh-cyan {
-    bottom: -20%;
-    right: -5%;
-    width: 40vw;
-    height: 40vw;
-    background: var(--neon-magenta);
-    animation-delay: -5s;
-}
-
-.mesh-magenta {
-    top: 30%;
-    left: 20%;
-    width: 35vw;
-    height: 35vw;
-    background: var(--neon-cyan);
-    animation-delay: -10s;
-}
-
-@keyframes drift {
-    0% {
-        transform: translate(0, 0) scale(1);
-    }
-
-    100% {
-        transform: translate(15vw, 15vh) scale(1.2);
-    }
 }
 
 /* --------------------------------------
@@ -595,6 +553,7 @@ body.home-page {
     padding: 1px;
     background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
@@ -716,6 +675,7 @@ body.home-page {
     padding: 1px;
     background: linear-gradient(135deg, var(--neon-magenta), var(--neon-cyan));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
