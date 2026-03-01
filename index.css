@@ -783,3 +783,25 @@ body.home-page {
         padding: 1.5rem;
     }
 }
+
+@media (max-width: 600px) {
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+
+    .hero-ctas {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 1.5rem;
+    }
+
+    .hero-ctas .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
