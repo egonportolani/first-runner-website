@@ -208,9 +208,9 @@
 
             <!-- TREINO DE HOJE (Widget Largo) -->
             <div
-                class="lg:col-span-7 backdrop-blur-[60px] bg-white/[0.02] border border-white/10 rounded-[48px] p-12 flex flex-col md:flex-row justify-between relative shadow-2xl overflow-hidden group">
-                <div class="flex flex-col flex-1 z-10">
-                    <div class="flex gap-6 mb-16">
+                class="lg:col-span-7 backdrop-blur-[60px] bg-white/[0.02] border border-white/10 rounded-[48px] p-6 sm:p-12 flex flex-col md:flex-row justify-between relative shadow-2xl overflow-hidden group">
+                <div class="flex flex-col flex-1 z-10 w-full">
+                    <div class="flex flex-wrap gap-4 sm:gap-6 mb-10 sm:mb-16">
                         <div
                             class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20 shadow-xl group-hover:bg-white/20 transition-all">
                             <span class="text-white font-black italic text-xl">F</span>
@@ -248,9 +248,9 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col items-center justify-between mt-12 md:mt-0 z-10">
+                <div class="flex flex-col items-center justify-between mt-12 md:mt-0 z-10 w-full md:w-auto">
                     <!-- Radial de Progresso 4K -->
-                    <div class="relative w-52 h-52 flex items-center justify-center">
+                    <div class="relative w-40 h-40 sm:w-52 sm:h-52 flex items-center justify-center">
                         <svg
                             class="w-full h-full transform -rotate-90 filter drop-shadow-[0_0_30px_rgba(34,211,238,0.2)]">
                             <circle cx="104" cy="104" r="92" stroke="currentColor" stroke-width="12" fill="transparent"
@@ -303,8 +303,8 @@
 
             <!-- INSIGHTS (Widget Lateral) -->
             <div
-                class="lg:col-span-5 backdrop-blur-[60px] bg-white/[0.02] border border-white/10 rounded-[48px] p-12 flex flex-col justify-between shadow-2xl relative overflow-hidden group">
-                <div class="flex justify-between items-start mb-16 z-10">
+                class="lg:col-span-5 backdrop-blur-[60px] bg-white/[0.02] border border-white/10 rounded-[48px] p-6 sm:p-12 flex flex-col justify-between shadow-2xl relative overflow-hidden group">
+                <div class="flex flex-col sm:flex-row justify-between items-start gap-4 mb-10 sm:mb-16 z-10">
                     <div
                         class="w-16 h-16 bg-white/5 rounded-[32px] flex items-center justify-center border border-white/10">
                         <i data-lucide="activity"
@@ -382,12 +382,12 @@
 
         <!-- RODAPÉ ESTATÍSTICO E LEGAL -->
         <footer
-            class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-20 uppercase">
+            class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-20 uppercase text-center md:text-left">
             <div class="flex flex-col gap-2">
                 <p>© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
                 <p>SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
             </div>
-            <div class="flex gap-16 font-black italic">
+            <div class="flex flex-col sm:flex-row gap-6 sm:gap-16 font-black italic items-center">
                 <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Privacidade</a>
                 <a href="roadmap.html" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Rede Neural</a>
                 <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Terminal</a>
