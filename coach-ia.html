@@ -438,13 +438,15 @@
     <script type="module">
         import { GoogleGenAI } from '@google/genai';
 
-        let apiKey = localStorage.getItem('gemini_api_key');
+        // Atenção: Em produção, essa chave DEVE vir de um Backend (Node.js/Python)
+        // Como estamos num ambiente de demonstração estática (HTML), estamos fixando a chave aqui.
+        let apiKey = localStorage.getItem('gemini_api_key') || 'ADICIONE_SUA_CHAVE_AQUI_PARA_TESTES_LOCAIS';
         let ai = null;
         let chat = null;
 
-        // Função exposta globalmente para definir a chave clicando no ícone de chave
+        // Função exposta globalmente para definir a chave clicando no ícone de chave (Apenas para Dev/Testes)
         window.promptApiKey = () => {
-            const token = prompt("Insira sua chave de API do Gemini Studio (ela ficará salva apenas no seu navegador local):", apiKey || "");
+            const token = prompt("Insira sua chave de API do Gemini Studio:", apiKey || "");
             if (token) {
                 localStorage.setItem('gemini_api_key', token);
                 apiKey = token;
@@ -513,8 +515,7 @@
             if (!text) return;
 
             if (!chat) {
-                alert("Você precisa inserir uma chave de API do Gemini para conversar. Clique no ícone de chave ou recarregue a página.");
-                window.promptApiKey();
+                appendMessage("<span class='text-orange-400'>[SISTEMA] O Hero Fitness está offline. Insira uma chave de API válida clicando no ícone de chave 🔑.</span>", false);
                 return;
             }
 
