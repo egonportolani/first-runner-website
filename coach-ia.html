@@ -219,7 +219,8 @@
                     </div>
 
                     <!-- Área de Mensagens -->
-                    <div class="flex-1 p-6 overflow-y-auto flex flex-col gap-6 relative z-10 scrollbar-hide">
+                    <div id="chat-messages"
+                        class="flex-1 p-6 overflow-y-auto flex flex-col gap-6 relative z-10 scrollbar-hide">
 
                         <!-- Mensagem Usuário -->
                         <div class="flex flex-col gap-1 items-end self-end max-w-[85%]">
@@ -234,9 +235,9 @@
                         </div>
 
                         <!-- Indicador Digitanto IA -->
-                        <div
-                            class="flex items-center gap-2 text-cyan-400/50 text-xs font-bold uppercase tracking-widest my-2">
-                            <i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Processando dados Oura Ring...
+                        <div id="typing-indicator"
+                            class="hidden items-center gap-2 text-cyan-400/50 text-xs font-bold uppercase tracking-widest my-2">
+                            <i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Processando dados neurais...
                         </div>
 
                         <!-- Mensagem IA -->
@@ -281,19 +282,19 @@
                         </div>
                     </div>
 
-                    <!-- Input Area Dummy -->
+                    <!-- Input Area Activa -->
                     <div class="p-4 border-t border-white/5 bg-black/40 relative z-10 flex gap-4 items-center">
-                        <div
-                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-cyan-400 hover:bg-cyan-500/10 cursor-pointer transition-colors">
-                            <i data-lucide="mic" class="w-5 h-5"></i>
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-cyan-400 hover:bg-cyan-500/10 cursor-pointer transition-colors"
+                            onclick="promptApiKey()">
+                            <i data-lucide="key" class="w-5 h-5"></i>
                         </div>
-                        <input type="text" placeholder="Falar com o Treinador IA..."
+                        <input type="text" id="chat-input" placeholder="Digite aqui para o Coach IA..."
                             class="flex-1 bg-transparent border-none text-sm text-white focus:outline-none placeholder-white/20"
-                            disabled>
-                        <div
-                            class="w-10 h-10 rounded-full bg-cyan-600/20 text-cyan-400 flex items-center justify-center cursor-pointer hover:bg-cyan-600/40 transition-colors">
+                            autocomplete="off">
+                        <button id="send-button"
+                            class="w-10 h-10 rounded-full bg-cyan-600/20 text-cyan-400 flex items-center justify-center cursor-pointer hover:bg-cyan-600/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                             <i data-lucide="send" class="w-4 h-4 ml-1"></i>
-                        </div>
+                        </button>
                     </div>
                 </div>
 
@@ -384,16 +385,20 @@
                             <!-- Nodes Nas Pontas -->
                             <div
                                 class="absolute top-2 left-6 px-3 py-1 bg-black/50 border border-white/10 rounded-full text-[8px] font-bold uppercase tracking-widest text-white/60 flex items-center gap-1 z-30">
-                                <i data-lucide="watch" class="w-3 h-3 text-orange-400"></i> Garmin </div>
+                                <i data-lucide="watch" class="w-3 h-3 text-orange-400"></i> Garmin
+                            </div>
                             <div
                                 class="absolute top-2 right-6 px-3 py-1 bg-black/50 border border-white/10 rounded-full text-[8px] font-bold uppercase tracking-widest text-white/60 flex items-center gap-1 z-30">
-                                <i data-lucide="circle-dashed" class="w-3 h-3 text-fuchsia-400"></i> Oura Ring </div>
+                                <i data-lucide="circle-dashed" class="w-3 h-3 text-fuchsia-400"></i> Oura Ring
+                            </div>
                             <div
                                 class="absolute bottom-2 left-6 px-3 py-1 bg-black/50 border border-white/10 rounded-full text-[8px] font-bold uppercase tracking-widest text-white/60 flex items-center gap-1 z-30">
-                                <i data-lucide="activity" class="w-3 h-3 text-rose-400"></i> Strava </div>
+                                <i data-lucide="activity" class="w-3 h-3 text-rose-400"></i> Strava
+                            </div>
                             <div
                                 class="absolute bottom-2 right-6 px-3 py-1 bg-black/50 border border-white/10 rounded-full text-[8px] font-bold uppercase tracking-widest text-white/60 flex items-center gap-1 z-30">
-                                <i data-lucide="apple" class="w-3 h-3 text-white"></i> Apple Health </div>
+                                <i data-lucide="apple" class="w-3 h-3 text-white"></i> Apple Health
+                            </div>
                         </div>
 
                     </div>
@@ -421,6 +426,133 @@
     <!-- Inicializar Ícones Lucide -->
     <script>
         lucide.createIcons();
+    </script>
+
+    <!-- Gemini API Integration -->
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/genai": "https://esm.run/@google/genai"
+        }
+      }
+    </script>
+    <script type="module">
+        import { GoogleGenAI } from '@google/genai';
+
+        let apiKey = localStorage.getItem('gemini_api_key');
+        let ai = null;
+        let chat = null;
+
+        // Função exposta globalmente para definir a chave clicando no ícone de chave
+        window.promptApiKey = () => {
+            const token = prompt("Insira sua chave de API do Gemini Studio (ela ficará salva apenas no seu navegador local):", apiKey || "");
+            if (token) {
+                localStorage.setItem('gemini_api_key', token);
+                apiKey = token;
+                initGemini();
+                alert("Chave salva com sucesso! O Coach IA já pode te responder.");
+            }
+        }
+
+        function initGemini() {
+            if (!apiKey) return;
+            try {
+                ai = new GoogleGenAI({ apiKey: apiKey });
+                // Iniciar um chat com contexto do sistema (system instructions)
+                chat = ai.chats.create({
+                    model: 'gemini-2.5-flash',
+                    config: {
+                        systemInstruction: "Você é o Coach IA do First Runner. Você é um treinador de corrida avançado, direto, focado em performance e levemente sarcástico/cyberpunk. Suas respostas devem ser curtas, muito diretas ao ponto, e usar jargões como 'biometria', 'sincronização neural', 'ritmo cardíaco', e 'risco de lesão'. Nunca saia dessa persona. Se o usuário perguntar algo fora do contexto de corrida, ciclismo, saúde ou do app First Runner, chame a atenção dele para focar no treino.",
+                        temperature: 0.7,
+                    }
+                });
+            } catch (e) {
+                console.error("Erro ao iniciar Gemini:", e);
+            }
+        }
+
+        // Tentar inicializar caso já tenha a chave no cache
+        initGemini();
+
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-button');
+        const chatMessages = document.getElementById('chat-messages');
+        const typingIndicator = document.getElementById('typing-indicator');
+
+        function appendMessage(text, isUser) {
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const msgHtml = isUser ? `
+                <div class="flex flex-col gap-1 items-end self-end max-w-[85%] animate-[fade-in_0.3s_ease-out]">
+                    <div class="bg-blue-600/30 border border-blue-500/30 text-white/90 p-4 rounded-t-2xl rounded-bl-2xl rounded-br-sm shadow-md backdrop-blur-md">
+                        <p class="text-sm font-medium leading-relaxed">${text}</p>
+                    </div>
+                    <span class="text-[10px] text-white/30 uppercase tracking-widest font-bold mr-2">${time} AM // Atleta</span>
+                </div>
+            ` : `
+                <div class="flex flex-col gap-1 items-start self-start max-w-[90%] animate-[fade-in_0.3s_ease-out]">
+                    <div class="bg-slate-800/60 border border-white/10 text-white/90 p-5 rounded-t-2xl rounded-br-2xl rounded-bl-sm shadow-md backdrop-blur-md relative overflow-hidden group/msg">
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-cyan-400/5 to-transparent -translate-x-full group-hover/msg:animate-[shimmer_2s_infinite]"></div>
+                        <p class="text-sm font-medium leading-relaxed">${text.replace(/\n/g, '<br>')}</p>
+                    </div>
+                    <span class="text-[10px] text-cyan-400/50 uppercase tracking-widest font-bold ml-2">${time} AM // Gemini Neural Bio</span>
+                </div>
+            `;
+
+            // Inserir antes do Typing Indicator
+            chatMessages.insertBefore(
+                document.createRange().createContextualFragment(msgHtml),
+                typingIndicator
+            );
+
+            // Rolar para o final
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function handleSend() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            if (!chat) {
+                alert("Você precisa inserir uma chave de API do Gemini para conversar. Clique no ícone de chave ou recarregue a página.");
+                window.promptApiKey();
+                return;
+            }
+
+            // UI Updates
+            chatInput.value = '';
+            appendMessage(text, true);
+            typingIndicator.classList.remove('hidden');
+            typingIndicator.classList.add('flex');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            sendBtn.disabled = true;
+            chatInput.disabled = true;
+
+            try {
+                const response = await chat.sendMessage({ message: text });
+                typingIndicator.classList.remove('flex');
+                typingIndicator.classList.add('hidden');
+
+                appendMessage(response.text, false);
+            } catch (error) {
+                console.error("Erro na API:", error);
+                typingIndicator.classList.remove('flex');
+                typingIndicator.classList.add('hidden');
+                appendMessage("<span class='text-rose-400'>[ERRO CRÍTICO NO SISTEMA] Falha na sincronização neural com os servidores centrais. Verifique sua chave de API ou conexão no console.</span>", false);
+            } finally {
+                sendBtn.disabled = false;
+                chatInput.disabled = false;
+                chatInput.focus();
+                lucide.createIcons(); // Recriar ícones caso existam novos na resposta
+            }
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+
     </script>
 </body>
 
