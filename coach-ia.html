@@ -284,8 +284,14 @@
 
                     <!-- Input Area Activa -->
                     <div class="p-4 border-t border-white/5 bg-black/40 relative z-10 flex gap-4 items-center">
+                        <div id="mic-button"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-cyan-400 hover:bg-cyan-500/10 cursor-pointer transition-colors relative">
+                            <i data-lucide="mic" class="w-5 h-5"></i>
+                            <span id="mic-ping"
+                                class="absolute inset-0 rounded-full border border-cyan-400 animate-ping hidden"></span>
+                        </div>
                         <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-cyan-400 hover:bg-cyan-500/10 cursor-pointer transition-colors"
-                            onclick="promptApiKey()">
+                            onclick="promptApiKey()" title="Configurar Chave API">
                             <i data-lucide="key" class="w-5 h-5"></i>
                         </div>
                         <input type="text" id="chat-input" placeholder="Digite aqui para o Hero Fitness..."
@@ -552,6 +558,64 @@
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleSend();
         });
+
+        // --- INTEGRAÇÃO DE VOZ (Web Speech API) ---
+        const micBtn = document.getElementById('mic-button');
+        const micPing = document.getElementById('mic-ping');
+        let recognition = null;
+        let isRecording = false;
+
+        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.onstart = () => {
+                isRecording = true;
+                micBtn.classList.replace('text-white/40', 'text-rose-400');
+                micBtn.classList.add('bg-rose-500/10');
+                micPing.classList.remove('hidden');
+                chatInput.placeholder = "Escutando...";
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                chatInput.value = transcript;
+                setTimeout(() => handleSend(), 300); // Auto enviar após o reconhecimento
+            };
+
+            recognition.onerror = (event) => {
+                console.error("Erro no microfone: ", event.error);
+                resetMicUI();
+                alert("Erro ao acessar o microfone. Verifique as permissões do navegador.");
+            };
+
+            recognition.onend = () => {
+                resetMicUI();
+            };
+
+            micBtn.addEventListener('click', () => {
+                if (isRecording) {
+                    recognition.stop();
+                } else {
+                    recognition.start();
+                }
+            });
+        } else {
+            micBtn.addEventListener('click', () => {
+                alert("Seu navegador não suporta reconhecimento de voz direto. Use o Chrome ou Edge para falar com o Hero Fitness.");
+            });
+        }
+
+        function resetMicUI() {
+            isRecording = false;
+            micBtn.classList.replace('text-rose-400', 'text-white/40');
+            micBtn.classList.remove('bg-rose-500/10');
+            micPing.classList.add('hidden');
+            chatInput.placeholder = "Digite aqui para o Hero Fitness...";
+        }
 
     </script>
 </body>
