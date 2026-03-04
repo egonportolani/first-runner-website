@@ -153,18 +153,27 @@
         </nav>
 
         <!-- SECÇÃO HERO: O CÉREBRO DA OPERAÇÃO -->
-        <header class="mb-20 max-w-5xl text-center mx-auto">
+        <header class="mb-12 max-w-5xl text-center mx-auto">
+            <!-- Badge Gemini 2.0 Flash Live -->
+            <div
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/30 mb-6 backdrop-blur-md">
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                <span class="text-[10px] font-black tracking-[0.4em] text-green-400 uppercase">Gemini 2.0 Flash Live —
+                    Voz em Tempo Real</span>
+            </div>
+
             <h1
                 class="text-6xl md:text-8xl font-black leading-[0.9] mb-6 tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-                INTELIGÊNCIA <br />
+                O OPERADOR <br />
                 <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 italic">BIOLÓGICA.</span>
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 italic">AI
+                    COACH.</span>
             </h1>
 
-            <div class="flex flex-col gap-2 mb-12 items-center mx-auto">
+            <div class="flex flex-col gap-2 mb-8 items-center mx-auto">
                 <p class="text-xl text-white/60 max-w-2xl font-bold uppercase tracking-wide leading-relaxed">
-                    O primeiro treinador esportivo autônomo baseado em I.A preditiva. Ele lê seus sinais vitais, adapta
-                    seus treinos e te salva de lesões antes que elas aconteçam.
+                    Fone no ouvido. IA no ouvido. Seu treinador Cyberpunk fala com você durante a corrida, sabe seu
+                    pace, GPS e territórios — e responde em menos de 1 segundo.
                 </p>
             </div>
 
@@ -174,6 +183,48 @@
                 <i data-lucide="zap" class="w-4 h-4 inline-block ml-2 group-hover:animate-pulse"></i>
             </a>
         </header>
+
+        <!-- COMO FUNCIONA NO APP REAL -->
+        <section class="max-w-6xl mx-auto w-full mb-12 px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+                <div
+                    class="backdrop-blur-[40px] bg-white/[0.02] border border-white/10 rounded-[28px] p-7 group hover:border-cyan-500/30 transition-all">
+                    <div
+                        class="w-10 h-10 bg-cyan-500/10 rounded-xl flex items-center justify-center mb-5 border border-cyan-500/20">
+                        <i data-lucide="mic" class="w-5 h-5 text-cyan-400"></i>
+                    </div>
+                    <h4 class="text-xs font-black uppercase tracking-widest text-white mb-3">1. Você Fala</h4>
+                    <p class="text-[11px] text-white/50 leading-relaxed">O app captura sua voz em chunks de áudio PCM
+                        durante a corrida. Sem botão de push-to-talk. Fale naturalmente como num walkie-talkie.</p>
+                </div>
+
+                <div
+                    class="backdrop-blur-[40px] bg-white/[0.02] border border-white/10 rounded-[28px] p-7 group hover:border-purple-500/30 transition-all">
+                    <div
+                        class="w-10 h-10 bg-purple-500/10 rounded-xl flex items-center justify-center mb-5 border border-purple-500/20">
+                        <i data-lucide="cloud" class="w-5 h-5 text-purple-400"></i>
+                    </div>
+                    <h4 class="text-xs font-black uppercase tracking-widest text-white mb-3">2. O Backend Processa</h4>
+                    <p class="text-[11px] text-white/50 leading-relaxed">O áudio + seu contexto de GPS, pace e
+                        territórios são enviados ao <b class="text-white/70">Google Cloud Run</b>. O servidor encaminha
+                        ao Gemini 2.0 Flash Live via WebSocket bidirecional.</p>
+                </div>
+
+                <div
+                    class="backdrop-blur-[40px] bg-white/[0.02] border border-white/10 rounded-[28px] p-7 group hover:border-green-500/30 transition-all">
+                    <div
+                        class="w-10 h-10 bg-green-500/10 rounded-xl flex items-center justify-center mb-5 border border-green-500/20">
+                        <i data-lucide="headphones" class="w-5 h-5 text-green-400"></i>
+                    </div>
+                    <h4 class="text-xs font-black uppercase tracking-widest text-white mb-3">3. O Operador Responde</h4>
+                    <p class="text-[11px] text-white/50 leading-relaxed">O áudio da IA chega ao seu ouvido em &lt;1s. Se
+                        você interromper enquanto ele fala, a voz para imediatamente e a IA adapta a resposta ao novo
+                        comando.</p>
+                </div>
+
+            </div>
+        </section>
 
         <!-- DASHBOARD NEURAL E CHAT HOLOGRÁFICO -->
         <section class="max-w-6xl mx-auto w-full mb-32 relative z-10 px-4">
