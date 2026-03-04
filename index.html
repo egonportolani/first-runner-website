@@ -82,11 +82,10 @@
     class="relative min-h-screen w-full bg-[#010206] text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased">
     <!-- CAMADA 1: FUNDO PROCEDURAL 4K (VERSÃO CRISTALINA) -->
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <!-- Vídeo de Fundo Cinematográfico com animação Ken Burns suave -->
-        <video class="absolute inset-[-5%] w-[110%] h-[110%] object-cover animate-kenburns opacity-60" autoplay loop
-            muted playsinline>
-            <source src="assets/cyberpunk_city_bg.mp4" type="video/mp4">
-        </video>
+        <!-- Imagem de Fundo Cinematográfica com animação Ken Burns suave -->
+        <div class="absolute inset-[-5%] w-[110%] h-[110%] bg-cover bg-center animate-kenburns opacity-60"
+            style="background-image: url('assets/fundodosite.png')">
+        </div>
 
         <!-- Overlay de Grão Cinematográfico para textura 4K -->
         <div class="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-10">
