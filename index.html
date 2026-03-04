@@ -122,12 +122,20 @@
 
         <!-- NAVEGAÇÃO SUPERIOR -->
         <nav class="flex items-center justify-between mb-16 py-4">
-            <div class="flex items-center gap-4 group cursor-pointer">
-                <div
-                    class="w-11 h-11 bg-white flex items-center justify-center rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-all duration-500">
-                    <span class="text-black font-black text-2xl italic">F</span>
+            <div class="flex items-center gap-4 group cursor-pointer hover:opacity-80 transition-opacity">
+                <!-- Novo Logo: F Estilizado (Duplo Ângulo) -->
+                <svg viewBox="0 0 100 100"
+                    class="w-12 h-12 sm:w-14 sm:h-14 shrink-0 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    <path d="M 0 0 H 100 V 22 H 22 V 100 H 0 Z" fill="white" />
+                    <path d="M 38 40 H 80 V 62 H 60 V 100 H 38 Z" fill="white" />
+                </svg>
+
+                <div class="flex flex-col justify-center -space-y-1">
+                    <span
+                        class="text-[1.3rem] sm:text-3xl font-black leading-none tracking-widest text-white uppercase">FIRST</span>
+                    <span
+                        class="text-[1.3rem] sm:text-3xl font-black leading-none tracking-widest text-white uppercase">RUNNER</span>
                 </div>
-                <span class="text-2xl font-black tracking-tighter uppercase tracking-widest">First Runner</span>
             </div>
 
             <div
