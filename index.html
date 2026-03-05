@@ -33,6 +33,25 @@
                 filter: brightness(1.2);
             }
         }
+
+        /* Ken Burns: zoom suave no fundo */
+        @keyframes kenburns {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+
+            50% {
+                transform: scale(1.08) translate(-1%, -0.5%);
+            }
+
+            100% {
+                transform: scale(1) translate(0, 0);
+            }
+        }
+
+        .animate-kenburns {
+            animation: kenburns 30s ease-in-out infinite;
+        }
     </style>
 </head>
 
@@ -41,7 +60,7 @@
     <!-- CAMADA 1: FUNDO FULL SCREEN -->
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <!-- Imagem de Fundo -->
-        <div class="absolute inset-0 w-full h-full bg-cover bg-center opacity-60"
+        <div class="absolute inset-[-5%] w-[110%] h-[110%] bg-cover bg-center opacity-60 animate-kenburns"
             style="background-image: url('assets/fundodosite.png')">
         </div>
 
