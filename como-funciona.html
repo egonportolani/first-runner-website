@@ -87,36 +87,35 @@
     <div class="relative z-40 max-w-7xl mx-auto px-6 py-6 flex flex-col min-h-screen">
 
         <!-- NAVEGAÇÃO SUPERIOR -->
-        <nav class="flex items-center justify-between mb-16 py-4">
-            <a href="index.html" class="flex items-center gap-4 group cursor-pointer hover:opacity-80 transition-all">
-                <div
-                    class="w-11 h-11 bg-white flex items-center justify-center rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-all duration-500">
-                    <span class="text-black font-black text-2xl italic">F</span>
+        <nav class="flex items-center justify-between py-4 shrink-0 mb-16">
+            <!-- Logo -->
+            <a href="index.html"
+                class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity">
+                <!-- Ícone F geométrico -->
+                <svg viewBox="0 0 100 100" class="w-10 h-10 shrink-0 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
+                    <path d="M 0 0 H 100 L 80 20 H 20 V 40 H 80 L 60 60 H 20 V 80 L 0 100 Z" fill="white" />
+                </svg>
+                <div class="flex flex-col justify-center">
+                    <span class="text-lg font-black leading-none tracking-wider text-white uppercase">FIRST</span>
+                    <span class="text-lg font-black leading-none tracking-wider text-white uppercase">RUNNER</span>
                 </div>
-                <span class="text-2xl font-black tracking-tighter uppercase tracking-widest hidden sm:block">First
-                    Runner</span>
             </a>
 
+            <!-- Links de navegação (centro) -->
             <div
-                class="hidden lg:flex items-center gap-12 text-[14px] font-black tracking-[0.2em] uppercase text-white/70">
+                class="hidden lg:flex items-center gap-10 text-[14px] font-black tracking-[0.2em] uppercase text-white/60">
                 <a href="index.html" class="hover:text-white transition-all">Início</a>
                 <a href="como-funciona.html"
-                    class="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all">Como Funciona</a>
+                    class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all">Como Funciona</a>
                 <a href="coach-ia.html" class="hover:text-white transition-all">Hero Fitness</a>
                 <a href="whitepaper.html" class="hover:text-white transition-all">Whitepaper</a>
                 <a href="early-access.html"
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_15px_rgba(249,115,22,0.6)] animate-pulse transition-all">Early
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all">Early
                     Access</a>
             </div>
 
-            <div class="flex items-center gap-8">
-                <a href="login.html"
-                    class="text-xs font-bold tracking-widest opacity-60 hover:opacity-100 transition-opacity uppercase hidden sm:block">Entrar</a>
-                <button
-                    class="bg-white text-black px-8 py-3.5 rounded-xl text-xs font-black tracking-widest uppercase hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] transition-all active:scale-95">
-                    Começar
-                </button>
-            </div>
+            <!-- Espaço direito vazio (alinhamento) -->
+            <div class="flex items-center gap-6"></div>
         </nav>
 
         <!-- HEADER DA PÁGINA -->
