@@ -13,30 +13,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #010206;
-
-        }
-
-        .tracking-tightest {
-            letter-spacing: -0.06em;
-        }
-
-        /* Efeito Ken Burns: Movimento suave de zoom no fundo para profundidade 3D */
-        @keyframes kenburns {
-            0% {
-                transform: scale(1) translate(0, 0);
-            }
-
-            50% {
-                transform: scale(1.1) translate(-1%, -0.5%);
-            }
-
-            100% {
-                transform: scale(1) translate(0, 0);
-            }
-        }
-
-        .animate-kenburns {
-            animation: kenburns 45s ease-in-out infinite;
         }
 
         /* Pulsação Sutil Global */
@@ -57,185 +33,273 @@
                 filter: brightness(1.2);
             }
         }
-
-        /* Varredura / Pulse da Soundwave e Neon */
-        @keyframes pulse-height {
-            0% {
-                transform: scaleY(0.6);
-                opacity: 0.4;
-            }
-
-            100% {
-                transform: scaleY(1);
-                opacity: 1;
-            }
-        }
-
-        .bar-pulse {
-            animation: pulse-height 1s infinite alternate ease-in-out;
-            transform-origin: bottom;
-        }
     </style>
 </head>
 
-<body
-    class="relative min-h-screen w-full bg-[#010206] text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased">
-    <!-- CAMADA 1: FUNDO PROCEDURAL 4K (VERSÃO CRISTALINA) -->
+<body class="relative w-full bg-[#010206] text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased">
+
+    <!-- CAMADA 1: FUNDO FULL SCREEN -->
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <!-- Imagem de Fundo (Sem zoom ou distorção) -->
-        <div class="absolute inset-0 w-full h-full bg-cover bg-center opacity-100"
+        <!-- Imagem de Fundo -->
+        <div class="absolute inset-0 w-full h-full bg-cover bg-center opacity-60"
             style="background-image: url('assets/fundodosite.png')">
         </div>
 
-        <!-- Overlay de Grão Cinematográfico para textura 4K -->
-        <div class="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-10">
-        </div>
-        <div
-            class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80 z-20 pointer-events-none">
+        <!-- Overlay escuro para dar peso ao texto -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/60 z-10 pointer-events-none">
         </div>
 
-        <!-- LUZES NEON (SVG de Alta Precisão - Layout em Cruz sem faixa rosa) -->
-        <svg class="absolute inset-0 w-full h-full z-20 opacity-40">
-            <defs>
-                <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="15" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-            </defs>
-
-            <!-- Estrada Ciano Horizontal (Cruzamento) -->
-            <line x1="0" y1="65%" x2="100%" y2="65%" stroke="#22d3ee" stroke-width="3" filter="url(#neon-glow)"
-                opacity="0.6" />
-
-            <!-- Trilhos Âmbar de Alta Velocidade (Lado Direito) -->
-            <path d="M 1200 1000 L 700 650" stroke="#fb923c" stroke-width="4" filter="url(#neon-glow)" opacity="0.4" />
-
-            <!-- Reflexos Ciano (Lado Esquerdo) -->
-            <path d="M -200 1000 L 300 650" stroke="#22d3ee" stroke-width="3" filter="url(#neon-glow)" opacity="0.3" />
-        </svg>
-
-        <!-- Brilhos Atmosféricos de Canto -->
-        <div class="absolute left-0 bottom-0 w-1/3 h-1/2 bg-cyan-900/10 blur-[150px] z-10"></div>
-        <div class="absolute right-0 bottom-0 w-1/3 h-1/2 bg-orange-900/10 blur-[150px] z-10"></div>
+        <!-- Grão cinematográfico -->
+        <div class="absolute inset-0 opacity-[0.04] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-20">
+        </div>
     </div>
 
-    <!-- CAMADA 2: INTERFACE DE UTILIZADOR -->
-    <div class="relative z-40 max-w-7xl mx-auto px-6 py-6 flex flex-col min-h-screen">
+    <!-- CAMADA 2: CONTEÚDO — tela cheia com flex column -->
+    <div class="relative z-40 flex flex-col h-screen max-w-[1400px] mx-auto px-8 py-6">
 
         <!-- NAVEGAÇÃO SUPERIOR -->
-        <nav class="flex items-center justify-between mb-16 py-4">
-            <div class="flex items-center gap-5 group cursor-pointer hover:opacity-80 transition-opacity">
-                <!-- Logo: F Geométrico com cortes angulados -->
-                <svg viewBox="0 0 100 100"
-                    class="w-14 h-14 sm:w-[4rem] sm:h-[4rem] shrink-0 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+        <nav class="flex items-center justify-between py-4 shrink-0">
+            <!-- Logo -->
+            <a href="index.html"
+                class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity">
+                <!-- Ícone F geométrico -->
+                <svg viewBox="0 0 100 100" class="w-10 h-10 shrink-0 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
                     <path d="M 0 0 H 100 L 80 20 H 20 V 40 H 80 L 60 60 H 20 V 80 L 0 100 Z" fill="white" />
                 </svg>
-
-                <div class="flex flex-col justify-center sm:-space-y-1 ml-1">
-                    <span
-                        class="text-2xl sm:text-[2.3rem] font-black leading-[0.8] tracking-[0.14em] text-white uppercase">FIRST</span>
-                    <span
-                        class="text-2xl sm:text-[2.3rem] font-black leading-[0.8] tracking-tight text-white uppercase">RUNNER</span>
+                <div class="flex flex-col justify-center">
+                    <span class="text-lg font-black leading-none tracking-wider text-white uppercase">FIRST</span>
+                    <span class="text-lg font-black leading-none tracking-wider text-white uppercase">RUNNER</span>
                 </div>
-            </div>
+            </a>
 
+            <!-- Links de navegação (centro) -->
             <div
-                class="hidden lg:flex items-center gap-12 text-[11px] font-black tracking-[0.2em] uppercase text-white/70">
+                class="hidden lg:flex items-center gap-10 text-[11px] font-black tracking-[0.2em] uppercase text-white/60">
                 <a href="index.html"
-                    class="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all">Início</a>
+                    class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all">Início</a>
                 <a href="como-funciona.html" class="hover:text-white transition-all">Como Funciona</a>
                 <a href="coach-ia.html" class="hover:text-white transition-all">Hero Fitness</a>
                 <a href="whitepaper.html" class="hover:text-white transition-all">Whitepaper</a>
                 <a href="early-access.html"
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_15px_rgba(249,115,22,0.6)] animate-pulse transition-all">Early
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all">Early
                     Access</a>
             </div>
 
-            <div class="flex items-center gap-8">
-                <a href="login.html"
-                    class="text-xs font-bold tracking-widest opacity-60 hover:opacity-100 transition-opacity uppercase">Entrar</a>
-                <button
-                    class="bg-white text-black px-8 py-3.5 rounded-xl text-xs font-black tracking-widest uppercase hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] transition-all active:scale-95">
-                    Começar
-                </button>
+            <!-- Ações direita (removidas a pedido do usuário) -->
+            <div class="flex items-center gap-6">
+                <!-- Vazio para manter o alinhamento flexível da navegação -->
             </div>
         </nav>
 
-        <!-- SECÇÃO HERO: IMPACTO PRINCIPAL -->
-        <header class="mb-32 w-full flex flex-col items-center text-center mx-auto mt-24">
+        <!-- HERO: ocupa todo o espaço restante, conteúdo centralizado -->
+        <main class="flex-1 flex flex-col items-center justify-center text-center -mt-10 sm:-mt-16 px-4">
 
             <h1
-                class="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-bold leading-none tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] uppercase text-white whitespace-nowrap mb-6">
-                CONQUISTE A CIDADE.
+                class="text-[2.5rem] sm:text-6xl md:text-7xl lg:text-[6.5rem] font-bold leading-none tracking-tight drop-shadow-[0_4px_40px_rgba(0,0,0,0.9)] uppercase text-white whitespace-normal sm:whitespace-nowrap mb-4 sm:mb-6">
+                CONQUISTE <br class="block sm:hidden" />A CIDADE.
             </h1>
 
             <h2
-                class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-14 tracking-normal drop-shadow-md whitespace-nowrap">
+                class="text-xs sm:text-base md:text-xl lg:text-2xl font-bold text-white/90 mb-10 sm:mb-16 tracking-[0.05em] sm:tracking-[0.1em] drop-shadow-md whitespace-normal sm:whitespace-nowrap uppercase px-4">
                 CAMINHANDO, CORRENDO E PEDALANDO.
             </h2>
 
+            <!-- Badge IMPULSIONADO POR I.A. -->
             <div
-                class="border border-cyan-400 bg-transparent shadow-[0_0_20px_rgba(34,211,238,0.5),inset_0_0_20px_rgba(34,211,238,0.2)] backdrop-blur-sm px-10 py-3 mb-10">
-                <span class="text-lg md:text-xl font-bold text-white tracking-widest uppercase">
+                class="border-[1.5px] border-cyan-400 bg-transparent shadow-[0_0_20px_rgba(34,211,238,0.5),inset_0_0_15px_rgba(34,211,238,0.2)] px-6 sm:px-12 py-3 mb-4 sm:mb-5 inline-flex items-center justify-center w-auto max-w-[90%] sm:min-w-[340px]">
+                <span
+                    class="text-sm sm:text-xl md:text-2xl font-black text-white tracking-widest uppercase whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                     IMPULSIONADO POR I.A.
                 </span>
             </div>
 
-            <a href="#"
-                class="bg-white text-black px-16 py-4 rounded-full font-black text-sm md:text-base tracking-[0.05em] uppercase hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.4)]">
+            <!-- CTA Button -->
+            <button id="open-waitlist-modal"
+                class="bg-white text-black px-8 sm:px-32 py-4 sm:py-5 rounded-[40px] font-black text-sm sm:text-base md:text-xl tracking-wide uppercase hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,255,255,0.4)] inline-flex items-center justify-center whitespace-nowrap w-auto max-w-[95%] sm:min-w-[500px] cursor-pointer">
                 ENTRAR NA WAITLIST
-            </a>
+            </button>
 
+        </main>
 
+    </div>
 
+    <!-- SEÇÕES ABAIXO DO FOLD (mantidas para scroll) -->
+    <div class="relative z-40 max-w-[1400px] mx-auto px-8 pb-16">
 
-            <!-- SECÇÃO APP STORES: DISPONIBILIDADE EM BREVE -->
-            <section
-                class="mt-56 md:mt-80 mb-16 py-12 px-8 backdrop-blur-2xl bg-white/[0.02] border border-white/10 rounded-[40px] flex flex-col items-center text-center shadow-xl w-full max-w-5xl mx-auto">
-                <div class="flex items-center gap-3 mb-8">
-                    <i data-lucide="download" class="w-6 h-6 text-cyan-400"></i>
-                    <h3
-                        class="text-xl md:text-2xl font-black tracking-[0.3em] uppercase italic drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
-                        Em breve na play store e apple store</h3>
+        <!-- App Stores -->
+        <section
+            class="mt-8 mb-16 py-12 px-8 backdrop-blur-2xl bg-white/[0.02] border border-white/10 rounded-[40px] flex flex-col items-center text-center shadow-xl w-full max-w-5xl mx-auto">
+            <div class="flex items-center gap-3 mb-8">
+                <i data-lucide="download" class="w-6 h-6 text-cyan-400"></i>
+                <h3
+                    class="text-xl md:text-2xl font-black tracking-[0.3em] uppercase italic drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+                    Em breve na play store e apple store</h3>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 transition-all">
+                <a href="#" class="transition-transform hover:scale-105 active:scale-95">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                        alt="Disponível no Google Play" class="h-14">
+                </a>
+                <a href="#" class="transition-transform hover:scale-105 active:scale-95">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+                        alt="Baixar na App Store" class="h-14">
+                </a>
+            </div>
+            <p class="mt-8 text-[10px] font-black text-white/20 tracking-[0.5em] uppercase">
+                Sincronização Neural Sem Fios Integrada
+            </p>
+        </section>
+
+        <!-- Rodapé -->
+        <footer
+            class="py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-20 uppercase text-center md:text-left">
+            <div class="flex flex-col gap-2">
+                <p>© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
+                <p>SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-6 sm:gap-16 font-black italic items-center">
+                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Privacidade</a>
+                <a href="whitepaper.html" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Rede
+                    Neural</a>
+                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Terminal</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- WAITLIST MODAL -->
+    <div id="waitlist-modal"
+        class="fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-300 pointer-events-none flex items-center justify-center p-4 sm:p-6">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm modal-backdrop pointer-events-auto"></div>
+
+        <!-- Modal Content -->
+        <div
+            class="relative w-full max-w-md bg-black/60 border border-cyan-500/30 shadow-[0_0_40px_rgba(34,211,238,0.2)] rounded-3xl overflow-hidden pointer-events-auto transform scale-95 transition-transform duration-300">
+            <!-- Glow effect top -->
+            <div
+                class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-50">
+            </div>
+
+            <div class="p-8">
+                <button id="close-waitlist-modal"
+                    class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors cursor-pointer">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+
+                <h3 class="text-2xl font-black text-white uppercase tracking-widest mb-2 drop-shadow-md">ENTRAR NA
+                    WAITLIST</h3>
+                <p class="text-sm font-bold text-white/60 mb-8 tracking-wider uppercase">Junte-se à elite. Seja o
+                    primeiro.</p>
+
+                <form id="waitlist-form" class="space-y-6">
+                    <div class="relative group mt-8">
+                        <i data-lucide="mail"
+                            class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50 group-focus-within:text-cyan-400 transition-colors"></i>
+                        <input type="email" id="waitlist-email" required placeholder="SEU MELHOR EMAIL"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white placeholder:text-white/30 focus:outline-none focus:border-cyan-400/50 focus:bg-white/10 transition-all uppercase tracking-wider text-sm font-bold shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
+                    </div>
+
+                    <button type="submit" id="waitlist-submit"
+                        class="w-full bg-cyan-500 text-black font-black uppercase tracking-[0.2em] py-4 rounded-xl hover:bg-cyan-400 transition-all hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] active:scale-95 flex items-center justify-center gap-2 mt-4 cursor-pointer">
+                        <span>CADASTRAR</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </form>
+
+                <!-- Success Message (Hidden default) -->
+                <div id="waitlist-success" class="hidden flex-col items-center justify-center text-center py-6 mt-4">
+                    <div
+                        class="w-16 h-16 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(34,211,238,0.3)]">
+                        <i data-lucide="check" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="text-xl font-black text-white uppercase tracking-widest mb-2">BEM-VINDO</h4>
+                    <p class="text-xs text-white/50 font-bold uppercase tracking-wider">Email registrado com sucesso.
+                    </p>
                 </div>
-                <div class="flex flex-wrap justify-center gap-6 transition-all">
-                    <!-- Play Store Badge Real (SVG) -->
-                    <a href="#" class="transition-transform hover:scale-105 active:scale-95">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-                            alt="Disponível no Google Play" class="h-14">
-                    </a>
+            </div>
 
-                    <!-- Apple Store Badge Real (SVG) -->
-                    <a href="#" class="transition-transform hover:scale-105 active:scale-95">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
-                            alt="Baixar na App Store" class="h-14">
-                    </a>
-                </div>
-                <p class="mt-8 text-[10px] font-black text-white/20 tracking-[0.5em] uppercase">
-                    Sincronização Neural Sem Fios Integrada
-                </p>
-            </section>
-
-            <!-- RODAPÉ ESTATÍSTICO E LEGAL -->
-            <footer
-                class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-20 uppercase text-center md:text-left">
-                <div class="flex flex-col gap-2">
-                    <p>© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
-                    <p>SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
-                </div>
-                <div class="flex flex-col sm:flex-row gap-6 sm:gap-16 font-black italic items-center">
-                    <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Privacidade</a>
-                    <a href="whitepaper.html" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Rede
-                        Neural</a>
-                    <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Terminal</a>
-                </div>
-            </footer>
-
+            <!-- Deco bottom -->
+            <div class="bg-black/40 p-4 border-t border-white/5 flex justify-center mt-2">
+                <span class="text-[10px] font-black text-white/20 tracking-[0.4em] uppercase">SYSTEM://WAITS</span>
+            </div>
+        </div>
     </div>
 
     <!-- Inicializar Ícones Lucide -->
     <script>
         lucide.createIcons();
+
+        // Waitlist Modal Logic
+        const waitlistBtn = document.getElementById('open-waitlist-modal');
+        const waitlistModal = document.getElementById('waitlist-modal');
+        const closeWaitlistBtn = document.getElementById('close-waitlist-modal');
+        const waitlistBackdrops = document.querySelectorAll('.modal-backdrop');
+        const waitlistForm = document.getElementById('waitlist-form');
+        const waitlistSuccess = document.getElementById('waitlist-success');
+        const waitlistSubmit = document.getElementById('waitlist-submit');
+
+        function openModal() {
+            waitlistModal.classList.remove('hidden');
+            // Allow display block to render before triggering opacity transition
+            setTimeout(() => {
+                waitlistModal.classList.remove('opacity-0', 'pointer-events-none');
+                waitlistModal.querySelector('.relative').classList.remove('scale-95');
+                waitlistModal.querySelector('.relative').classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            waitlistModal.classList.add('opacity-0', 'pointer-events-none');
+            waitlistModal.querySelector('.relative').classList.remove('scale-100');
+            waitlistModal.querySelector('.relative').classList.add('scale-95');
+            setTimeout(() => {
+                waitlistModal.classList.add('hidden');
+                // Reset form state after closing
+                if (waitlistSuccess && waitlistForm) {
+                    waitlistSuccess.classList.add('hidden');
+                    waitlistSuccess.classList.remove('flex');
+                    waitlistForm.classList.remove('hidden');
+                    waitlistForm.reset();
+                    waitlistSubmit.innerHTML = '<span>CADASTRAR</span><i data-lucide="arrow-right" class="w-5 h-5"></i>';
+                    lucide.createIcons();
+                }
+            }, 300);
+        }
+
+        if (waitlistBtn) {
+            waitlistBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        }
+
+        if (closeWaitlistBtn) {
+            closeWaitlistBtn.addEventListener('click', closeModal);
+        }
+
+        waitlistBackdrops.forEach(backdrop => {
+            backdrop.addEventListener('click', closeModal);
+        });
+
+        if (waitlistForm) {
+            waitlistForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('waitlist-email').value;
+                if (email) {
+                    // Simulate API request styling
+                    waitlistSubmit.innerHTML = '<span class="animate-pulse">PROCESSANDO...</span>';
+
+                    setTimeout(() => {
+                        waitlistForm.classList.add('hidden');
+                        waitlistSuccess.classList.remove('hidden');
+                        waitlistSuccess.classList.add('flex');
+                    }, 1500);
+
+                    // Here you would normally send the email to your backend:
+                    // fetch('/api/waitlist', { method: 'POST', body: JSON.stringify({ email }) })
+                }
+            });
+        }
     </script>
 </body>
 
