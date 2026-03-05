@@ -130,7 +130,8 @@
             </div>
 
             <!-- Espaço direito vazio (alinhamento) -->
-            <div class="flex items-center gap-6">                <button id="menu-toggle" class="lg:hidden flex flex-col justify-center gap-[5px] p-2 cursor-pointer" aria-label="Menu">
+            <div class="flex items-center gap-6"> <button id="menu-toggle"
+                    class="lg:hidden flex flex-col justify-center gap-[5px] p-2 cursor-pointer" aria-label="Menu">
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
@@ -207,8 +208,8 @@
                 <div
                     class="glass-card rounded-[24px] p-6 flex flex-col items-center text-center gap-3 group hover:border-cyan-500/30">
                     <i data-lucide="smartphone" class="w-8 h-8 text-cyan-400"></i>
-                    <span class="text-xs font-black uppercase tracking-wider text-white/70">Kotlin</span>
-                    <span class="text-[9px] text-white/30 uppercase tracking-widest">Android Nativo / Compose</span>
+                    <span class="text-xs font-black uppercase tracking-wider text-white/70">Flutter</span>
+                    <span class="text-[9px] text-white/30 uppercase tracking-widest">Cross-Platform App</span>
                 </div>
 
                 <div
@@ -267,9 +268,11 @@
                             / B2C</span>
                         <h3 class="text-4xl font-black uppercase italic mb-6">Skins & Cosméticos</h3>
                         <p class="text-white/50 text-base leading-relaxed font-medium">
-                            Venda de "Skins Urbanas" (Roupas Cyberpunk, Tênis Virtuais e Neon Tails) para os perfis nas
-                            Leaderboards. Inclui colabs de marcas esportivas reais (ex: Tênis Nike virtuais). Lucro de
-                            margem exponencial (Custo Marginal Zero após a modelagem 3D).
+                            Venda de "Skins Urbanas" (Roupas, Tênis Virtuais e Neon Tails) e <b>Itens Consumíveis de
+                                Boost</b>
+                            (Hyper Células, Catalisadores de XP) para domínio territorial mais rápido. Margem
+                            exponencial
+                            com custo de replicação zero.
                         </p>
                     </div>
                 </div>
@@ -438,20 +441,29 @@
     </script>
 
     <!-- ===== MOBILE MENU OVERLAY ===== -->
-    <div id="mobile-menu" class="fixed inset-0 z-[200] bg-[#010206]/97 backdrop-blur-2xl flex flex-col items-center justify-center gap-10 text-center opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="mobile-menu"
+        class="fixed inset-0 z-[200] bg-[#010206]/97 backdrop-blur-2xl flex flex-col items-center justify-center gap-10 text-center opacity-0 pointer-events-none transition-opacity duration-300">
         <!-- Close button -->
         <button id="mobile-close" class="absolute top-7 right-7 text-white/40 hover:text-white transition-colors p-2">
             <svg viewBox="0 0 24 24" class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M18 6L6 18M6 6l12 12"/>
+                <path d="M18 6L6 18M6 6l12 12" />
             </svg>
         </button>
         <!-- Nav links -->
         <nav class="flex flex-col items-center gap-8">
-            <a href="index.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Início</a>
-            <a href="como-funciona.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Como Funciona</a>
-            <a href="coach-ia.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Hero Fitness</a>
-            <a href="whitepaper.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Whitepaper</a>
-            <a href="early-access.html" class="text-2xl font-black tracking-[0.3em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500">Early Access</a>
+            <a href="index.html"
+                class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Início</a>
+            <a href="como-funciona.html"
+                class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Como
+                Funciona</a>
+            <a href="coach-ia.html"
+                class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Hero
+                Fitness</a>
+            <a href="whitepaper.html"
+                class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Whitepaper</a>
+            <a href="early-access.html"
+                class="text-2xl font-black tracking-[0.3em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500">Early
+                Access</a>
         </nav>
     </div>
     <script>
@@ -459,14 +471,14 @@
             var btn = document.getElementById('menu-toggle');
             var menu = document.getElementById('mobile-menu');
             var close = document.getElementById('mobile-close');
-            function open() { menu.classList.replace('opacity-0','opacity-100'); menu.classList.replace('pointer-events-none','pointer-events-auto'); document.body.style.overflow='hidden'; }
-            function shut() { menu.classList.replace('opacity-100','opacity-0'); menu.classList.replace('pointer-events-auto','pointer-events-none'); document.body.style.overflow=''; }
+            function open() { menu.classList.replace('opacity-0', 'opacity-100'); menu.classList.replace('pointer-events-none', 'pointer-events-auto'); document.body.style.overflow = 'hidden'; }
+            function shut() { menu.classList.replace('opacity-100', 'opacity-0'); menu.classList.replace('pointer-events-auto', 'pointer-events-none'); document.body.style.overflow = ''; }
             if (btn) btn.addEventListener('click', open);
             if (close) close.addEventListener('click', shut);
-            menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', shut); });
+            menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', shut); });
             // Highlight active link
             var cur = window.location.pathname.split('/').pop() || 'index.html';
-            menu.querySelectorAll('a').forEach(function(a){
+            menu.querySelectorAll('a').forEach(function (a) {
                 if (a.getAttribute('href') === cur) {
                     a.classList.add('!text-white');
                     a.style.filter = 'drop-shadow(0 0 8px rgba(255,255,255,0.6))';

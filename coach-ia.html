@@ -210,9 +210,7 @@
                         <i data-lucide="cloud" class="w-5 h-5 text-purple-400"></i>
                     </div>
                     <h4 class="text-xs font-black uppercase tracking-widest text-white mb-3">2. O Backend Processa</h4>
-                    <p class="text-[11px] text-white/50 leading-relaxed">O áudio + seu contexto de GPS, pace e
-                        territórios são enviados ao <b class="text-white/70">Google Cloud Run</b>. O servidor encaminha
-                        ao Gemini 2.0 Flash Live via WebSocket bidirecional.</p>
+                    <p class="text-[11px] text-white/50 leading-relaxed">O áudio é transmitido para o <b class="text-white/70">Cloud Run</b>. O pulo do gato: o app <b>injeta silenciosamente</b> seu contexto de GPS, Pace e Territórios na sessão da IA Gemini 2.0 via WebSocket.</p>
                 </div>
 
                 <div
