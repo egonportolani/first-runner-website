@@ -264,6 +264,20 @@
             
             <div class="relative w-full h-[600px] rounded-[40px] overflow-hidden border border-white/10 shadow-2xl flex flex-col items-center justify-center group cursor-pointer" id="neural-orb-container">
                 
+                <!-- STARTUP OVERLAY (LOCKED TO CONTAINER) -->
+                <div id="startup-overlay" class="absolute inset-0 z-[100] bg-[#020617]/80 backdrop-blur-xl flex flex-col justify-center items-center transition-opacity duration-500 rounded-[40px]">
+                    <!-- Opcional Scan Line -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent w-full h-[10px] opacity-50 bar-pulse pointer-events-none"></div>
+
+                    <button onclick="iniciarCore()" class="group relative px-6 py-4 md:px-10 md:py-5 bg-black/50 border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_40px_rgba(34,211,238,0.8)] shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all cursor-pointer font-black tracking-widest uppercase flex flex-col items-center gap-2 rounded-xl overflow-hidden backdrop-blur-sm translate-y-[-10px]">
+                        <span class="text-xl md:text-2xl relative z-10 transition-colors">SCANNER BIOMÉTRICO</span>
+                        <small class="text-[9px] md:text-[10px] opacity-70 tracking-[0.4em] group-hover:text-black font-bold relative z-10 transition-colors">CLIQUE PARA SINCRONIZAR</small>
+                        
+                        <!-- Scan effect inside button on hover -->
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[pulse-height_1s_infinite] pointer-events-none"></div>
+                    </button>
+                </div>
+                
                 <!-- Overlay Escuro para contraste -->
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 z-0"></div>
 
@@ -802,20 +816,6 @@
         }; // End of initThreeJSScene
 
     </script>
-
-    <!-- STARTUP OVERLAY -->
-    <div id="startup-overlay" class="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex flex-col justify-center items-center transition-opacity duration-500">
-        <!-- Optional Scan Line purely over the overlay -->
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent w-full h-[10px] opacity-50 bar-pulse pointer-events-none"></div>
-
-        <button onclick="iniciarCore()" class="group relative px-10 py-5 bg-black/50 border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black hover:shadow-[0_0_40px_rgba(34,211,238,0.8)] shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all cursor-pointer font-black tracking-widest uppercase flex flex-col items-center gap-2 rounded-xl overflow-hidden backdrop-blur-sm">
-            <span class="text-2xl relative z-10">SCANNER BIOMÉTRICO</span>
-            <small class="text-[10px] opacity-70 tracking-[0.4em] group-hover:text-black font-bold relative z-10">CLIQUE PARA SINCRONIZAR</small>
-            
-            <!-- Scan effect inside button on hover -->
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[pulse-height_1s_infinite] pointer-events-none"></div>
-        </button>
-    </div>
 
     <!-- ===== MOBILE MENU OVERLAY ===== -->
     <div id="mobile-menu" class="fixed inset-0 z-[200] bg-[#010206]/97 backdrop-blur-2xl flex flex-col items-center justify-center gap-10 text-center opacity-0 pointer-events-none transition-opacity duration-300">
