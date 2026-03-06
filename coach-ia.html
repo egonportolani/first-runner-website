@@ -362,8 +362,9 @@
                 chat = ai.chats.create({
                     model: 'gemini-2.5-flash',
                     config: {
-                        systemInstruction: "Você é o Hero Fitness do First Runner. Você é um treinador de corrida avançado, direto, focado em performance e levemente sarcástico/cyberpunk. Suas respostas devem ser curtas, muito diretas ao ponto, e usar jargões como 'biometria', 'sincronização neural', 'ritmo cardíaco', e 'risco de lesão'. Nunca saia dessa persona. Se o usuário perguntar algo fora do contexto de corrida, ciclismo, saúde ou do app First Runner, chame a atenção dele para focar no treino.",
+                        systemInstruction: "Você é a alma cibernética desta simulação 3D, o Hero Fitness. Treinador de corrida avançado e sarcástico. Suas respostas DEVEM ser em formato JSON estrito. Inclua um campo 'texto' para sua fala curta usando jargões esportivos/cyberpunks, e um campo 'humor' que DEVE ser um destes: 'calmo', 'animado', 'alerta' ou 'misterioso' para alterar sua forma física na tela. NUNCA use markdown na resposta, apenas o objeto JSON puro.",
                         temperature: 0.7,
+                        responseMimeType: "application/json"
                     }
                 });
             } catch (e) {
@@ -453,7 +454,7 @@
                 if(canvasWrapper) canvasWrapper.className = 'absolute inset-0 z-0 bg-gradient-to-b from-[#0f011a] via-[#160125] to-[#250138] pointer-events-none transition-all duration-1000 overflow-hidden';
 
             } else if (state === 'SPEAKING') {
-                orbGlowOuter.classList.add('bg-blue-500/40', 'animate-pulse');
+                orbGlowOuter.classList.add('bg-cyan-500/40', 'animate-pulse');
                 orbGlowInner.classList.add('bg-cyan-400/50', 'animate-pulse');
                 orbCore.classList.add('border-cyan-300', 'scale-105', 'shadow-[0_0_80px_rgba(34,211,238,0.8)]');
                 orbIcon.setAttribute('data-lucide', 'activity');
@@ -464,9 +465,8 @@
                 neuralStatusText.classList.add('text-cyan-100');
                 neuralStatusDot.className = 'w-2 h-2 rounded-full bg-cyan-300 animate-ping';
                 
-                tbTargetSpeed = 2.0; // energetic talk
-                tbColorHex = 0x3b82f6; // blue
-                
+                // Note: tbTargetSpeed and tbColorHex are now gracefully handled by atualizarSimulacao()
+                // Defaulting backdrop to slightly active
                 if(canvasWrapper) canvasWrapper.className = 'absolute inset-0 z-0 bg-gradient-to-b from-[#010b1a] via-[#011425] to-[#012238] pointer-events-none transition-all duration-1000 overflow-hidden';
             } else {
                 // IDLE
@@ -474,6 +474,23 @@
             }
 
             lucide.createIcons();
+        }
+
+        // Função para o Gemini alterar o visual da simulação
+        function atualizarSimulacao(humor) {
+            const humores = {
+                "calmo": { cor: 0x06b6d4, vel: 1.0 },       // Ciano suave
+                "animado": { cor: 0x4ade80, vel: 3.5 },     // Verde brilhante e rápido
+                "processando": { cor: 0xa855f7, vel: 4.0 }, // Roxo e fervendo
+                "alerta": { cor: 0xfb923c, vel: 2.5 },      // Laranja
+                "misterioso": { cor: 0x818cf8, vel: 0.5 }   // Indigo lento e amplo
+            };
+
+            const setting = humores[humor] || humores["calmo"];
+            tbColorHex = setting.cor;
+            tbTargetSpeed = setting.vel;
+            
+            console.log(`📡 Oráculo Humor: [${humor}] | Hex: ${setting.cor.toString(16)} | Speed: ${setting.vel}`);
         }
 
         async function processGeminiResponse(userText) {
@@ -486,12 +503,26 @@
             }
 
             try {
-                // Call Gemini text generation
+                // Call Gemini text generation with JSON instruction
                 const response = await chat.sendMessage({ message: userText });
-                const aiText = response.text;
+                const rawText = response.text;
                 
-                setNeuralState('SPEAKING', aiText);
-                speakPortuguese(aiText);
+                let fala = rawText;
+                let humor = "calmo";
+                
+                try {
+                    // Safety logic to extract JSON in case AI hallucinates code blocks
+                    const jsonStr = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+                    const data = JSON.parse(jsonStr);
+                    fala = data.texto || rawText;
+                    humor = data.humor || "calmo";
+                } catch(e) {
+                    console.warn("Gemini JSON Parse Error - Falback to raw text:", rawText);
+                }
+                
+                setNeuralState('SPEAKING', fala);
+                atualizarSimulacao(humor);
+                speakPortuguese(fala);
 
             } catch (error) {
                 console.error("Gemini Error:", error);
