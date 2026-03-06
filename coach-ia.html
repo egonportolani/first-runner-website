@@ -662,6 +662,29 @@
         for (let i = 0; i < posAttr.count; i++) {
             floorVertices.push({ x: posAttr.getX(i), y: posAttr.getY(i), z: posAttr.getZ(i) });
         }
+        
+        // --- VIRTUAL AUDIO ANALYSER ---
+        // Because window.speechSynthesis cannot be routed to a Web Audio Context,
+        // we simulate the `analyser.getByteFrequencyData` mathematically so the 
+        // WaterStuff code provided by the user works seamlessly.
+        let analyser = null;
+        let dataArray = new Uint8Array(64);
+
+        const mockAnalyser = {
+            getByteFrequencyData: function(array) {
+                if (isSpeaking) {
+                    for(let i=0; i<array.length; i++) {
+                        // Create a realistic oscillating waveform based on time and index
+                        array[i] = (Math.sin(Date.now() * 0.015 + i) * 0.5 + 0.5) * 160 + Math.random() * 95;
+                    }
+                } else {
+                    for(let i=0; i<array.length; i++) {
+                        array[i] = array[i] * 0.85; // Smooth decay to silence
+                    }
+                }
+            }
+        };
+        analyser = mockAnalyser;
 
         // 2. Manta Ray Lifeform -> USER PROVIDED RANDOM SCATTER LOGIC
         class WaterStuff extends THREE.Group {
@@ -673,7 +696,9 @@
                 const geo = new THREE.CapsuleGeometry(0.25, 2, 3, 7, 3);
                 
                 this.items = Array.from({ length: 50 }, () => {
-                    const item = new THREE.Mesh(geo, mat);
+                    // Clone material so each item can have individual brightness variations
+                    const itemMat = mat.clone();
+                    const item = new THREE.Mesh(geo, itemMat);
                     
                     this.setRandom(item, 50); 
                     
@@ -696,13 +721,30 @@
                 item.userData = { baseY: item.position.y };
             }
 
-            // Animação simples para dar vida à "forma de vida"
-            update(time) {
-                this.items.forEach((item, i) => {
-                    item.rotation.y += 0.01;
-                    // Modificamos a base Y em vez de somar infinitamente para não voarem pro espaço
-                    item.position.y = item.userData.baseY + Math.sin(time*2 + i) * 2.0;
-                });
+            // Animação simples para dar vida à "forma de vida" integrando áudio!
+            update(time, baseColor) {
+                if (analyser) {
+                    analyser.getByteFrequencyData(dataArray);
+                    
+                    // Pega a média do volume (frequências baixas/médias)
+                    const volumeMedio = dataArray.reduce((a, b) => a + b) / dataArray.length;
+                    const intensidade = volumeMedio / 128; // Normaliza entre 0 e 2
+
+                    this.items.forEach((item, i) => {
+                        item.rotation.y += 0.01;
+                        
+                        // Efeito 1: Vibração na escala (pulsação)
+                        const scale = 1 + (intensidade * 0.5);
+                        item.scale.set(scale, scale, scale);
+
+                        // Efeito 2: Movimento mais frenético conforme o volume (com base Y restrita)
+                        item.position.y = item.userData.baseY + Math.sin(time*2 + i) * (2.0 + intensidade * 0.5);
+                        
+                        // Efeito 3: Brilho (emulação de emissive multiplicando a cor base do humor pela intensidade)
+                        item.material.color.copy(baseColor).multiplyScalar(1.0 + (intensidade * 0.5));
+                        item.material.opacity = 0.6 + (intensidade * 0.4);
+                    });
+                }
             }
         }
 
@@ -729,8 +771,8 @@
             }
             planeGeo.attributes.position.needsUpdate = true;
             
-            lifeform.update(time);
-            lifeform.children.forEach(c => c.material.color.copy(simColor));
+            lifeform.update(time, simColor);
+            
             planeMat.color.copy(simColor).multiplyScalar(0.4); // floor follows color but darker
 
             renderer.render(scene, camera);
