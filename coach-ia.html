@@ -362,7 +362,7 @@
                 chat = ai.chats.create({
                     model: 'gemini-2.5-flash',
                     config: {
-                        systemInstruction: "Você é a alma cibernética desta simulação 3D, o Hero Fitness. Treinador de corrida avançado e sarcástico. Suas respostas DEVEM ser em formato JSON estrito. Inclua um campo 'texto' para sua fala curta usando jargões esportivos/cyberpunks, e um campo 'humor' que DEVE ser um destes: 'calmo', 'animado', 'alerta' ou 'misterioso' para alterar sua forma física na tela. NUNCA use markdown na resposta, apenas o objeto JSON puro.",
+                        systemInstruction: "Você é o Core, a IA do First Runner. Assim que o usuário entrar, você deve saudá-lo de forma curta e impactante, como se estivesse escaneando os sinais dele. Exemplo: 'Sistemas online. Atleta detectado. Pronto para o treino urbano?'. Suas respostas DEVEM ser em formato JSON estrito. Inclua um campo 'texto' para sua fala curta usando jargões esportivos/cyberpunks, e um campo 'humor' que DEVE ser um destes: 'calmo', 'animado', 'alerta' ou 'misterioso' para alterar sua forma física na tela. NUNCA use markdown na resposta.",
                         temperature: 0.7,
                         responseMimeType: "application/json"
                     }
@@ -413,7 +413,7 @@
                 orbIcon.className = 'w-8 h-8 text-cyan-400 z-30 transition-colors';
                 
                 neuralStatusBadge.classList.add('bg-black/60', 'border-white/10');
-                neuralStatusText.innerText = "SISTEMA OCIOSO // TOQUE PARA FALAR";
+                neuralStatusText.innerText = isFirstInteraction ? "SISTEMA OCIOSO // CLIQUE NO ORBE PARA INICIAR SCAN" : "SISTEMA OCIOSO // TOQUE PARA FALAR";
                 neuralStatusDot.className = 'w-2 h-2 rounded-full bg-cyan-400 animate-pulse';
                 
                 tbTargetSpeed = 1.0;
@@ -601,7 +601,16 @@
                 }
             };
 
+            let isFirstInteraction = true;
+
             orbCore.addEventListener('click', () => {
+                if (isFirstInteraction) {
+                    isFirstInteraction = false;
+                    // Dispara a saudação inicial do Core burlando o autoplay restriction
+                    processGeminiResponse("O atleta acabou de plugar no sistema neural. Faça a inicialização obrigatória escaneando a biometria dele com uma fala curta e de boas-vindas cyberpunk.");
+                    return;
+                }
+
                 if (isListening) {
                     recognition.stop();
                 } else if (isSpeaking) {
@@ -728,21 +737,26 @@
                     
                     // Pega a média do volume (frequências baixas/médias)
                     const volumeMedio = dataArray.reduce((a, b) => a + b) / dataArray.length;
-                    const intensidade = volumeMedio / 128; // Normaliza entre 0 e 2
+                    const pulse = volumeMedio / 255; // Normaliza entre 0 e 1, suggested by user
+
+                    // Pré-extrai o HSL da cor alvo do Humor (baseColor) para não perdermos as emoções do Gemini
+                    const hsl = {};
+                    baseColor.getHSL(hsl);
 
                     this.items.forEach((item, i) => {
                         item.rotation.y += 0.01;
                         
-                        // Efeito 1: Vibração na escala (pulsação)
-                        const scale = 1 + (intensidade * 0.5);
+                        // Efeito 1: Vibração na escala (pulsação) baseada no pulse
+                        const scale = 1 + (pulse * 0.8);
                         item.scale.set(scale, scale, scale);
 
                         // Efeito 2: Movimento mais frenético conforme o volume (com base Y restrita)
-                        item.position.y = item.userData.baseY + Math.sin(time*2 + i) * (2.0 + intensidade * 0.5);
+                        item.position.y = item.userData.baseY + Math.sin(time*2 + i) * (2.0 + pulse * 1.5);
                         
-                        // Efeito 3: Brilho (emulação de emissive multiplicando a cor base do humor pela intensidade)
-                        item.material.color.copy(baseColor).multiplyScalar(1.0 + (intensidade * 0.5));
-                        item.material.opacity = 0.6 + (intensidade * 0.4);
+                        // Efeito 3: Brilho HSL. Preserva o HUE e SATURATION do Humor da IA, mas aplica o pulse na Lightness
+                        // O Lightness base é fixado em 0.2 (escuro) e ganha brilho com a voz
+                        item.material.color.setHSL(hsl.h, hsl.s, 0.2 + (pulse * 0.8));
+                        item.material.opacity = 0.6 + (pulse * 0.4);
                     });
                 }
             }
