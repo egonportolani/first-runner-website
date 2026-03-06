@@ -296,10 +296,7 @@
                     </p>
                 </div>
 
-                <!-- Botão Flutuante de API -->
-                <button onclick="promptApiKey()" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-black/50 border border-white/10 flex items-center justify-center text-white/40 hover:text-cyan-400 hover:border-cyan-500/50 transition-all z-20" title="Configurar Chave API">
-                    <i data-lucide="key" class="w-4 h-4"></i>
-                </button>
+                <!-- Botão Flutuante de API Removido (Segurança Vercel/Backend) -->
 
             </div>
         </section>
@@ -326,55 +323,8 @@
         lucide.createIcons();
     </script>
 
-    <!-- Gemini API Integration -->
-    <script type="importmap">
-      {
-        "imports": {
-          "@google/genai": "https://esm.run/@google/genai"
-        }
-      }
-    </script>
-    <script type="module">
-        import { GoogleGenAI } from '@google/genai';
-
-        // Atenção: Em produção, essa chave DEVE vir de um Backend (Node.js/Python)
-        // Como estamos num ambiente de demonstração estática (HTML), estamos fixando a chave aqui.
-        let apiKey = localStorage.getItem('gemini_api_key') || 'ADICIONE_SUA_CHAVE_AQUI_PARA_TESTES_LOCAIS';
-        let ai = null;
-        let chat = null;
-
-        // Função exposta globalmente para definir a chave clicando no ícone de chave (Apenas para Dev/Testes)
-        window.promptApiKey = () => {
-            const token = prompt("Insira sua chave de API do Gemini Studio:", apiKey || "");
-            if (token) {
-                localStorage.setItem('gemini_api_key', token);
-                apiKey = token;
-                initGemini();
-                alert("Chave salva com sucesso! O Hero Fitness já pode te responder.");
-            }
-        }
-
-        function initGemini() {
-            if (!apiKey) return;
-            try {
-                ai = new GoogleGenAI({ apiKey: apiKey });
-                // Iniciar um chat com contexto do sistema (system instructions)
-                chat = ai.chats.create({
-                    model: 'gemini-2.5-flash',
-                    config: {
-                        systemInstruction: "Você é o Core, a IA do First Runner. Assim que o usuário entrar, você deve saudá-lo de forma curta e impactante, como se estivesse escaneando os sinais dele. Exemplo: 'Sistemas online. Atleta detectado. Pronto para o treino urbano?'. Suas respostas DEVEM ser em formato JSON estrito. Inclua um campo 'texto' para sua fala curta usando jargões esportivos/cyberpunks, e um campo 'humor' que DEVE ser um destes: 'calmo', 'animado', 'alerta' ou 'misterioso' para alterar sua forma física na tela. NUNCA use markdown na resposta.",
-                        temperature: 0.7,
-                        responseMimeType: "application/json"
-                    }
-                });
-            } catch (e) {
-                console.error("Erro ao iniciar Gemini:", e);
-            }
-        }
-
-        // Tentar inicializar caso já tenha a chave no cache
-        initGemini();
-
+    <!-- Integração Vercel API Backend -->
+    <script>
         // --- NEURAL ORB LOGIC & WEB SPEECH/GEMINI API ---
         const orbCore = document.getElementById('orb-core');
         const orbGlowOuter = document.getElementById('orb-glow-outer');
@@ -495,17 +445,22 @@
 
         async function processGeminiResponse(userText) {
             setNeuralState('THINKING', `"${userText}"`);
-            
-            if (!chat) {
-                setNeuralState('IDLE');
-                alert("O sistema está offline. Configure a sua API Key do Gemini no ícone de chave acima primeiro.");
-                return;
-            }
 
             try {
-                // Call Gemini text generation with JSON instruction
-                const response = await chat.sendMessage({ message: userText });
-                const rawText = response.text;
+                // Call secure Vercel backend
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userText })
+                });
+
+                const apiData = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(apiData.error || "Erro no Backend");
+                }
+                
+                const rawText = apiData.text;
                 
                 let fala = rawText;
                 let humor = "calmo";
@@ -525,8 +480,14 @@
                 speakPortuguese(fala);
 
             } catch (error) {
-                console.error("Gemini Error:", error);
-                setNeuralState('IDLE', "Conexão Neural Perdida. Verifique sua Chave API.");
+                console.error("Backend Error:", error);
+                
+                if (error.message.includes("GEMINI_API_KEY") || error.message.includes("Backend")) {
+                    setNeuralState('IDLE', "SISTEMA OFFLINE // CHAVE API AUSENTE NUVEM");
+                    alert("A IA está desativada no momento. O administrador precisa adicionar a GEMINI_API_KEY no painel de Environment Variables do Vercel.");
+                } else {
+                    setNeuralState('IDLE', "Conexão Neural Perdida. Tente novamente.");
+                }
             }
         }
 
