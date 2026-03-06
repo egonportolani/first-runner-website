@@ -76,6 +76,26 @@
             animation: pulse-height 1s infinite alternate ease-in-out;
             transform-origin: bottom;
         }
+
+        /* Custom Scrollbar for Chat */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(34, 211, 238, 0.2);
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(34, 211, 238, 0.4);
+        }
     </style>
 </head>
 
@@ -274,7 +294,7 @@
 
                     <!-- Área de Mensagens -->
                     <div id="chat-messages"
-                        class="flex-1 p-6 overflow-y-auto flex flex-col gap-6 relative z-10 scrollbar-hide">
+                        class="flex-1 p-6 overflow-y-auto overflow-x-hidden flex flex-col gap-6 relative z-10">
 
                         <!-- Mensagem Usuário -->
                         <div class="flex flex-col gap-1 items-end self-end max-w-[85%]">
