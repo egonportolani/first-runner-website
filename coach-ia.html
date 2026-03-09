@@ -770,20 +770,12 @@
                                     </p>
                                 </div>
                             </div>
-                            
-                            <!-- Input Field for Chat -->
-                            <div class="flex gap-2 items-center border-t border-cyan-500/10 pt-3">
-                                <div class="relative flex-1">
-                                    <input type="text" data-i18n="coach_chat_placeholder" placeholder="SEND COMMAND..." class="w-full bg-black/40 border border-cyan-500/20 rounded-lg px-3 py-2 text-xs text-cyan-100 placeholder:text-cyan-900 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition-all font-mono" id="user-input">
-                                    <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-2">
-                                        <div class="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></div>
-                                        <button id="voice-btn" class="text-cyan-600 hover:text-cyan-400 transition-colors pointer-events-auto cursor-pointer">
-                                            <i data-lucide="mic" class="w-3.5 h-3.5"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <button id="send-btn" data-i18n="coach_chat_send" class="bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/40 text-cyan-400 px-3 py-2 rounded-lg text-[10px] md:text-xs font-black uppercase tracking-widest transition-all pointer-events-auto min-w-[70px] cursor-pointer">
-                                    SEND
+                            <!-- Voice Activation Button -->
+                            <div class="flex justify-center items-center border-t border-cyan-500/10 pt-3">
+                                <button id="voice-btn" class="flex items-center gap-3 bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/40 text-cyan-400 px-6 py-2.5 rounded-lg text-[10px] md:text-xs font-black uppercase tracking-widest transition-all pointer-events-auto cursor-pointer group">
+                                    <i data-lucide="mic" class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
+                                    <span data-i18n="coach_voice_activate">ACTIVATE VOICE LINK</span>
+                                    <div class="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></div>
                                 </button>
                             </div>
                         </div>
@@ -898,18 +890,8 @@
                 }
             });
 
-            // Bind UI Events
-            document.getElementById('send-btn').addEventListener('click', () => {
-                const input = document.getElementById('user-input');
-                if (input.value.trim()) handleChat(input.value);
-            });
-
-            document.getElementById('user-input').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    const input = document.getElementById('user-input');
-                    if (input.value.trim()) handleChat(input.value);
-                }
-            });
+            // Voice specific UI click triggers activation
+            // the main click listener handles voice activation setup below
         }
 
         function addTerminalMessage(text, role = "ai") {
@@ -940,9 +922,6 @@
         }
 
         async function handleChat(message) {
-            const input = document.getElementById('user-input');
-            input.value = '';
-            
             addTerminalMessage(message, "user");
             
             try {
@@ -1367,30 +1346,42 @@
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
             recognition.lang = 'en-US';
-            recognition.continuous = false;
+            recognition.continuous = true;
             recognition.interimResults = false;
 
+            let isListening = false;
+
             recognition.onstart = () => {
-                voiceBtn.classList.add('text-red-500', 'animate-pulse');
-                addTerminalMessage("Synchronizing audio... Microphone active.", "system");
+                isListening = true;
+                voiceBtn.classList.add('text-red-500', 'bg-red-500/20', 'border-red-500/50');
+                voiceBtn.querySelector('span').innerText = 'NEURAL LINK ACTIVE';
+                addTerminalMessage("Synchronizing audio... Live listening active.", "system");
+            };
+
+            // Interruption mechanic: cancel speech synthesis when user starts talking
+            recognition.onspeechstart = () => {
+                if (window.speechSynthesis && window.speechSynthesis.speaking) {
+                    window.speechSynthesis.cancel();
+                    addTerminalMessage("[ AI INTERRUPTED BY USER ]", "system");
+                }
             };
 
             recognition.onresult = (event) => {
-                const text = event.results[0][0].transcript;
-                addTerminalMessage(`Audio processed: "${text}"`, "system");
+                // Get the latest result only since continuous = true
+                const current = event.resultIndex;
+                const text = event.results[current][0].transcript;
+                
+                addTerminalMessage(`Voice command detected: "${text}"`, "system");
                 handleChat(text);
             };
 
             recognition.onerror = (event) => {
-                voiceBtn.classList.remove('text-red-500', 'animate-pulse');
                 console.error("Speech Recognition Error:", event.error);
                 
                 if (event.error === 'not-allowed') {
                     addTerminalMessage("ERROR: MICROPHONE ACCESS DENIED. CHECK PERMISSIONS.", "system");
                 } else if (event.error === 'network') {
                     addTerminalMessage("ERROR: NETWORK PROBLEM IN VOICE RECOGNITION.", "system");
-                } else {
-                    addTerminalMessage(`ERROR IN AUDIO SYSTEM: ${event.error.toUpperCase()}`, "system");
                 }
 
                 if (window.location.protocol === 'file:') {
@@ -1399,14 +1390,34 @@
             };
 
             recognition.onend = () => {
-                voiceBtn.classList.remove('text-red-500', 'animate-pulse');
+                // Auto-restart to keep the live agent listening, unless manually stopped
+                if (isListening) {
+                    try {
+                        recognition.start();
+                    } catch(e) {
+                         voiceBtn.classList.remove('text-red-500', 'bg-red-500/20', 'border-red-500/50');
+                         voiceBtn.querySelector('span').innerText = 'ACTIVATE VOICE LINK';
+                         isListening = false;
+                    }
+                } else {
+                    voiceBtn.classList.remove('text-red-500', 'bg-red-500/20', 'border-red-500/50');
+                    voiceBtn.querySelector('span').innerText = 'ACTIVATE VOICE LINK';
+                }
             };
 
             voiceBtn.addEventListener('click', () => {
                 try {
-                    recognition.start();
+                    if (!isListening) {
+                        recognition.start();
+                    } else {
+                        isListening = false;
+                        recognition.stop();
+                        voiceBtn.classList.remove('text-red-500', 'bg-red-500/20', 'border-red-500/50');
+                        voiceBtn.querySelector('span').innerText = 'ACTIVATE VOICE LINK';
+                        addTerminalMessage("Neural link manually disconnected.", "system");
+                    }
                 } catch (e) {
-                    // Se já estiver rodando, ignora sem crashar
+                    console.log("Recognition error on toggle", e);
                 }
             });
         } else {
