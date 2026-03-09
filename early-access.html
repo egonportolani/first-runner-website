@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -8,6 +8,8 @@
     <title>First Runner</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="translations.js"></script>
+    <script src="language-manager.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
@@ -122,10 +124,11 @@
     <div class="relative z-40 max-w-7xl mx-auto px-6 py-6 flex flex-col min-h-screen">
 
         <!-- NAVEGAÇÃO SUPERIOR -->
-        <nav class="flex items-center justify-between py-4 shrink-0 mb-16">
+        <nav class="relative z-50 flex items-center justify-between py-4 px-8 shrink-0 bg-[#010206]/80 backdrop-blur-md border border-white/10 rounded-2xl w-full translate-y-2 mb-16">
             <!-- Logo -->
             <a href="index.html"
                 class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity">
+                <!-- Ícone F geométrico -->
                 <svg viewBox="0 0 100 100" class="w-10 h-10 shrink-0 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
                     <path d="M 0 0 H 100 L 80 20 H 20 V 40 H 80 L 60 60 H 20 V 80 L 0 100 Z" fill="white" />
                 </svg>
@@ -138,21 +141,36 @@
             <!-- Links de navegação (centro) -->
             <div
                 class="hidden lg:flex items-center gap-10 text-[14px] font-black tracking-[0.2em] uppercase text-white/60">
-                <a href="index.html" class="hover:text-white transition-all">Início</a>
-                <a href="como-funciona.html" class="hover:text-white transition-all">Como Funciona</a>
-                <a href="coach-ia.html" class="hover:text-white transition-all">Hero Fitness</a>
-                <a href="whitepaper.html" class="hover:text-white transition-all">Whitepaper</a>
+                <a href="index.html" class="hover:text-white transition-all" data-i18n="nav_home">Início</a>
+                <a href="como-funciona.html" class="hover:text-white transition-all" data-i18n="nav_how_it_works">Como Funciona</a>
+                <a href="coach-ia.html" class="hover:text-white transition-all" data-i18n="nav_hero_fitness">Hero</a>
+                <a href="whitepaper.html" class="hover:text-white transition-all" data-i18n="nav_whitepaper">Whitepaper</a>
                 <a href="early-access.html"
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all">Early
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all" data-i18n="nav_early_access">Early
                     Access</a>
             </div>
 
-            <!-- Espaço direito vazio (alinhamento) -->
-            <div class="flex items-center gap-6">                <button id="menu-toggle" class="lg:hidden flex flex-col justify-center gap-[5px] p-2 cursor-pointer" aria-label="Menu">
+            <!-- Ações direita -->
+            <div class="flex items-center gap-4 sm:gap-6">
+                <!-- Seletor de Idiomas -->
+                <div class="relative group mt-1">
+                    <button class="flex items-center gap-1 sm:gap-2 text-white/70 hover:text-white transition-colors uppercase font-black text-[10px] sm:text-xs tracking-widest cursor-pointer py-2">
+                        <i data-lucide="globe" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline" id="lang-switcher-label">PT</span>
+                        <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
+                    </button>
+                    <!-- Dropdown de Idiomas -->
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-[#010206]/95 backdrop-blur-xl border border-cyan-500/20 rounded-lg shadow-[0_0_20px_rgba(0,243,255,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden py-2 z-50">
+                        <button onclick="switchLanguage('pt')" class="lang-option px-5 py-3 text-xs font-bold text-left transition-colors uppercase tracking-wider flex items-center justify-between hover:bg-white/5">PT <span class="lang-sublabel text-[10px] opacity-100">Português</span></button>
+                        <button onclick="switchLanguage('en')" class="lang-option px-5 py-3 text-xs font-bold text-left transition-colors uppercase tracking-wider flex items-center justify-between hover:bg-white/5">EN <span class="lang-sublabel text-[10px] opacity-50">English</span></button>
+                    </div>
+                </div>
+                <button id="menu-toggle" class="lg:hidden flex flex-col justify-center gap-[5px] p-2 cursor-pointer" aria-label="Menu">
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
-                </button></div>
+                </button>
+            </div>
         </nav>
 
         <!-- SECÇÃO HERO EARLY ACCESS -->
@@ -161,19 +179,19 @@
             <div
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/30 mb-8 backdrop-blur-md shadow-[0_0_15px_rgba(251,146,60,0.2)]">
                 <i data-lucide="flame" class="w-4 h-4 text-orange-400 fill-orange-400/20 animate-pulse"></i>
-                <span class="text-[10px] font-black tracking-[0.4em] text-orange-400 uppercase">PRIVATE ROUND
+                <span class="text-[10px] font-black tracking-[0.4em] text-orange-400 uppercase" data-i18n="early_badge">PRIVATE ROUND
                     ABERTO</span>
             </div>
 
             <h1
-                class="text-6xl md:text-8xl font-black leading-[0.9] mb-6 tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                class="text-6xl md:text-8xl font-black leading-[0.9] mb-6 tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] uppercase" data-i18n="early_hero_title">
                 JUNTE-SE À <br />
                 <span
                     class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-400 italic">FUNDAÇÃO.</span>
             </h1>
 
             <div class="flex flex-col gap-2 mb-12 items-center mx-auto">
-                <p class="text-xl text-white/60 max-w-2xl font-bold uppercase tracking-wide leading-relaxed">
+                <p class="text-xl text-white/60 max-w-2xl font-bold uppercase tracking-wide leading-relaxed" data-i18n="early_hero_subtitle">
                     Apoie a revolução gamificada no esporte. Garanta seu lugar no topo da cadeia alimentar antes do
                     lançamento global.
                 </p>
@@ -184,7 +202,7 @@
         <section class="max-w-6xl mx-auto w-full mb-32 relative z-10 px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch pt-6">
 
-                <!-- 1. PACOTE FOUNDER PASS (O Mais Barato/Comunitario) -->
+                <!-- 1. PACOTE FOUNDER PASS -->
                 <div
                     class="backdrop-blur-[60px] bg-slate-900/40 border border-white/10 rounded-[40px] p-8 md:p-10 relative flex flex-col group hover:border-blue-500/40 transition-all shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
 
@@ -194,18 +212,18 @@
                             <i data-lucide="ticket" class="w-8 h-8 text-blue-400"></i>
                         </div>
                         <span
-                            class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/50 uppercase tracking-wider">Acesso
+                            class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/50 uppercase tracking-wider" data-i18n="early_founder_tag">Acesso
                             VIP</span>
                     </div>
 
-                    <h3 class="text-3xl font-black text-white uppercase mb-2">Founder's Pass</h3>
+                    <h3 class="text-3xl font-black text-white uppercase mb-2" data-i18n="early_founder_title">Founder's Pass</h3>
                     <div class="flex items-baseline gap-1 mb-6">
                         <span class="text-xl text-blue-400 font-bold">R$</span>
                         <span
                             class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">99</span>
                     </div>
 
-                    <p class="text-sm text-white/60 font-medium mb-8 flex-1">
+                    <p class="text-sm text-white/60 font-medium mb-8 flex-1" data-i18n="early_founder_desc">
                         Sua credencial primária para a resistência. Um passe vitalício com vantagens na plataforma e
                         acesso antecipado antes do Beta Fechado ir a público.
                     </p>
@@ -213,31 +231,31 @@
                     <ul class="space-y-4 mb-10">
                         <li class="flex items-start gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold">Título "[FOUNDER]" no nome</span>
+                            <span class="text-xs text-white/80 font-semibold" data-i18n="early_founder_feat1">Título "[FOUNDER]" no nome</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold">Geração Mensal Estendida de Tinta</span>
+                            <span class="text-xs text-white/80 font-semibold" data-i18n="early_founder_feat2">Geração Mensal Estendida de Tinta</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold">Acesso ao Aplicativo 30 dias Antes</span>
+                            <span class="text-xs text-white/80 font-semibold" data-i18n="early_founder_feat3">Acesso ao Aplicativo 30 dias Antes</span>
                         </li>
                     </ul>
 
                     <button
-                        class="w-full py-4 rounded-2xl bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 text-white font-bold uppercase tracking-wider transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]">
+                        class="w-full py-4 rounded-2xl bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 text-white font-bold uppercase tracking-wider transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]" data-i18n="early_founder_cta">
                         MINTAR PASSE
                     </button>
                 </div>
 
-                <!-- 2. $RUN TOKEN BOX (Premium/Crypto Investor) -->
+                <!-- 2. $RUN TOKEN BOX -->
                 <div
                     class="backdrop-blur-[60px] bg-slate-900/60 border-2 border-orange-500/40 rounded-[40px] p-8 md:p-10 relative flex flex-col group hover:border-orange-400 transition-all shadow-[0_30px_60px_rgba(0,0,0,0.6)] md:-mt-8 transform md:scale-105 z-20">
 
                     <!-- Popular Badge -->
                     <div
-                        class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-600 to-yellow-500 text-black px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase shadow-[0_0_20px_rgba(249,115,22,0.4)] z-30">
+                        class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-600 to-yellow-500 text-black px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase shadow-[0_0_20px_rgba(249,115,22,0.4)] z-30" data-i18n="early_seed_tag">
                         Investidor Estratégico
                     </div>
 
@@ -252,17 +270,17 @@
                     </div>
 
                     <h3
-                        class="text-3xl font-black text-white uppercase mb-2 text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-yellow-500">
+                        class="text-3xl font-black text-white uppercase mb-2 text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-yellow-500" data-i18n="early_seed_title">
                         Seed Pack ($RUN)</h3>
                     <div class="flex items-baseline gap-1 mb-2">
                         <span class="text-xl text-orange-400 font-bold">R$</span>
                         <span
                             class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">499</span>
                     </div>
-                    <div class="text-[10px] text-white/40 font-bold tracking-widest mb-6">Receba +5.000 $RUN Tokens Base
+                    <div class="text-[10px] text-white/40 font-bold tracking-widest mb-6" data-i18n="early_seed_sub">Receba +5.000 $RUN Tokens Base
                     </div>
 
-                    <p class="text-sm text-white/60 font-medium mb-8 flex-1">
+                    <p class="text-sm text-white/60 font-medium mb-8 flex-1" data-i18n="early_seed_desc">
                         Sua cota na economia do Metaverso First Runner com preço absoluto de raiz. Criptoativos
                         protegidos na sua carteira na data de estreia global.
                     </p>
@@ -270,25 +288,25 @@
                     <ul class="space-y-4 mb-10">
                         <li class="flex items-start gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-orange-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/90 font-bold">Lote 5.000 Tokens $RUN Garantidos</span>
+                            <span class="text-xs text-white/90 font-bold" data-i18n="early_seed_feat1">Lote 5.000 Tokens $RUN Garantidos</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-orange-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold">Tudo do "Founder's Pass" Incluso</span>
+                            <span class="text-xs text-white/80 font-semibold" data-i18n="early_seed_feat2">Tudo do "Founder's Pass" Incluso</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-orange-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold">Poder de Voto na DAO Esportiva</span>
+                            <span class="text-xs text-white/80 font-semibold" data-i18n="early_seed_feat3">Poder de Voto na DAO Esportiva</span>
                         </li>
                     </ul>
 
                     <button
-                        class="w-full py-4 rounded-2xl bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-black font-black uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(249,115,22,0.3)] hover:shadow-[0_0_40px_rgba(249,115,22,0.6)]">
+                        class="w-full py-4 rounded-2xl bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-black font-black uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(249,115,22,0.3)] hover:shadow-[0_0_40px_rgba(249,115,22,0.6)]" data-i18n="early_seed_cta">
                         COMPRAR COTA AGORA
                     </button>
                 </div>
 
-                <!-- 3. LIFETIME Hero Fitness (Produto Premium) -->
+                <!-- 3. LIFETIME Hero Fitness -->
                 <div
                     class="backdrop-blur-[60px] bg-slate-900/40 border border-white/10 rounded-[40px] p-8 md:p-10 relative flex flex-col group hover:border-cyan-500/40 transition-all shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
 
@@ -298,7 +316,7 @@
                             <i data-lucide="cpu" class="w-8 h-8 text-cyan-400"></i>
                         </div>
                         <span
-                            class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/50 uppercase tracking-wider">Acesso
+                            class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/50 uppercase tracking-wider" data-i18n="coach_cta_unlock">Acesso
                             Vitalício</span>
                     </div>
 
@@ -309,7 +327,7 @@
                             class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">997</span>
                     </div>
 
-                    <p class="text-sm text-white/60 font-medium mb-8 flex-1">
+                    <p class="text-sm text-white/60 font-medium mb-8 flex-1" data-i18n="coach_hero_subtitle">
                         Para o Atleta Implacável. Pare de pagar mensalidade. Adquira o Módulo Neural I.A Gemini para
                         rastreio biológico em um único pagamento, para o resto da vida.
                     </p>
@@ -331,16 +349,16 @@
                     </ul>
 
                     <button
-                        class="w-full py-4 rounded-2xl bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/30 text-white font-bold uppercase tracking-wider transition-all hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]">
+                        class="w-full py-4 rounded-2xl bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/30 text-white font-bold uppercase tracking-wider transition-all hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]" data-i18n="coach_cta_unlock">
                         Desbloquear Vitalício
                     </button>
                 </div>
 
             </div>
 
-            <!-- Aviso Jurídico da Private Sale -->
+            <!-- Aviso Jurídico -->
             <p
-                class="text-center mt-12 text-[10px] text-white/30 uppercase tracking-widest font-semibold font-sans max-w-4xl mx-auto">
+                class="text-center mt-12 text-[10px] text-white/30 uppercase tracking-widest font-semibold font-sans max-w-4xl mx-auto" data-i18n="early_legal">
                 *ESTA É UMA RODADA DE CAPTAÇÃO DA COMUNIDADE (PRIVATE PRE-SEED). OS ATIVOS E TOKENS ADQUIRIDOS ESTARÃO
                 DISPONÍVEIS NA CARTEIRA DIGITAL CONECTADA ASSIM QUE A VERSÃO BETA FECHADA DA PLATAFORMA "FIRST RUNNER"
                 FOR LANÇADA. AO COLABORAR, VOCÊ CONCORDA COM OS TERMOS EARLY-SUPPORTER.
@@ -351,14 +369,14 @@
         <footer
             class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-20 uppercase">
             <div class="flex flex-col gap-2">
-                <p>© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
-                <p>SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
+                <p data-i18n="footer_rights">© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
+                <p data-i18n="footer_status">SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
             </div>
             <div class="flex gap-16 font-black italic">
-                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Privacidade</a>
-                <a href="whitepaper.html" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Rede
+                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_privacy">Privacidade</a>
+                <a href="whitepaper.html" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_neural_network">Rede
                     Neural</a>
-                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Terminal</a>
+                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_terminal">Terminal</a>
             </div>
         </footer>
 
@@ -379,11 +397,11 @@
         </button>
         <!-- Nav links -->
         <nav class="flex flex-col items-center gap-8">
-            <a href="index.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Início</a>
-            <a href="como-funciona.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Como Funciona</a>
-            <a href="coach-ia.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Hero Fitness</a>
-            <a href="whitepaper.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Whitepaper</a>
-            <a href="early-access.html" class="text-2xl font-black tracking-[0.3em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500">Early Access</a>
+            <a href="index.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_home">Início</a>
+            <a href="como-funciona.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_how_it_works">Como Funciona</a>
+            <a href="coach-ia.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_hero_fitness">Hero</a>
+            <a href="whitepaper.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_whitepaper">Whitepaper</a>
+            <a href="early-access.html" class="text-2xl font-black tracking-[0.3em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500" data-i18n="nav_early_access">Early Access</a>
         </nav>
     </div>
     <script>

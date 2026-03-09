@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -8,6 +8,8 @@
     <title>First Runner - Como Funciona</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="translations.js"></script>
+    <script src="language-manager.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
@@ -88,7 +90,7 @@
     <div class="relative z-40 max-w-7xl mx-auto px-6 py-6 flex flex-col min-h-screen">
 
         <!-- NAVEGAÇÃO SUPERIOR -->
-        <nav class="flex items-center justify-between py-4 shrink-0 mb-16">
+        <nav class="relative z-50 flex items-center justify-between py-4 px-8 shrink-0 bg-[#010206]/80 backdrop-blur-md border border-white/10 rounded-2xl w-full translate-y-2 mb-16">
             <!-- Logo -->
             <a href="index.html"
                 class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity">
@@ -105,41 +107,56 @@
             <!-- Links de navegação (centro) -->
             <div
                 class="hidden lg:flex items-center gap-10 text-[14px] font-black tracking-[0.2em] uppercase text-white/60">
-                <a href="index.html" class="hover:text-white transition-all">Início</a>
+                <a href="index.html" class="hover:text-white transition-all" data-i18n="nav_home">Início</a>
                 <a href="como-funciona.html"
-                    class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all">Como Funciona</a>
-                <a href="coach-ia.html" class="hover:text-white transition-all">Hero Fitness</a>
-                <a href="whitepaper.html" class="hover:text-white transition-all">Whitepaper</a>
+                    class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all" data-i18n="nav_how_it_works">Como Funciona</a>
+                <a href="coach-ia.html" class="hover:text-white transition-all" data-i18n="nav_hero_fitness">Hero</a>
+                <a href="whitepaper.html" class="hover:text-white transition-all" data-i18n="nav_whitepaper">Whitepaper</a>
                 <a href="early-access.html"
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all">Early
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all" data-i18n="nav_early_access">Early
                     Access</a>
             </div>
 
-            <!-- Espaço direito vazio (alinhamento) -->
-            <div class="flex items-center gap-6">                <button id="menu-toggle" class="lg:hidden flex flex-col justify-center gap-[5px] p-2 cursor-pointer" aria-label="Menu">
+            <!-- Ações direita (removidas a pedido do usuário) -->
+            <div class="flex items-center gap-4 sm:gap-6">
+                <!-- Seletor de Idiomas -->
+                <div class="relative group mt-1">
+                    <button class="flex items-center gap-1 sm:gap-2 text-white/70 hover:text-white transition-colors uppercase font-black text-[10px] sm:text-xs tracking-widest cursor-pointer py-2">
+                        <i data-lucide="globe" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline" id="lang-switcher-label">PT</span>
+                        <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
+                    </button>
+                    <!-- Dropdown de Idiomas -->
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-[#010206]/95 backdrop-blur-xl border border-cyan-500/20 rounded-lg shadow-[0_0_20px_rgba(0,243,255,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden py-2 z-50">
+                        <button onclick="switchLanguage('pt')" class="lang-option px-5 py-3 text-xs font-bold text-left transition-colors uppercase tracking-wider flex items-center justify-between hover:bg-white/5">PT <span class="lang-sublabel text-[10px] opacity-100">Português</span></button>
+                        <button onclick="switchLanguage('en')" class="lang-option px-5 py-3 text-xs font-bold text-left transition-colors uppercase tracking-wider flex items-center justify-between hover:bg-white/5">EN <span class="lang-sublabel text-[10px] opacity-50">English</span></button>
+                    </div>
+                </div>
+                <button id="menu-toggle" class="lg:hidden flex flex-col justify-center gap-[5px] p-2 cursor-pointer" aria-label="Menu">
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
-                </button></div>
+                </button>
+            </div>
         </nav>
 
         <!-- HEADER DA PÁGINA -->
         <header class="mb-32 max-w-5xl text-center mx-auto relative z-10 pt-20">
             <h1
-                class="text-5xl md:text-7xl font-black leading-[0.9] mb-6 tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] uppercase">
+                class="text-5xl md:text-7xl font-black leading-[0.9] mb-6 tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] uppercase" data-i18n="how_hero_title">
                 COMO O JOGO <br />
                 <span
                     class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 italic">FUNCIONA</span>
             </h1>
 
-            <p class="text-xl text-white/40 max-w-2xl font-semibold uppercase tracking-wide leading-relaxed">
+            <p class="text-xl text-white/40 max-w-2xl font-semibold uppercase tracking-wide leading-relaxed mx-auto" data-i18n="how_hero_subtitle">
                 Não é só sobre correr. É sobre tática territorial ativa. Conquiste bairros no modelo First Run ou perca
                 tudo para o próximo corredor.
             </p>
         </header>
 
         <!-- CONTEÚDO MAP-TO-EARN -->
-        <section class="max-w-5xl mx-auto w-full mb-20 flex-1">
+        <section class="max-w-5xl mx-auto w-full mb-20">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Passo 1 -->
                 <div
@@ -149,8 +166,8 @@
                         01</div>
                     <i data-lucide="map"
                         class="w-10 h-10 text-white/20 mb-6 group-hover:text-cyan-400 transition-colors"></i>
-                    <h3 class="text-xl font-black uppercase mb-3">1. Escolha o Circuito</h3>
-                    <p class="text-xs text-white/90 font-medium leading-relaxed">Abra o app e veja o mapa da sua
+                    <h3 class="text-xl font-black uppercase mb-3" data-i18n="how_step1_title">1. Escolha o Circuito</h3>
+                    <p class="text-xs text-white/90 font-medium leading-relaxed" data-i18n="how_step1_desc">Abra o app e veja o mapa da sua
                         cidade dividido em distritos, parques e quadras (como um tabuleiro gigante). Escolha uma área
                         vazia ou tomada por um rival e aperte START para registrar sua corrida via GPS.</p>
                 </div>
@@ -164,9 +181,9 @@
                     <i data-lucide="zap"
                         class="w-10 h-10 text-white/20 mb-6 group-hover:text-purple-400 transition-colors"></i>
                     <h3
-                        class="text-xl font-black uppercase mb-3 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">
+                        class="text-xl font-black uppercase mb-3 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70" data-i18n="how_step2_title">
                         2. O "First Run"</h3>
-                    <p class="text-xs text-white/90 font-medium leading-relaxed">Se você for o primeiro corredor a
+                    <p class="text-xs text-white/90 font-medium leading-relaxed" data-i18n="how_step2_desc">Se você for o primeiro corredor a
                         mapear aquele circuito (ou bater o tempo do dono atual), você conquista o território! O mapa 3D
                         ficará permanentemente pintado com a "Cor" do seu perfil.
                     </p>
@@ -180,171 +197,60 @@
                         03</div>
                     <i data-lucide="shield"
                         class="w-10 h-10 text-white/20 mb-6 group-hover:text-orange-400 transition-colors"></i>
-                    <h3 class="text-xl font-black uppercase mb-3 group-hover/final:text-orange-400 transition-colors">
+                    <h3 class="text-xl font-black uppercase mb-3 group-hover/final:text-orange-400 transition-colors" data-i18n="how_step3_title">
                         3. Defenda ou Roube!</h3>
-                    <p class="text-xs text-white/90 font-medium leading-relaxed">Você ganha a posse do bairro por "X"
+                    <p class="text-xs text-white/90 font-medium leading-relaxed" data-i18n="how_step3_desc">Você ganha a posse do bairro por "X"
                         dias. Durante esse tempo, chame seus amigos para tentar roubar seu circuito quebrando seu
                         Recorde. Quanto mais territórios conectados, maior a sua patente mundial.</p>
                 </div>
             </div>
+        </section>
 
-    </div>
-
-    <!-- EXXEMPLO PRÁTICO (NOVO BLOCO) -->
-    <div
-        class="mt-16 backdrop-blur-[60px] bg-gradient-to-r from-black/80 to-transparent border border-white/10 rounded-[32px] p-10 flex flex-col md:flex-row items-center gap-10">
-        <div class="w-full md:w-1/3 flex justify-center">
-            <div
-                class="relative w-48 h-48 bg-white/5 rounded-full border border-white/20 flex items-center justify-center p-4">
+        <!-- EXXEMPLO PRÁTICO -->
+        <div
+            class="mt-16 backdrop-blur-[60px] bg-gradient-to-r from-black/80 to-transparent border border-white/10 rounded-[32px] p-10 flex flex-col md:flex-row items-center gap-10">
+            <div class="w-full md:w-1/3 flex justify-center">
                 <div
-                    class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=600')] bg-cover bg-center rounded-full opacity-60 grayscale blur-[2px]">
-                </div>
-                <div class="absolute inset-0 bg-cyan-500/20 mix-blend-color rounded-full"></div>
-                <i data-lucide="map-pin"
-                    class="w-16 h-16 text-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.8)] z-10 animate-bounce"></i>
-            </div>
-        </div>
-        <div class="flex-1">
-            <h4 class="text-2xl font-black uppercase tracking-tight text-white mb-4">Exemplo Prático: <span
-                    class="text-cyan-400 italic">O Parque Central</span></h4>
-            <p class="text-sm text-white/60 font-medium leading-relaxed mb-6">Imagine que ninguém correu ainda no Parque
-                da sua cidade hoje. Você vai lá e corre 3km seguindo a rota do app. <b>BOOM! O Parque fica Azul (sua cor
-                    favorita) no mapa de todos os jogadores da região.</b> Você ganha a insígnia de "Dono do Parque" e
-                ganha criptomoedas $RUN pelas Views.</p>
-            <p class="text-sm text-white/60 font-medium leading-relaxed">Na terça-feira, a "Marina" vai lá e corre os
-                mesmos 3km num tempo 20 segundos menor. <b>Ela tomou seu território! O Parque agora é Rosa.</b> É hora
-                de você treinar, voltar lá e recuperar o lugar que é seu por direito.</p>
-        </div>
-    </div>
-
-    <div
-        class="mt-16 flex items-center justify-center gap-2 text-[10px] font-black tracking-widest text-white/30 uppercase cursor-default border-t border-white/10 pt-10">
-        <i data-lucide="crosshair" class="w-4 h-4 text-cyan-500"></i> Visão de Mecânica Map-to-Earn (Web3 Tracked)
-    </div>
-
-    <!-- O CORE LOOP (MMO & LORE) -->
-    <div class="mt-20 pt-16 border-t border-white/5">
-        <div class="flex flex-col items-center justify-center text-center mb-16">
-            <h2
-                class="text-4xl md:text-5xl font-black uppercase tracking-tight mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                O <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 italic">METAVERSO</span>
-                URBANO</h2>
-            <p
-                class="text-white/90 font-bold uppercase tracking-[0.2em] text-xs max-w-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                Muito além de queimar
-                calorias. O First Runner é um MMORPG geolocalizado de batalhas territoriais no mundo real.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <!-- Glitch Mode -->
-            <div
-                class="backdrop-blur-xl bg-slate-900/40 border border-white/10 p-8 rounded-[32px] hover:border-cyan-500/30 transition-all group shadow-[0_0_30px_rgba(0,0,0,0.3)]">
-                <div
-                    class="w-14 h-14 bg-cyan-500/10 rounded-2xl flex items-center justify-center mb-6 border border-cyan-500/20 group-hover:scale-110 transition-transform">
-                    <i data-lucide="skull" class="w-7 h-7 text-cyan-400"></i>
-                </div>
-                <h3 class="text-2xl font-black uppercase mb-3 text-white">1. O Glitch (Modo Fantasma)</h3>
-                <p class="text-sm text-white/90 font-medium leading-relaxed">Você entra no jogo como um <b>Fantasma</b>.
-                    Você não deixa rastro e não tem "Tinta". Para nascer no jogo, seu Radar apitará um <i>Sinal
-                        Dourado</i> pego de satélite. Corra fisicamente até esse ponto para hackear seu próprio sistema
-                    e desbloquear o Módulo de Tinta.</p>
-            </div>
-
-            <!-- Polylines -->
-            <div
-                class="backdrop-blur-xl bg-slate-900/40 border border-white/10 p-8 rounded-[32px] hover:border-purple-500/30 transition-all group shadow-[0_0_30px_rgba(0,0,0,0.3)]">
-                <div
-                    class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 border border-purple-500/20 group-hover:scale-110 transition-transform">
-                    <i data-lucide="git-commit" class="w-7 h-7 text-purple-400"></i>
-                </div>
-                <h3 class="text-2xl font-black uppercase mb-3 text-white">2. Conquista Viva (Polylines)</h3>
-                <p class="text-sm text-white/90 font-medium leading-relaxed">Sua corrida deixa um Neon por onde passa.
-                    Feche o quarteirão rastreando os vértices em uma <b>Polyline Completa</b> para dominar oficialmente
-                    a área. Seu nome será estampado nesse distrito para a cidade toda ver.</p>
-            </div>
-
-            <!-- Social Feed Radar -->
-            <div
-                class="backdrop-blur-xl bg-slate-900/40 border border-white/10 p-8 rounded-[32px] hover:border-blue-500/30 transition-all group shadow-[0_0_30px_rgba(0,0,0,0.3)]">
-                <div
-                    class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 border border-blue-500/20 group-hover:scale-110 transition-transform">
-                    <i data-lucide="radio" class="w-7 h-7 text-blue-400"></i>
-                </div>
-                <h3 class="text-2xl font-black uppercase mb-3 text-white">3. Fama pelo Radar Global</h3>
-                <p class="text-sm text-white/90 font-medium leading-relaxed">Não somos um Feed de Instagram. No First
-                    Runner, ninguém corre escondido. Assim que você aperta STOP, seus KM geram pulsos locais no O Radar
-                    de todos os jogadores ativos. Ganhe EXP e suba de patente militar pra comprar Skins virais.</p>
-                <div class="mt-4 flex gap-4">
-                    <span
-                        class="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-black text-blue-400 uppercase tracking-widest">1km
-                        = 100 XP</span>
-                    <span
-                        class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[10px] font-black text-purple-400 uppercase tracking-widest">1
-                        Território = 500 XP</span>
+                    class="relative w-48 h-48 bg-white/5 rounded-full border border-white/20 flex items-center justify-center p-4">
+                    <div
+                        class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=600')] bg-cover bg-center rounded-full opacity-60 grayscale blur-[2px]">
+                    </div>
+                    <div class="absolute inset-0 bg-cyan-500/20 mix-blend-color rounded-full"></div>
+                    <i data-lucide="map-pin"
+                        class="w-16 h-16 text-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.8)] z-10 animate-bounce"></i>
                 </div>
             </div>
-
-            <!-- Boss Raids MMO -->
-            <div
-                class="backdrop-blur-xl bg-slate-900/40 border border-white/10 p-8 rounded-[32px] hover:border-red-500/30 transition-all group shadow-[0_0_30px_rgba(0,0,0,0.3)]">
-                <div
-                    class="w-14 h-14 bg-red-500/10 rounded-2xl flex items-center justify-center mb-6 border border-red-500/20 group-hover:scale-110 transition-transform">
-                    <i data-lucide="swords" class="w-7 h-7 text-red-500"></i>
-                </div>
-                <h3 class="text-2xl font-black uppercase mb-3 text-white">4. Final de Semana: Boss Raids</h3>
-                <p class="text-sm text-white/90 font-medium leading-relaxed">De sexta a domingo o "Bixo pega". Alertas
-                    em massa tocam no app avisando da Invasão do <span class="text-red-400 font-bold italic">Titan
-                        Security Drone</span> numa praça ou parque. Corra pro local com centenas de corredores; Seus
-                    passos tiram HP (Vida) do Chefe. Derrotem-no para o <i>Loot</i> épico em grupo!</p>
+            <div class="flex-1">
+                <h4 class="text-2xl font-black uppercase tracking-tight text-white mb-4" data-i18n="how_example_title">Exemplo Prático: <span
+                        class="text-cyan-400 italic">O Parque Central</span></h4>
+                <p class="text-sm text-white/60 font-medium leading-relaxed mb-6" data-i18n="how_example_p1">Imagine que ninguém correu ainda no Parque
+                    da sua cidade hoje. Você vai lá e corre 3km seguindo a rota do app. <b>BOOM! O Parque fica Azul (sua cor
+                        favorita) no mapa de todos os jogadores da região.</b> Você ganha a insígnia de "Dono do Parque" e
+                    ganha criptomoedas $RUN pelas Views.</p>
+                <p class="text-sm text-white/60 font-medium leading-relaxed" data-i18n="how_example_p2">Na terça-feira, a "Marina" vai lá e corre os
+                    mesmos 3km num tempo 20 segundos menor. <b>Ela tomou seu território! O Parque agora é Rosa.</b> É hora
+                    de você treinar, voltar lá e recuperar o lugar que é seu por direito.</p>
             </div>
-            <!-- AI Voice Coach -->
-            <div
-                class="backdrop-blur-xl bg-slate-900/40 border border-white/10 p-8 rounded-[32px] hover:border-green-500/30 transition-all group shadow-[0_0_30px_rgba(0,0,0,0.3)] md:col-span-2 relative overflow-hidden">
-                <div class="absolute top-6 right-6 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                    <span class="text-[9px] font-black text-green-400 uppercase tracking-widest">Operacional</span>
-                </div>
-                <div
-                    class="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center mb-6 border border-green-500/20 group-hover:scale-110 transition-transform">
-                    <i data-lucide="mic" class="w-7 h-7 text-green-400"></i>
-                </div>
-                <h3 class="text-2xl font-black uppercase mb-3 text-white">5. O Operador — AI Coach por Voz</h3>
-                <p class="text-sm text-white/90 font-medium leading-relaxed">Durante a corrida, você usa o fone de
-                    ouvido e fala diretamente com o <b class="text-green-400">Operador</b> — a IA Cyberpunk alimentada
-                    pelo <b>Gemini 2.0 Flash Live</b>. Ele sabe em tempo real: seu pace, distância percorrida e em quais
-                    territórios você está. Fale <i>"Operador, tem algum inimigo perto?"</i> e ele responde por áudio.
-                    Interrompa quando quiser — a IA para de falar e adapta a resposta instantaneamente.</p>
-                <div class="mt-6 flex flex-wrap gap-3">
-                    <span
-                        class="px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-[10px] font-black text-green-400 uppercase tracking-widest">🎙️
-                        Áudio em Tempo Real</span>
-                    <span
-                        class="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[10px] font-black text-cyan-400 uppercase tracking-widest">📡
-                        GPS + Pace Injetados</span>
-                    <span
-                        class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-black text-white/50 uppercase tracking-widest">☁️
-                        Google Cloud Run</span>
-                </div>
+        </div>
+
+        <div
+            class="my-16 flex items-center justify-center gap-2 text-[10px] font-black tracking-widest text-white/30 uppercase cursor-default border-t border-white/10 pt-10" data-i18n="how_mechanics_label">
+            <i data-lucide="crosshair" class="w-4 h-4 text-cyan-500"></i> Visão de Mecânica Map-to-Earn (Web3 Tracked)
+        </div>
+
+        <!-- RODAPÉ -->
+        <footer
+            class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-20 uppercase w-full">
+            <div class="flex flex-col gap-2">
+                <p data-i18n="footer_rights">© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
+                <p data-i18n="footer_status">SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
             </div>
-
-        </div>
-    </div>
-    </section>
-
-    <!-- RODAPÉ ESTATÍSTICO E LEGAL -->
-    <footer
-        class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-20 uppercase w-full">
-        <div class="flex flex-col gap-2">
-            <p>© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
-            <p>SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
-        </div>
-        <div class="flex gap-16 font-black italic">
-            <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Privacidade</a>
-            <a href="whitepaper.html" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Rede Neural</a>
-            <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Terminal</a>
-        </div>
-    </footer>
+            <div class="flex gap-16 font-black italic">
+                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_privacy">Privacidade</a>
+                <a href="whitepaper.html" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_neural_network">Rede Neural</a>
+                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_terminal">Terminal</a>
+            </div>
+        </footer>
     </div>
 
     <!-- Inicializar Ícones Lucide -->
@@ -362,11 +268,11 @@
         </button>
         <!-- Nav links -->
         <nav class="flex flex-col items-center gap-8">
-            <a href="index.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Início</a>
-            <a href="como-funciona.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Como Funciona</a>
-            <a href="coach-ia.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Hero Fitness</a>
-            <a href="whitepaper.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Whitepaper</a>
-            <a href="early-access.html" class="text-2xl font-black tracking-[0.3em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500">Early Access</a>
+            <a href="index.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_home">Início</a>
+            <a href="como-funciona.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_how_it_works">Como Funciona</a>
+            <a href="coach-ia.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_hero_fitness">Hero</a>
+            <a href="whitepaper.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_whitepaper">Whitepaper</a>
+            <a href="early-access.html" class="text-2xl font-black tracking-[0.3em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500" data-i18n="nav_early_access">Early Access</a>
         </nav>
     </div>
     <script>
