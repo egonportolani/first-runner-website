@@ -8,13 +8,18 @@
     <title>First Runner - Join the Resistance</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="translations.js"></script>
+    <script src="language-manager.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: #010206;
+        }
 
+        .lang-option {
+            cursor: pointer;
         }
 
         .tracking-tightest {
@@ -22,17 +27,9 @@
         }
 
         @keyframes kenburns {
-            0% {
-                transform: scale(1) translate(0, 0);
-            }
-
-            50% {
-                transform: scale(1.1) translate(-1%, -0.5%);
-            }
-
-            100% {
-                transform: scale(1) translate(0, 0);
-            }
+            0% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.1) translate(-1%, -0.5%); }
+            100% { transform: scale(1) translate(0, 0); }
         }
 
         .animate-kenburns {
@@ -40,60 +37,17 @@
         }
 
         @keyframes glitch {
-            0% {
-                clip-path: inset(80% -6px 0 0);
-                transform: translate(-2px, 2px);
-            }
-
-            10% {
-                clip-path: inset(10% -6px 85% 0);
-                transform: translate(2px, -2px);
-            }
-
-            20% {
-                clip-path: inset(80% -6px 0 0);
-                transform: translate(-2px, 2px);
-            }
-
-            30% {
-                clip-path: inset(10% -6px 85% 0);
-                transform: translate(2px, -2px);
-            }
-
-            40% {
-                clip-path: inset(80% -6px 0 0);
-                transform: translate(-2px, 2px);
-            }
-
-            50% {
-                clip-path: inset(10% -6px 85% 0);
-                transform: translate(2px, -2px);
-            }
-
-            60% {
-                clip-path: inset(80% -6px 0 0);
-                transform: translate(-2px, 2px);
-            }
-
-            70% {
-                clip-path: inset(10% -6px 85% 0);
-                transform: translate(2px, -2px);
-            }
-
-            80% {
-                clip-path: inset(80% -6px 0 0);
-                transform: translate(-2px, 2px);
-            }
-
-            90% {
-                clip-path: inset(10% -6px 85% 0);
-                transform: translate(2px, -2px);
-            }
-
-            100% {
-                clip-path: inset(80% -6px 0 0);
-                transform: translate(-2px, 2px);
-            }
+            0% { clip-path: inset(80% -6px 0 0); transform: translate(-2px, 2px); }
+            10% { clip-path: inset(10% -6px 85% 0); transform: translate(2px, -2px); }
+            20% { clip-path: inset(80% -6px 0 0); transform: translate(-2px, 2px); }
+            30% { clip-path: inset(10% -6px 85% 0); transform: translate(2px, -2px); }
+            40% { clip-path: inset(80% -6px 0 0); transform: translate(-2px, 2px); }
+            50% { clip-path: inset(10% -6px 85% 0); transform: translate(2px, -2px); }
+            60% { clip-path: inset(80% -6px 0 0); transform: translate(-2px, 2px); }
+            70% { clip-path: inset(10% -6px 85% 0); transform: translate(2px, -2px); }
+            80% { clip-path: inset(80% -6px 0 0); transform: translate(-2px, 2px); }
+            90% { clip-path: inset(10% -6px 85% 0); transform: translate(2px, -2px); }
+            100% { clip-path: inset(80% -6px 0 0); transform: translate(-2px, 2px); }
         }
 
         .glitch-effect:hover {
@@ -136,31 +90,44 @@
     <div class="relative z-40 max-w-7xl mx-auto px-6 py-6 flex flex-col min-h-screen w-full">
 
         <!-- NAVEGAÇÃO SUPERIOR -->
-        <nav class="flex items-center justify-between mb-2 py-4">
+        <nav class="flex items-center justify-between mb-2 py-4 px-8 bg-[#010206]/60 backdrop-blur-md border border-white/10 rounded-2xl">
             <a href="index.html" class="flex items-center gap-4 group cursor-pointer hover:opacity-80 transition-all">
                 <div
                     class="w-11 h-11 bg-white flex items-center justify-center rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-all duration-500">
-                    <span class="text-black font-black text-2xl italic">F</span>
+                    <span class="text-black font-black text-2xl italic" translate="no">F</span>
                 </div>
-                <span class="text-2xl font-black tracking-tighter uppercase tracking-widest hidden sm:block">First
+                <span class="text-2xl font-black tracking-tighter uppercase tracking-widest hidden sm:block" translate="no">First
                     Runner</span>
             </a>
 
             <div
                 class="hidden lg:flex items-center gap-12 text-[14px] font-black tracking-[0.2em] uppercase text-white/70">
-                <a href="index.html" class="hover:text-white transition-all">Início</a>
-                <a href="como-funciona.html" class="hover:text-white transition-all">Como Funciona</a>
-                <a href="coach-ia.html" class="hover:text-white transition-all">Hero Fitness</a>
-                <a href="whitepaper.html" class="hover:text-white transition-all">Whitepaper</a>
+                <a href="index.html" class="hover:text-white transition-all" data-i18n="nav_home">Início</a>
+                <a href="como-funciona.html" class="hover:text-white transition-all" data-i18n="nav_how_it_works">Como Funciona</a>
+                <a href="coach-ia.html" class="hover:text-white transition-all" data-i18n="nav_hero_fitness">Hero Fitness</a>
+                <a href="roadmap.html" class="hover:text-white transition-all" data-i18n="nav_roadmap">Roadmap</a>
                 <a href="early-access.html"
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_15px_rgba(249,115,22,0.6)] animate-pulse transition-all">Early
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_15px_rgba(249,115,22,0.6)] animate-pulse transition-all" data-i18n="nav_early_access">Early
                     Access</a>
             </div>
 
             <div class="flex items-center gap-8">
+                <!-- Seletor de Idiomas -->
+                <div class="relative group mt-1">
+                    <button class="flex items-center gap-2 text-white/70 hover:text-white transition-colors uppercase font-black text-xs tracking-widest cursor-pointer py-2">
+                        <i data-lucide="globe" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline" id="lang-switcher-label">PT</span>
+                        <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
+                    </button>
+                    <!-- Dropdown de Idiomas -->
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-[#010206]/95 backdrop-blur-xl border border-cyan-500/20 rounded-lg shadow-[0_0_20px_rgba(0,243,255,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden py-2 z-50">
+                        <button onclick="switchLanguage('pt')" class="lang-option px-5 py-3 text-xs font-bold text-left transition-colors uppercase tracking-wider flex items-center justify-between hover:bg-white/5">PT <span class="lang-sublabel text-[10px] opacity-100">Português</span></button>
+                        <button onclick="switchLanguage('en')" class="lang-option px-5 py-3 text-xs font-bold text-left transition-colors uppercase tracking-wider flex items-center justify-between hover:bg-white/5">EN <span class="lang-sublabel text-[10px] opacity-50">English</span></button>
+                    </div>
+                </div>
                 <!-- Esconde os botões apenas para o balanço do CSS Flex-Between se manter -->
                 <a href="login.html"
-                    class="text-xs font-bold tracking-widest uppercase opacity-60 hover:opacity-100 transition-opacity">Entrar</a>
+                    class="text-xs font-bold tracking-widest uppercase opacity-60 hover:opacity-100 transition-opacity" data-i18n="nav_login">Entrar</a>
             </div>
         </nav>
 
@@ -172,18 +139,17 @@
                 <div
                     class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 mb-8 backdrop-blur-md shadow-[0_0_15px_rgba(34,211,238,0.2)] mx-auto md:mx-0 w-max">
                     <i data-lucide="shield" class="w-4 h-4 text-cyan-400"></i>
-                    <span class="text-[10px] font-black tracking-[0.4em] text-cyan-400 uppercase">Recrutamento
-                        Aberto</span>
+                    <span data-i18n="cadastro_badge" class="text-[10px] font-black tracking-[0.4em] text-cyan-400 uppercase">Recrutamento Aberto</span>
                 </div>
 
-                <h1
+                <h1 data-i18n="cadastro_hero_title"
                     class="text-5xl md:text-7xl font-black leading-[0.9] mb-6 tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                     JOIN THE <br />
                     <span
                         class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 italic glitch-effect">RESISTANCE</span>
                 </h1>
 
-                <p
+                <p data-i18n="cadastro_hero_subtitle"
                     class="text-lg md:text-xl text-white/50 max-w-lg font-semibold uppercase tracking-wide leading-relaxed mx-auto md:mx-0 mb-8">
                     Desconecte da matriz sedentária. Crie sua identidade, sincronize seus biomas e comece a hackear as
                     ruas da sua cidade.
@@ -193,11 +159,11 @@
                     class="flex items-center gap-6 justify-center md:justify-start text-[10px] font-black tracking-widest uppercase opacity-60">
                     <div class="flex items-center gap-2">
                         <i data-lucide="check-square" class="w-4 h-4 text-cyan-400"></i>
-                        <span>AI Coach Free</span>
+                        <span data-i18n="cadastro_feat1">AI Coach Free</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i data-lucide="check-square" class="w-4 h-4 text-orange-400"></i>
-                        <span>Start Earning</span>
+                        <span data-i18n="cadastro_feat2">Start Earning</span>
                     </div>
                 </div>
             </div>
@@ -212,10 +178,10 @@
                 </div>
 
                 <div class="text-center mb-8">
-                    <h2
+                    <h2 data-i18n="cadastro_form_title"
                         class="text-2xl font-black tracking-tighter mb-2 uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] text-cyan-50">
                         Setup de Perfil</h2>
-                    <p class="text-[9px] font-black tracking-[0.4em] text-cyan-400/60 uppercase">Inicializando Banco de
+                    <p data-i18n="cadastro_form_subtitle" class="text-[9px] font-black tracking-[0.4em] text-cyan-400/60 uppercase">Inicializando Banco de
                         Dados Biométrica</p>
                 </div>
 
@@ -225,7 +191,7 @@
                         <div class="absolute left-4 top-1/2 -translate-y-1/2 text-white/30">
                             <i data-lucide="user" class="w-4 h-4"></i>
                         </div>
-                        <input type="text" placeholder="RUNNER ALIAS (EX: GHOST_01)"
+                        <input type="text" data-i18n="cadastro_placeholder_alias" placeholder="RUNNER ALIAS (EX: GHOST_01)"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-[11px] font-bold uppercase tracking-widest text-white placeholder-white/20 focus:outline-none focus:border-cyan-400/50 focus:bg-white/5 transition-all outline-none"
                             required />
                     </div>
@@ -235,7 +201,7 @@
                         <div class="absolute left-4 top-1/2 -translate-y-1/2 text-white/30">
                             <i data-lucide="mail" class="w-4 h-4"></i>
                         </div>
-                        <input type="email" placeholder="EMAIL DE COMUNICAÇÃO NEURAL"
+                        <input type="email" data-i18n="cadastro_placeholder_email" placeholder="EMAIL DE COMUNICAÇÃO NEURAL"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-[11px] font-bold uppercase tracking-widest text-white placeholder-white/20 focus:outline-none focus:border-cyan-400/50 focus:bg-white/5 transition-all outline-none"
                             required />
                     </div>
@@ -245,7 +211,7 @@
                         <div class="absolute left-4 top-1/2 -translate-y-1/2 text-white/30">
                             <i data-lucide="lock" class="w-4 h-4"></i>
                         </div>
-                        <input type="password" placeholder="SENHA DA REDE MESTRE"
+                        <input type="password" data-i18n="cadastro_placeholder_pass" placeholder="SENHA DA REDE MESTRE"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-[11px] font-bold uppercase tracking-widest text-white placeholder-white/20 focus:outline-none focus:border-cyan-400/50 focus:bg-white/5 transition-all outline-none"
                             required />
                     </div>
@@ -255,7 +221,7 @@
                         <div class="absolute left-4 top-1/2 -translate-y-1/2 text-white/30">
                             <i data-lucide="check-circle" class="w-4 h-4"></i>
                         </div>
-                        <input type="password" placeholder="CONFIRMAR SENHA"
+                        <input type="password" data-i18n="cadastro_placeholder_confirm" placeholder="CONFIRMAR SENHA"
                             class="w-full bg-black/40 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-[11px] font-bold uppercase tracking-widest text-white placeholder-white/20 focus:outline-none focus:border-cyan-400/50 focus:bg-white/5 transition-all outline-none"
                             required />
                     </div>
@@ -266,7 +232,7 @@
                             <div
                                 class="w-4 h-4 rounded border border-white/20 flex-shrink-0 flex items-center justify-center group-hover:border-cyan-400 transition-colors mt-0.5">
                             </div>
-                            <span
+                            <span data-i18n="cadastro_terms"
                                 class="text-[9px] font-bold tracking-widest uppercase opacity-60 group-hover:opacity-100 transition-opacity leading-relaxed">
                                 Aceito os <span class="text-cyan-400">Protocolos Neurais</span> (Termos) e Políticas de
                                 Privacidade de Dados Biométricos.
@@ -279,7 +245,7 @@
                         <div
                             class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]">
                         </div>
-                        <span class="relative z-10">Injetar Identidade</span>
+                        <span class="relative z-10" data-i18n="cadastro_btn_submit">Injetar Identidade</span>
                         <i data-lucide="cpu"
                             class="w-4 h-4 relative z-10 group-hover:rotate-180 transition-transform duration-500"></i>
                     </button>
@@ -287,7 +253,7 @@
                     <!-- OR Divider -->
                     <div class="relative flex items-center py-2">
                         <div class="flex-grow border-t border-white/10"></div>
-                        <span
+                        <span data-i18n="cadastro_or"
                             class="flex-shrink-0 mx-4 text-white/30 text-[9px] uppercase font-black tracking-[0.3em]">Ou
                             Cadastro Express</span>
                         <div class="flex-grow border-t border-white/10"></div>
@@ -307,7 +273,7 @@
                             <path fill="currentColor"
                                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                         </svg>
-                        <span
+                        <span data-i18n="cadastro_sync_google"
                             class="text-[10px] font-bold tracking-widest uppercase opacity-70 group-hover:opacity-100 transition-opacity">Sincronizar
                             G-Net</span>
                     </button>
@@ -315,8 +281,8 @@
 
                 <div class="mt-6 pt-6 border-t border-white/5 text-center">
                     <p class="text-[9px] font-bold tracking-widest uppercase opacity-50">
-                        Já é um ativo neural? <a href="login.html"
-                            class="text-cyan-400 hover:text-cyan-300 ml-1 transition-colors relative z-10 underline-offset-4 hover:underline">Faça
+                        <span data-i18n="cadastro_already_member">Já é um ativo neural?</span> <a href="login.html"
+                            class="text-cyan-400 hover:text-cyan-300 ml-1 transition-colors relative z-10 underline-offset-4 hover:underline" data-i18n="nav_login">Faça
                             Login</a>
                     </p>
                 </div>
@@ -326,7 +292,7 @@
         <!-- RODAPÉ ESTATÍSTICO E LEGAL -->
         <footer
             class="mt-12 py-8 text-center text-[10px] font-black tracking-[0.6em] opacity-20 uppercase border-t border-white/5 w-full">
-            <p>© 2026 FIRST RUNNER // WELCOME TO THE GRID</p>
+            <p data-i18n="footer_welcome">© 2026 FIRST RUNNER // WELCOME TO THE GRID</p>
         </footer>
 
     </div>
