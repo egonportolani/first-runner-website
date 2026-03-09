@@ -80,7 +80,7 @@
 
     <!-- NAVEGAÇÃO SUPERIOR (Camada Superior Independente) -->
     <div class="fixed top-0 left-0 w-full z-50 bg-[#010206] border-b border-white/10">
-        <nav class="flex items-center justify-between py-4 px-8 max-w-[1400px] mx-auto w-full">
+        <nav class="flex items-center justify-between py-4 px-4 md:px-8 max-w-[1400px] mx-auto w-full">
             <!-- Logo -->
             <a href="index.html"
                 class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity">
@@ -129,7 +129,7 @@
     </div>
 
     <!-- CAMADA 2: CONTEÚDO — tela cheia com flex column -->
-    <div class="relative z-40 flex flex-col min-h-screen max-w-[1400px] mx-auto px-8 py-6 pt-32">
+    <div class="relative z-40 flex flex-col min-h-screen max-w-[1400px] mx-auto px-4 sm:px-8 py-6 pt-28 sm:pt-32">
 
         <!-- HERO: ocupa todo o espaço restante, conteúdo centralizado -->
         <main class="flex-1 flex flex-col items-center justify-center text-center -mt-10 sm:-mt-16 px-4">
@@ -160,8 +160,8 @@
             </button>
 
             <!-- Gemini Challenge Banner -->
-            <div class="relative z-40 w-full max-w-[1400px] mt-20 mb-4">
-                <section class="py-10 px-12 backdrop-blur-2xl bg-[#0f1115]/80 border border-white/5 rounded-[40px] flex flex-col md:flex-row items-center justify-between shadow-2xl w-full max-w-5xl mx-auto gap-8 group hover:border-cyan-500/20 transition-all duration-500">
+            <div class="relative z-40 w-full max-w-[1400px] mt-16 sm:mt-20 mb-4 px-2 sm:px-0">
+                <section class="py-8 px-6 md:py-10 md:px-12 backdrop-blur-2xl bg-[#0f1115]/80 border border-white/5 rounded-3xl md:rounded-[40px] flex flex-col md:flex-row items-center justify-between shadow-2xl w-full max-w-5xl mx-auto gap-6 group hover:border-cyan-500/20 transition-all duration-500">
                     <div class="flex flex-col items-center md:items-start text-center md:text-left gap-1">
                         <h3 class="text-2xl md:text-3xl font-black tracking-tight uppercase">
                             <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">Gemini Live</span> <span class="text-white">Agent Challenge</span>
@@ -192,13 +192,13 @@
     </div>
 
     <!-- SEÇÕES ABAIXO DO FOLD (mantidas para scroll) -->
-    <div class="relative z-40 max-w-[1400px] mx-auto px-8 pb-16">
+    <div class="relative z-40 max-w-[1400px] mx-auto px-4 sm:px-8 pb-16">
 
         <!-- App Stores -->
         <section
-            class="mt-8 mb-16 py-12 px-8 backdrop-blur-2xl bg-white/[0.02] border border-white/10 rounded-[40px] flex flex-col items-center text-center shadow-xl w-full max-w-5xl mx-auto">
-            <div class="flex items-center gap-3 mb-8">
-                <i data-lucide="download" class="w-6 h-6 text-cyan-400"></i>
+            class="mt-8 mb-16 py-12 px-6 sm:px-8 backdrop-blur-2xl bg-white/[0.02] border border-white/10 rounded-[32px] md:rounded-[40px] flex flex-col items-center text-center shadow-xl w-full max-w-5xl mx-auto">
+            <div class="flex flex-col sm:flex-row items-center gap-3 mb-8">
+                <i data-lucide="download" class="w-6 h-6 text-cyan-400 mb-2 sm:mb-0"></i>
                 <h3
                     class="text-xl md:text-2xl font-black tracking-[0.3em] uppercase italic drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]" data-i18n="index_app_stores_title">
                     Em breve na play store e apple store</h3>
