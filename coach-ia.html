@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" translate="no">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,8 @@
     <title>First Runner</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="translations.js"></script>
+    <script src="language-manager.js"></script>
     <!-- Three.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
     <style>
@@ -17,6 +19,10 @@
             font-family: 'Inter', sans-serif;
             background-color: #010206;
 
+        }
+
+        .lang-option {
+            cursor: pointer;
         }
 
         .tracking-tightest {
@@ -303,30 +309,47 @@
                     <path d="M 0 0 H 100 L 80 20 H 20 V 40 H 80 L 60 60 H 20 V 80 L 0 100 Z" fill="white" />
                 </svg>
                 <div class="flex flex-col justify-center">
-                    <span class="text-lg font-black leading-none tracking-wider text-white uppercase">FIRST</span>
-                    <span class="text-lg font-black leading-none tracking-wider text-white uppercase">RUNNER</span>
+                    <span class="text-lg font-black leading-none tracking-wider text-white uppercase" translate="no">FIRST</span>
+                    <span class="text-lg font-black leading-none tracking-wider text-white uppercase" translate="no">RUNNER</span>
                 </div>
             </a>
 
             <!-- Links de navegação (centro) -->
             <div
                 class="hidden lg:flex items-center gap-10 text-[14px] font-black tracking-[0.2em] uppercase text-white/60">
-                <a href="index.html" class="hover:text-white transition-all">Home</a>
-                <a href="como-funciona.html" class="hover:text-white transition-all">How it Works</a>
+                <a href="index.html" class="hover:text-white transition-all" data-i18n="nav_home">Home</a>
+                <a href="como-funciona.html" class="hover:text-white transition-all" data-i18n="nav_how_it_works">How it Works</a>
                 <a href="coach-ia.html"
-                    class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all">Hero Fitness</a>
-                <a href="whitepaper.html" class="hover:text-white transition-all">Whitepaper</a>
+                    class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all" data-i18n="nav_hero_fitness">Hero Fitness</a>
+                <a href="roadmap.html" class="hover:text-white transition-all" data-i18n="nav_roadmap">Roadmap</a>
+                <a href="whitepaper.html" class="hover:text-white transition-all" data-i18n="nav_whitepaper">Whitepaper</a>
                 <a href="early-access.html"
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all">Early
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all" data-i18n="nav_early_access">Early
                     Access</a>
             </div>
 
             <!-- Espaço direito vazio (alinhamento) -->
-            <div class="flex items-center gap-6">                <button id="menu-toggle" class="lg:hidden flex flex-col justify-center gap-[5px] p-2 cursor-pointer" aria-label="Menu">
+            <div class="flex items-center gap-6">
+                <!-- Seletor de Idiomas -->
+                <div class="relative group mt-1">
+                    <button class="flex items-center gap-2 text-white/70 hover:text-white transition-colors uppercase font-black text-xs tracking-widest cursor-pointer py-2">
+                        <i data-lucide="globe" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline" id="lang-switcher-label">PT</span>
+                        <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
+                    </button>
+                    <!-- Dropdown de Idiomas -->
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-[#010206]/95 backdrop-blur-xl border border-cyan-500/20 rounded-lg shadow-[0_0_20px_rgba(0,243,255,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden py-2 z-50">
+                        <button onclick="switchLanguage('pt')" class="lang-option px-5 py-3 text-xs font-bold text-left transition-colors uppercase tracking-wider flex items-center justify-between hover:bg-white/5">PT <span class="lang-sublabel text-[10px] opacity-100">Português</span></button>
+                        <button onclick="switchLanguage('en')" class="lang-option px-5 py-3 text-xs font-bold text-left transition-colors uppercase tracking-wider flex items-center justify-between hover:bg-white/5">EN <span class="lang-sublabel text-[10px] opacity-50">English</span></button>
+                    </div>
+                </div>
+                <!-- Menu Toggle Button -->
+                <button id="menu-toggle" class="lg:hidden flex flex-col justify-center gap-[5px] p-2 cursor-pointer" aria-label="Menu">
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
-                </button></div>
+                </button>
+            </div>
         </nav>
 
         <!-- SECÇÃO HERO: O CÉREBRO DA OPERAÇÃO -->
@@ -335,10 +358,10 @@
             <div
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 mb-6 backdrop-blur-md">
                 <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                <span class="text-[10px] font-black tracking-[0.4em] text-cyan-400 uppercase">Built for the Gemini API Developer Competition</span>
+                <span data-i18n="coach_hero_badge" class="text-[10px] font-black tracking-[0.4em] text-cyan-400 uppercase">Built for the Gemini API Developer Competition</span>
             </div>
 
-            <h1
+            <h1 data-i18n="coach_hero_title"
                 class="text-6xl md:text-8xl font-black leading-[0.9] mb-6 tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                 THE OPERATOR <br />
                 <span
@@ -346,13 +369,13 @@
             </h1>
 
             <div class="flex flex-col gap-2 mb-8 items-center mx-auto">
-                <p class="text-xl text-white/60 max-w-2xl font-bold uppercase tracking-wide leading-relaxed">
+                <p data-i18n="coach_hero_subtitle" class="text-xl text-white/60 max-w-2xl font-bold uppercase tracking-wide leading-relaxed">
                     Earbuds in. AI in your ear. Your Cyberpunk Coach talks to you during the run, knows your
                     pace, GPS and territories — and responds in less than 1 second.
                 </p>
             </div>
 
-            <a href="early-access.html"
+            <a href="early-access.html" data-i18n="coach_cta_unlock"
                 class="inline-block px-10 py-5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-black uppercase tracking-widest text-sm rounded-2xl transition-all shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] group">
                 UNLOCK LIFETIME ACCESS
                 <i data-lucide="zap" class="w-4 h-4 inline-block ml-2 group-hover:animate-pulse"></i>
@@ -361,7 +384,7 @@
 
         <!-- 3 PILARES GEMINI CHALLENGE -->
         <section class="max-w-6xl mx-auto w-full mb-12 px-4">
-            <h2 class="text-xl font-black text-center mb-10 tracking-[0.3em] text-white/40 uppercase">The technology behind the operator</h2>
+            <h2 data-i18n="coach_tech_title" class="text-xl font-black text-center mb-10 tracking-[0.3em] text-white/40 uppercase">The technology behind the operator</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                 <!-- Track 1: Live Agents -->
@@ -373,9 +396,9 @@
                     </div>
                     <div class="mb-2 flex items-center gap-2">
                         <span class="px-2 py-0.5 rounded text-[8px] font-black tracking-widest bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 uppercase">Track 1</span>
-                        <h4 class="text-xs font-black uppercase tracking-widest text-white">Live Agents</h4>
+                        <h4 data-i18n="coach_track1_title" class="text-xs font-black uppercase tracking-widest text-white">Live Agents</h4>
                     </div>
-                    <p class="text-[13px] text-white/60 leading-relaxed font-medium">Hero Fitness uses the <strong class="text-cyan-400">Gemini Live API</strong> for real-time voice dialogue. The Coach listens to you during the run and supports interruptions without breaking the GPS and Pace context, hosted for high performance on GCP Cloud Run.</p>
+                    <p data-i18n="coach_track1_desc" class="text-[13px] text-white/60 leading-relaxed font-medium">Hero Fitness uses the <strong class="text-cyan-400">Gemini Live API</strong> for real-time voice dialogue. The Coach listens to you during the run and supports interruptions without breaking the GPS and Pace context, hosted for high performance on GCP Cloud Run.</p>
                 </div>
 
                 <!-- Track 2: Creative Narrator -->
@@ -387,9 +410,9 @@
                     </div>
                     <div class="mb-2 flex items-center gap-2">
                         <span class="px-2 py-0.5 rounded text-[8px] font-black tracking-widest bg-purple-500/20 text-purple-400 border border-purple-500/30 uppercase">Track 2</span>
-                        <h4 class="text-xs font-black uppercase tracking-widest text-white">Creative Narrator</h4>
+                        <h4 data-i18n="coach_track2_title" class="text-xs font-black uppercase tracking-widest text-white">Creative Narrator</h4>
                     </div>
-                    <p class="text-[13px] text-white/60 leading-relaxed font-medium">Mission Debriefs use <strong class="text-purple-400">Interleaved Multimodal</strong> data. Gemini narrates your run mixing epic narrative text with map snippets and stats in a single output stream.</p>
+                    <p data-i18n="coach_track2_desc" class="text-[13px] text-white/60 leading-relaxed font-medium">Mission Debriefs use <strong class="text-purple-400">Interleaved Multimodal</strong> data. Gemini narrates your run mixing epic narrative text with map snippets and stats in a single output stream.</p>
                 </div>
 
                 <!-- Track 3: UI Navigator -->
@@ -401,9 +424,9 @@
                     </div>
                     <div class="mb-2 flex items-center gap-2">
                         <span class="px-2 py-0.5 rounded text-[8px] font-black tracking-widest bg-orange-500/20 text-orange-400 border border-orange-500/30 uppercase">Track 3</span>
-                        <h4 class="text-xs font-black uppercase tracking-widest text-white">Interface Navigator</h4>
+                        <h4 data-i18n="coach_track3_title" class="text-xs font-black uppercase tracking-widest text-white">Interface Navigator</h4>
                     </div>
-                    <p class="text-[13px] text-white/60 leading-relaxed font-medium">Through screenshots, the AI "sees" the <strong class="text-orange-400">Interactive Tactical Map</strong> UI. The Agent interprets red zones (enemies) and acts on the interface, alerting the runner about lost territories and reacting to visual HUD changes.</p>
+                    <p data-i18n="coach_track3_desc" class="text-[13px] text-white/60 leading-relaxed font-medium">Through screenshots, the AI "sees" the <strong class="text-orange-400">Interactive Tactical Map</strong> UI. The Agent interprets red zones (enemies) and acts on the interface, alerting the runner about lost territories and reacting to visual HUD changes.</p>
                 </div>
 
             </div>
@@ -744,7 +767,7 @@
                             <div id="chat-scroller" class="h-32 overflow-y-auto mb-4 scroll-smooth pr-2 space-y-2">
                                 <p class="text-[10px] text-cyan-500/50 tracking-widest uppercase mb-2">[ SYSTEM INITIALIZED ]</p>
                                 <div id="terminal-content" class="space-y-3">
-                                    <p class="text-xs md:text-sm text-cyan-300 tracking-[0.1em] uppercase leading-relaxed font-bold animate-pulse">
+                                    <p class="text-xs md:text-sm text-cyan-300 tracking-[0.1em] uppercase leading-relaxed font-bold animate-pulse" data-i18n="coach_chat_init">
                                         "AWAITING NEURAL CONNECTION... CLICK THE ORACLE TO INITIATE."
                                     </p>
                                 </div>
@@ -753,7 +776,7 @@
                             <!-- Input Field for Chat -->
                             <div class="flex gap-3 items-center border-t border-cyan-500/10 pt-3">
                                 <div class="relative flex-1">
-                                    <input type="text" placeholder="SEND COMMAND..." class="w-full bg-black/40 border border-cyan-500/20 rounded-lg px-4 py-2 text-xs text-cyan-100 placeholder:text-cyan-900 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition-all font-mono">
+                                    <input type="text" data-i18n="coach_chat_placeholder" placeholder="SEND COMMAND..." class="w-full bg-black/40 border border-cyan-500/20 rounded-lg px-4 py-2 text-xs text-cyan-100 placeholder:text-cyan-900 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition-all font-mono" id="user-input">
                                     <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-2">
                                         <div class="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></div>
                                         <button id="voice-btn" class="text-cyan-600 hover:text-cyan-400 transition-colors pointer-events-auto">
@@ -761,7 +784,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <button id="send-btn" class="bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/40 text-cyan-400 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all pointer-events-auto min-w-[80px]">
+                                <button id="send-btn" data-i18n="coach_chat_send" class="bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/40 text-cyan-400 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all pointer-events-auto min-w-[80px]">
                                     SEND
                                 </button>
                             </div>
@@ -776,14 +799,14 @@
         <footer
             class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-20 uppercase">
             <div class="flex flex-col gap-2">
-                <p>© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
-                <p>SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
+                <p data-i18n="footer_rights">© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
+                <p data-i18n="footer_status">SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
             </div>
             <div class="flex gap-16 font-black italic">
-                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Privacy</a>
-                <a href="whitepaper.html" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Neural
+                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_privacy">Privacy</a>
+                <a href="whitepaper.html" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_neural_network">Neural
                     Network</a>
-                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]">Terminal</a>
+                <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_terminal">Terminal</a>
             </div>
         </footer>
 
@@ -1406,11 +1429,12 @@
         </button>
         <!-- Nav links -->
         <nav class="flex flex-col items-center gap-8">
-            <a href="index.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Home</a>
-            <a href="como-funciona.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">How it Works</a>
-            <a href="coach-ia.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Hero Fitness</a>
-            <a href="whitepaper.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all">Whitepaper</a>
-            <a href="early-access.html" class="text-2xl font-black tracking-[0.3em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500">Early Access</a>
+            <a href="index.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_home">Home</a>
+            <a href="como-funciona.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_how_it_works">How it Works</a>
+            <a href="coach-ia.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_hero_fitness">Hero Fitness</a>
+            <a href="roadmap.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_roadmap">Roadmap</a>
+            <a href="whitepaper.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_whitepaper">Whitepaper</a>
+            <a href="early-access.html" class="text-2xl font-black tracking-[0.3em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500" data-i18n="nav_early_access">Early Access</a>
         </nav>
     </div>
     <script>
