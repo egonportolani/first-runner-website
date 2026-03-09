@@ -761,28 +761,28 @@
                         </div>
                         
                         <!-- Terminal Subtitles / Chat Area -->
-                        <div class="pointer-events-auto w-full max-w-2xl bg-black/40 backdrop-blur-md border border-cyan-500/20 rounded-2xl p-4 overflow-hidden shadow-[inset_0_0_20px_rgba(0,243,255,0.05)]">
-                            <div id="chat-scroller" class="h-28 md:h-32 overflow-y-auto mb-4 scroll-smooth pr-2 space-y-2">
+                        <div class="pointer-events-auto w-full max-w-lg bg-black/40 backdrop-blur-md border border-cyan-500/20 rounded-2xl p-3 md:p-4 overflow-hidden shadow-[inset_0_0_20px_rgba(0,243,255,0.05)]">
+                            <div id="chat-scroller" class="h-24 md:h-28 overflow-y-auto mb-3 scroll-smooth pr-2 space-y-2">
                                 <p class="text-[10px] text-cyan-500/50 tracking-widest uppercase mb-2">[ SYSTEM INITIALIZED ]</p>
                                 <div id="terminal-content" class="space-y-3">
-                                    <p class="text-xs md:text-sm text-cyan-300 tracking-[0.1em] uppercase leading-relaxed font-bold animate-pulse" data-i18n="coach_chat_init">
+                                    <p class="text-xs text-cyan-300 tracking-[0.1em] uppercase leading-relaxed font-bold animate-pulse" data-i18n="coach_chat_init">
                                         "AWAITING NEURAL CONNECTION... CLICK THE ORACLE TO INITIATE."
                                     </p>
                                 </div>
                             </div>
                             
                             <!-- Input Field for Chat -->
-                            <div class="flex gap-3 items-center border-t border-cyan-500/10 pt-3">
+                            <div class="flex gap-2 items-center border-t border-cyan-500/10 pt-3">
                                 <div class="relative flex-1">
-                                    <input type="text" data-i18n="coach_chat_placeholder" placeholder="SEND COMMAND..." class="w-full bg-black/40 border border-cyan-500/20 rounded-lg px-4 py-2 text-xs text-cyan-100 placeholder:text-cyan-900 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition-all font-mono" id="user-input">
+                                    <input type="text" data-i18n="coach_chat_placeholder" placeholder="SEND COMMAND..." class="w-full bg-black/40 border border-cyan-500/20 rounded-lg px-3 py-2 text-xs text-cyan-100 placeholder:text-cyan-900 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition-all font-mono" id="user-input">
                                     <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-2">
                                         <div class="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></div>
                                         <button id="voice-btn" class="text-cyan-600 hover:text-cyan-400 transition-colors pointer-events-auto cursor-pointer">
-                                            <i data-lucide="mic" class="w-4 h-4"></i>
+                                            <i data-lucide="mic" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <button id="send-btn" data-i18n="coach_chat_send" class="bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/40 text-cyan-400 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all pointer-events-auto min-w-[80px] cursor-pointer">
+                                <button id="send-btn" data-i18n="coach_chat_send" class="bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/40 text-cyan-400 px-3 py-2 rounded-lg text-[10px] md:text-xs font-black uppercase tracking-widest transition-all pointer-events-auto min-w-[70px] cursor-pointer">
                                     SEND
                                 </button>
                             </div>
