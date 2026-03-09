@@ -78,11 +78,9 @@
         </div>
     </div>
 
-    <!-- CAMADA 2: CONTEÚDO — tela cheia com flex column -->
-    <div class="relative z-40 flex flex-col min-h-screen max-w-[1400px] mx-auto px-8 py-6">
-
-        <!-- NAVEGAÇÃO SUPERIOR -->
-        <nav class="relative z-50 flex items-center justify-between py-4 px-8 shrink-0 bg-[#010206] border-b border-white/10 w-full mb-10 mt-4 rounded-2xl mx-auto backdrop-blur-md">
+    <!-- NAVEGAÇÃO SUPERIOR (Camada Superior Independente) -->
+    <div class="fixed top-0 left-0 w-full z-50 bg-[#010206] border-b border-white/10">
+        <nav class="flex items-center justify-between py-4 px-8 max-w-[1400px] mx-auto w-full">
             <!-- Logo -->
             <a href="index.html"
                 class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity">
@@ -97,22 +95,18 @@
             </a>
 
             <!-- Links de navegação (centro) -->
-            <div
-                class="hidden lg:flex items-center gap-10 text-[14px] font-black tracking-[0.2em] uppercase text-white/60">
-                <a href="index.html"
-                    class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all" data-i18n="nav_home">Início</a>
+            <div translate="no" class="hidden lg:flex items-center gap-10 text-[14px] font-black tracking-[0.2em] uppercase text-white/60">
+                <a href="index.html" class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all" data-i18n="nav_home">Início</a>
                 <a href="como-funciona.html" class="hover:text-white transition-all" data-i18n="nav_how_it_works">Como Funciona</a>
                 <a href="coach-ia.html" class="hover:text-white transition-all" data-i18n="nav_hero_fitness">Hero</a>
                 <a href="whitepaper.html" class="hover:text-white transition-all" data-i18n="nav_whitepaper">Whitepaper</a>
-                <a href="early-access.html"
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all" data-i18n="nav_early_access">Early
-                    Access</a>
+                <a href="early-access.html" class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all" data-i18n="nav_early_access">Early Access</a>
             </div>
 
             <!-- Ações direita -->
             <div class="flex items-center gap-4 sm:gap-6">
                 <!-- Seletor de Idiomas -->
-                <div class="relative group mt-1">
+                <div class="relative group mt-1" translate="no">
                     <button class="flex items-center gap-1 sm:gap-2 text-white/70 hover:text-white transition-colors uppercase font-black text-[10px] sm:text-xs tracking-widest cursor-pointer py-2">
                         <i data-lucide="globe" class="w-4 h-4"></i>
                         <span class="hidden sm:inline" id="lang-switcher-label">PT</span>
@@ -124,6 +118,7 @@
                         <button onclick="switchLanguage('en')" class="lang-option px-5 py-3 text-xs font-bold text-left transition-colors uppercase tracking-wider flex items-center justify-between hover:bg-white/5">EN <span class="lang-sublabel text-[10px] opacity-50">English</span></button>
                     </div>
                 </div>
+                <!-- Menu Mobile Handle -->
                 <button id="menu-toggle" class="lg:hidden flex flex-col justify-center gap-[5px] p-2 cursor-pointer" aria-label="Menu">
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
                     <span class="block w-6 h-[2px] bg-white transition-all"></span>
@@ -131,6 +126,10 @@
                 </button>
             </div>
         </nav>
+    </div>
+
+    <!-- CAMADA 2: CONTEÚDO — tela cheia com flex column -->
+    <div class="relative z-40 flex flex-col min-h-screen max-w-[1400px] mx-auto px-8 py-6 pt-32">
 
         <!-- HERO: ocupa todo o espaço restante, conteúdo centralizado -->
         <main class="flex-1 flex flex-col items-center justify-center text-center -mt-10 sm:-mt-16 px-4">
@@ -161,8 +160,8 @@
             </button>
 
             <!-- Gemini Challenge Banner -->
-            <div class="relative z-40 w-full max-w-[1400px] mt-12 mb-4">
-                <section class="py-6 px-10 backdrop-blur-2xl bg-[#0f1115]/80 border border-white/5 rounded-[40px] flex flex-col md:flex-row items-center justify-between shadow-2xl w-full max-w-5xl mx-auto gap-8 group hover:border-cyan-500/20 transition-all duration-500">
+            <div class="relative z-40 w-full max-w-[1400px] mt-20 mb-4">
+                <section class="py-10 px-12 backdrop-blur-2xl bg-[#0f1115]/80 border border-white/5 rounded-[40px] flex flex-col md:flex-row items-center justify-between shadow-2xl w-full max-w-5xl mx-auto gap-8 group hover:border-cyan-500/20 transition-all duration-500">
                     <div class="flex flex-col items-center md:items-start text-center md:text-left gap-1">
                         <h3 class="text-2xl md:text-3xl font-black tracking-tight uppercase">
                             <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">Gemini Live</span> <span class="text-white">Agent Challenge</span>
