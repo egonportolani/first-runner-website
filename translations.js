@@ -10,8 +10,7 @@ window.translations = {
         "nav_get_started": "Começar",
         
         // Common Footer
-        "footer_rights": "© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL",
-        "footer_status": "SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED",
+        "footer_rights": "© 2026 FIRST RUNNER",
         "footer_privacy": "Privacidade",
         "footer_neural_network": "Rede Neural",
         "footer_terminal": "Terminal",
@@ -186,8 +185,7 @@ window.translations = {
         "nav_get_started": "Get Started",
 
         // Common Footer
-        "footer_rights": "© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL",
-        "footer_status": "SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED",
+        "footer_rights": "© 2026 FIRST RUNNER",
         "footer_privacy": "Privacy",
         "footer_neural_network": "Neural Network",
         "footer_terminal": "Terminal",
