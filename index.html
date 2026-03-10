@@ -354,7 +354,7 @@
         });
 
         if (waitlistForm) {
-            waitlistForm.addEventListener('submit', (e) => {
+            waitlistForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const email = document.getElementById('waitlist-email').value;
                 if (email) {
@@ -362,11 +362,37 @@
                     waitlistSubmit.innerHTML = '<span class="animate-pulse" data-i18n="modal_processing">PROCESSANDO...</span>';
                     translatePage(); // Show translated "Processing"
 
-                    setTimeout(() => {
+                    // --- Integração Opção 1: Webhook do ClickMax ---
+                    // Cole aqui a URL gerada pelo ClickMax:
+                    const webhookUrl = 'SUA_URL_DO_WEBHOOK_DO_CLICKMAX_AQUI'; 
+
+                    try {
+                        /* Descomente este bloco quando tiver a URL do ClickMax
+                        const response = await fetch(webhookUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ email: email })
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Falha ao enviar email');
+                        }
+                        */
+                        
+                        // Fake delay to show loading state (remover em produção)
+                        await new Promise(resolve => setTimeout(resolve, 1500));
+
                         waitlistForm.classList.add('hidden');
                         waitlistSuccess.classList.remove('hidden');
                         waitlistSuccess.classList.add('flex');
-                    }, 1500);
+                    } catch (error) {
+                        console.error('Erro ao enviar para a lista de espera:', error);
+                        waitlistSubmit.innerHTML = '<span data-i18n="modal_submit_button">CADASTRAR</span>';
+                        translatePage();
+                        alert('Ocorreu um erro ao cadastrar. Tente novamente.');
+                    }
                 }
             });
         }

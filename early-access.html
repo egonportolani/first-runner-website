@@ -181,204 +181,126 @@
             </div>
         </nav>
 
-        <!-- SECÇÃO HERO EARLY ACCESS -->
-        <header class="mb-20 max-w-5xl text-center mx-auto">
-            <!-- Badge Sale -->
+        <!-- SECÇÃO HERO INVESTIDORES -->
+        <header class="mb-20 max-w-5xl text-center mx-auto mt-10">
+            <!-- Badge Seed Round -->
             <div
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/30 mb-8 backdrop-blur-md shadow-[0_0_15px_rgba(251,146,60,0.2)]">
-                <i data-lucide="flame" class="w-4 h-4 text-orange-400 fill-orange-400/20 animate-pulse"></i>
-                <span class="text-[10px] font-black tracking-[0.4em] text-orange-400 uppercase" data-i18n="early_badge">PRIVATE ROUND
-                    ABERTO</span>
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-8 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                <i data-lucide="bar-chart-2" class="w-4 h-4 text-blue-400 animate-pulse"></i>
+                <span class="text-[10px] font-black tracking-[0.4em] text-blue-400 uppercase" data-i18n="investor_badge">PRIVATE PRE-SEED ABERTO</span>
             </div>
 
             <h1
-                class="text-6xl md:text-8xl font-black leading-[0.9] mb-6 tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] uppercase" data-i18n="early_hero_title">
-                JUNTE-SE À <br />
+                class="text-4xl md:text-7xl font-black leading-[1.1] mb-6 tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] uppercase" data-i18n="investor_hero_title">
+                O PRÓXIMO UNICÓRNIO DO <br />
                 <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-400 italic">FUNDAÇÃO.</span>
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 italic">FITNESS TECH.</span>
             </h1>
 
             <div class="flex flex-col gap-2 mb-12 items-center mx-auto">
-                <p class="text-xl text-white/60 max-w-2xl font-bold uppercase tracking-wide leading-relaxed" data-i18n="early_hero_subtitle">
-                    Apoie a revolução gamificada no esporte. Garanta seu lugar no topo da cadeia alimentar antes do
-                    lançamento global.
+                <p class="text-lg md:text-xl text-white/60 max-w-3xl font-bold uppercase tracking-wide leading-relaxed" data-i18n="investor_hero_subtitle">
+                    A primeira plataforma que une Inteligência Artificial em tempo real e Gamificação Web3 para resolver o maior problema da indústria: a retenção de corredores.
                 </p>
             </div>
         </header>
 
-        <!-- CARDS DE MONETIZAÇÃO / PRE-SEED -->
+        <!-- PITCH POINTS & CTA -->
         <section class="max-w-6xl mx-auto w-full mb-32 relative z-10 px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch pt-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch pt-6 mb-20">
 
-                <!-- 1. PACOTE FOUNDER PASS -->
+                <!-- PONTO 1: O PROBLEMA -->
                 <div
-                    class="backdrop-blur-[60px] bg-slate-900/40 border border-white/10 rounded-[40px] p-8 md:p-10 relative flex flex-col group hover:border-blue-500/40 transition-all shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
-
-                    <div class="mb-8 flex justify-between items-start">
-                        <div
-                            class="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <i data-lucide="ticket" class="w-8 h-8 text-blue-400"></i>
+                    class="backdrop-blur-[60px] bg-slate-900/40 border border-white/10 rounded-[40px] p-8 md:p-10 relative flex flex-col group hover:border-red-500/40 transition-all shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
+                    <div class="mb-6 flex justify-between items-start">
+                        <div class="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i data-lucide="triangle-alert" class="w-7 h-7 text-red-400"></i>
                         </div>
-                        <span
-                            class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/50 uppercase tracking-wider" data-i18n="early_founder_tag">Acesso
-                            VIP</span>
                     </div>
-
-                    <h3 class="text-3xl font-black text-white uppercase mb-2" data-i18n="early_founder_title">Founder's Pass</h3>
-                    <div class="flex items-baseline gap-1 mb-6">
-                        <span class="text-xl text-blue-400 font-bold">R$</span>
-                        <span
-                            class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">99</span>
-                    </div>
-
-                    <p class="text-sm text-white/60 font-medium mb-8 flex-1" data-i18n="early_founder_desc">
-                        Sua credencial primária para a resistência. Um passe vitalício com vantagens na plataforma e
-                        acesso antecipado antes do Beta Fechado ir a público.
+                    <h3 class="text-2xl font-black text-white uppercase mb-4" data-i18n="pitch_problem_title">A Dor (Churn)</h3>
+                    <p class="text-sm text-white/60 font-medium mb-6 flex-1 leading-relaxed" data-i18n="pitch_problem_desc">
+                        Apps de corrida tradicionais oferecem apenas métricas frias. O corredor iniciante perde a motivação nos primeiros 3 meses por falta de engajamento, instrução e senso de progressão.
                     </p>
-
-                    <ul class="space-y-4 mb-10">
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold" data-i18n="early_founder_feat1">Título "[FOUNDER]" no nome</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold" data-i18n="early_founder_feat2">Geração Mensal Estendida de Tinta</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold" data-i18n="early_founder_feat3">Acesso ao Aplicativo 30 dias Antes</span>
-                        </li>
-                    </ul>
-
-                    <button
-                        class="w-full py-4 rounded-2xl bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 text-white font-bold uppercase tracking-wider transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]" data-i18n="early_founder_cta">
-                        MINTAR PASSE
-                    </button>
+                    <div class="text-left mt-auto">
+                        <span class="text-4xl font-black text-white">80%</span>
+                        <p class="text-[10px] text-red-400 uppercase tracking-widest font-black mt-1" data-i18n="pitch_problem_stat">Taxa global de abandono</p>
+                    </div>
                 </div>
 
-                <!-- 2. $RUN TOKEN BOX -->
+                <!-- PONTO 2: A SOLUÇÃO -->
                 <div
-                    class="backdrop-blur-[60px] bg-slate-900/60 border-2 border-orange-500/40 rounded-[40px] p-8 md:p-10 relative flex flex-col group hover:border-orange-400 transition-all shadow-[0_30px_60px_rgba(0,0,0,0.6)] md:-mt-8 transform md:scale-105 z-20">
+                    class="backdrop-blur-[60px] bg-slate-900/60 border-2 border-cyan-500/40 rounded-[40px] p-8 md:p-10 relative flex flex-col group hover:border-cyan-400 transition-all shadow-[0_30px_60px_rgba(0,0,0,0.6)] md:-mt-8 transform md:scale-105 z-20">
+                    
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-cyan-600 to-blue-500 text-white px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase shadow-[0_0_20px_rgba(6,182,212,0.4)] z-30" data-i18n="pitch_solution_tag">Nosso Oceano Azul</div>
 
-                    <!-- Popular Badge -->
-                    <div
-                        class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-600 to-yellow-500 text-black px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase shadow-[0_0_20px_rgba(249,115,22,0.4)] z-30" data-i18n="early_seed_tag">
-                        Investidor Estratégico
-                    </div>
-
-                    <div class="mb-8 flex justify-between items-start mt-2">
-                        <div
-                            class="w-16 h-16 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <i data-lucide="coins" class="w-8 h-8 text-orange-400"></i>
+                    <div class="mb-6 flex justify-between items-start mt-2">
+                        <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i data-lucide="brain-circuit" class="w-7 h-7 text-cyan-400"></i>
                         </div>
-                        <span
-                            class="px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-[10px] font-bold text-orange-400 uppercase tracking-wider animate-pulse">Fase
-                            1 (Round A)</span>
                     </div>
-
-                    <h3
-                        class="text-3xl font-black text-white uppercase mb-2 text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-yellow-500" data-i18n="early_seed_title">
-                        Seed Pack ($RUN)</h3>
-                    <div class="flex items-baseline gap-1 mb-2">
-                        <span class="text-xl text-orange-400 font-bold">R$</span>
-                        <span
-                            class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">499</span>
-                    </div>
-                    <div class="text-[10px] text-white/40 font-bold tracking-widest mb-6" data-i18n="early_seed_sub">Receba +5.000 $RUN Tokens Base
-                    </div>
-
-                    <p class="text-sm text-white/60 font-medium mb-8 flex-1" data-i18n="early_seed_desc">
-                        Sua cota na economia do Metaverso First Runner com preço absoluto de raiz. Criptoativos
-                        protegidos na sua carteira na data de estreia global.
+                    <h3 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 uppercase mb-4" data-i18n="pitch_solution_title">I.A + Gamificação</h3>
+                    <p class="text-sm text-white/70 font-medium mb-6 flex-1 leading-relaxed" data-i18n="pitch_solution_desc">
+                        Um treinador neural (Gemini Voice) em tempo real + um ecossistema Web3 onde cada km corrido gera recompensas ($RUN), status e imersão.
                     </p>
-
-                    <ul class="space-y-4 mb-10">
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-orange-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/90 font-bold" data-i18n="early_seed_feat1">Lote 5.000 Tokens $RUN Garantidos</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-orange-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold" data-i18n="early_seed_feat2">Tudo do "Founder's Pass" Incluso</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-orange-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold" data-i18n="early_seed_feat3">Poder de Voto na DAO Esportiva</span>
-                        </li>
+                    <ul class="space-y-3 mt-auto border-t border-white/10 pt-6">
+                        <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span class="text-xs text-white/90 font-bold uppercase tracking-wider" data-i18n="pitch_sol_1">I.A Visão/Voz Live</span></li>
+                        <li class="flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i><span class="text-xs text-white/90 font-bold uppercase tracking-wider" data-i18n="pitch_sol_2">Economia Tokenizada</span></li>
                     </ul>
-
-                    <button
-                        class="w-full py-4 rounded-2xl bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-black font-black uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(249,115,22,0.3)] hover:shadow-[0_0_40px_rgba(249,115,22,0.6)]" data-i18n="early_seed_cta">
-                        COMPRAR COTA AGORA
-                    </button>
                 </div>
 
-                <!-- 3. LIFETIME Hero Fitness -->
+                <!-- PONTO 3: BUSINESS MODEL -->
                 <div
-                    class="backdrop-blur-[60px] bg-slate-900/40 border border-white/10 rounded-[40px] p-8 md:p-10 relative flex flex-col group hover:border-cyan-500/40 transition-all shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
-
-                    <div class="mb-8 flex justify-between items-start">
-                        <div
-                            class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <i data-lucide="cpu" class="w-8 h-8 text-cyan-400"></i>
+                    class="backdrop-blur-[60px] bg-slate-900/40 border border-white/10 rounded-[40px] p-8 md:p-10 relative flex flex-col group hover:border-green-500/40 transition-all shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
+                    <div class="mb-6 flex justify-between items-start">
+                        <div class="w-14 h-14 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i data-lucide="trending-up" class="w-7 h-7 text-green-400"></i>
                         </div>
-                        <span
-                            class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white/50 uppercase tracking-wider" data-i18n="coach_cta_unlock">Acesso
-                            Vitalício</span>
                     </div>
-
-                    <h3 class="text-3xl font-black text-white uppercase mb-2">Coach neural I.A</h3>
-                    <div class="flex items-baseline gap-1 mb-6">
-                        <span class="text-xl text-cyan-400 font-bold">R$</span>
-                        <span
-                            class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">997</span>
-                    </div>
-
-                    <p class="text-sm text-white/60 font-medium mb-8 flex-1" data-i18n="coach_hero_subtitle">
-                        Para o Atleta Implacável. Pare de pagar mensalidade. Adquira o Módulo Neural I.A Gemini para
-                        rastreio biológico em um único pagamento, para o resto da vida.
+                    <h3 class="text-2xl font-black text-white uppercase mb-4" data-i18n="pitch_business_title">Modelo de Negócios</h3>
+                    <p class="text-sm text-white/60 font-medium mb-6 flex-1 leading-relaxed" data-i18n="pitch_business_desc">
+                        Receitas recorrentes e diversificadas com alto LTV e custos marginais globais reduzidos via infraestrutura Serverless.
                     </p>
-
-                    <ul class="space-y-4 mb-10">
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold">I.A Gemini Live Ativa (Vitalício)</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold">Relatórios Biométricos Semanais (Zero
-                                Ads)</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5"></i>
-                            <span class="text-xs text-white/80 font-semibold">Prioridade na Geração de Rotas I.A</span>
-                        </li>
+                    <ul class="space-y-3 mt-auto">
+                        <li class="flex items-start gap-3"><i data-lucide="circle-dollar-sign" class="w-4 h-4 text-green-400 mt-0.5"></i><span class="text-xs text-white/80 font-bold uppercase tracking-wider" data-i18n="pitch_biz_1">Assinaturas SaaS I.A</span></li>
+                        <li class="flex items-start gap-3"><i data-lucide="circle-dollar-sign" class="w-4 h-4 text-green-400 mt-0.5"></i><span class="text-xs text-white/80 font-bold uppercase tracking-wider" data-i18n="pitch_biz_2">Taxas do Marketplace</span></li>
+                        <li class="flex items-start gap-3"><i data-lucide="circle-dollar-sign" class="w-4 h-4 text-green-400 mt-0.5"></i><span class="text-xs text-white/80 font-bold uppercase tracking-wider" data-i18n="pitch_biz_3">Parcerias B2B (Marcas)</span></li>
                     </ul>
-
-                    <button
-                        class="w-full py-4 rounded-2xl bg-cyan-600/20 hover:bg-cyan-600/40 border border-cyan-500/30 text-white font-bold uppercase tracking-wider transition-all hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]" data-i18n="coach_cta_unlock">
-                        Desbloquear Vitalício
-                    </button>
                 </div>
+            </div>
 
+            <!-- CHAMADA PARA AÇÃO (INVESTIDORES) -->
+            <div class="max-w-4xl mx-auto backdrop-blur-xl bg-blue-900/10 border border-blue-500/30 rounded-[40px] p-8 md:p-14 text-center relative overflow-hidden group hover:border-blue-400/60 transition-colors">
+                <!-- Efeito luminoso de fundo -->
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-transparent to-cyan-600/10 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                
+                <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tight mb-4 text-white relative z-10 drop-shadow-lg" data-i18n="investor_cta_title">Smart Money: Junte-se à Bordo</h2>
+                <p class="text-sm md:text-base text-white/70 font-medium mb-10 max-w-2xl mx-auto leading-relaxed relative z-10" data-i18n="investor_cta_desc">
+                    Estamos na fase fechada (Private Round), selecionando parceiros focados que agreguem capital, visão e networking. Inscreva-se para receber o nosso Pitch Deck e agendar um Deep Dive com os fundadores.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-10">
+                    <button id="open-pitch-modal" class="px-8 py-5 rounded-2xl bg-white text-black font-black uppercase tracking-widest hover:bg-gray-200 hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.4)] w-full sm:w-auto flex items-center justify-center gap-3">
+                        <i data-lucide="presentation" class="w-5 h-5"></i>
+                        <span data-i18n="investor_btn_pitch">Solicitar Pitch Deck</span>
+                    </button>
+                    <a href="mailto:investors@firstrunner.com.br" class="px-8 py-5 rounded-2xl border border-white/20 hover:border-white/60 bg-black/40 text-white font-bold uppercase tracking-widest hover:bg-white/10 transition-all w-full sm:w-auto flex items-center justify-center gap-3">
+                        <i data-lucide="mail" class="w-5 h-5 opacity-70"></i>
+                        <span data-i18n="investor_btn_contact">Contato Direto</span>
+                    </a>
+                </div>
             </div>
 
             <!-- Aviso Jurídico -->
             <p
-                class="text-center mt-12 text-[10px] text-white/30 uppercase tracking-widest font-semibold font-sans max-w-4xl mx-auto" data-i18n="early_legal">
-                *ESTA É UMA RODADA DE CAPTAÇÃO DA COMUNIDADE (PRIVATE PRE-SEED). OS ATIVOS E TOKENS ADQUIRIDOS ESTARÃO
-                DISPONÍVEIS NA CARTEIRA DIGITAL CONECTADA ASSIM QUE A VERSÃO BETA FECHADA DA PLATAFORMA "FIRST RUNNER"
-                FOR LANÇADA. AO COLABORAR, VOCÊ CONCORDA COM OS TERMOS EARLY-SUPPORTER.
+                class="text-center mt-12 text-[10px] text-white/60 uppercase tracking-widest font-semibold font-sans max-w-4xl mx-auto drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]" data-i18n="investor_legal">
+                *ESTE MATERIAL É ESTRITAMENTE CONFIDENCIAL E DESTINADO EXCLUSIVAMENTE A INVESTIDORES QUALIFICADOS E PARCEIROS ESTRATÉGICOS DA FIRST RUNNER. TERMOS CONDICIONAIS SE APLICAM.
             </p>
         </section>
 
         <!-- RODAPÉ ESTATÍSTICO E LEGAL -->
         <footer
-            class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-20 uppercase">
+            class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-60 uppercase drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)] text-center md:text-left">
             <div class="flex flex-col gap-2">
-                <p data-i18n="footer_rights">© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
-                <p data-i18n="footer_status">SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
+                <p data-i18n="footer_rights">© 2026 FIRST RUNNER</p>
             </div>
             <div class="flex gap-16 font-black italic">
                 <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_privacy">Privacidade</a>
@@ -412,8 +334,59 @@
             <a href="early-access.html" class="text-2xl font-black tracking-[0.3em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500" data-i18n="nav_early_access">Early Access</a>
         </nav>
     </div>
+    <!-- ===== PITCH DECK MODAL ===== -->
+    <div id="pitch-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-xl" id="pitch-modal-bg"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative w-full max-w-md bg-[#050B14] border border-blue-500/30 rounded-[2rem] p-8 shadow-[0_0_50px_rgba(59,130,246,0.2)] overflow-hidden transform scale-95 transition-transform duration-300" id="pitch-modal-box">
+            
+            <button id="close-pitch-modal" class="absolute top-6 right-6 text-white/40 hover:text-white transition-colors z-20">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <div id="pitch-form-container">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center mb-6">
+                    <i data-lucide="briefcase" class="w-6 h-6 text-blue-400"></i>
+                </div>
+                
+                <h3 class="text-2xl font-black text-white uppercase mb-2 tracking-wide" data-i18n="modal_pitch_title">Acesso Restrito</h3>
+                <p class="text-sm text-white/60 mb-8 font-medium" data-i18n="modal_pitch_desc">Preencha seus dados para solicitar o Data Room e agendar uma call com o board executivo.</p>
+
+                <form id="pitch-form" class="space-y-4 relative z-10">
+                    <div>
+                        <input type="text" id="investor-name" required placeholder="Nome Completo / Empresa" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium text-sm" data-i18n-placeholder="modal_name_placeholder">
+                    </div>
+                    <div>
+                        <input type="email" id="investor-email" required placeholder="Email Profissional" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium text-sm" data-i18n-placeholder="modal_email_placeholder">
+                    </div>
+                    <div>
+                        <input type="url" id="investor-linkedin" placeholder="LinkedIn (Opcional)" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium text-sm" data-i18n-placeholder="modal_linkedin_placeholder">
+                    </div>
+                    <button type="submit" id="pitch-submit" class="w-full py-4 mt-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-black uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] flex justify-center items-center">
+                        <span data-i18n="modal_pitch_submit">SOLICITAR ACESSO</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- State: Success -->
+            <div id="pitch-success" class="hidden flex-col items-center justify-center py-6 text-center h-full">
+                <div class="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-6 mx-auto shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+                    <i data-lucide="check" class="w-8 h-8 text-green-400"></i>
+                </div>
+                <h3 class="text-2xl font-black text-white uppercase mb-2 tracking-wide" data-i18n="modal_pitch_success_title">Recebido com Sucesso</h3>
+                <p class="text-sm text-white/60 mb-6 font-medium" data-i18n="modal_pitch_success_desc">Agradecemos o interesse. Nossa equipe de RI analisará seu contato e retornará em até 24h úteis.</p>
+                <button id="pitch-close-success" class="px-8 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm uppercase tracking-widest transition-all w-full">
+                    <span data-i18n="modal_close">FECHAR</span>
+                </button>
+            </div>
+            
+        </div>
+    </div>
     <script>
         (function () {
+            // Mobile Menu
             var btn = document.getElementById('menu-toggle');
             var menu = document.getElementById('mobile-menu');
             var close = document.getElementById('mobile-close');
@@ -430,6 +403,88 @@
                     a.style.filter = 'drop-shadow(0 0 8px rgba(255,255,255,0.6))';
                 }
             });
+
+            // Pitch Modal Logic
+            const pitchBtn = document.getElementById('open-pitch-modal');
+            const pitchModal = document.getElementById('pitch-modal');
+            const pitchModalBox = document.getElementById('pitch-modal-box');
+            const pitchCloseBtn = document.getElementById('close-pitch-modal');
+            const pitchBg = document.getElementById('pitch-modal-bg');
+            const pitchForm = document.getElementById('pitch-form');
+            const pitchFormContainer = document.getElementById('pitch-form-container');
+            const pitchSuccessWrapper = document.getElementById('pitch-success');
+            const pitchSubmit = document.getElementById('pitch-submit');
+            const pitchCloseSuccess = document.getElementById('pitch-close-success');
+
+            function openPitchModal() {
+                if(pitchModal) {
+                    pitchModal.classList.remove('opacity-0', 'pointer-events-none');
+                    pitchModalBox.classList.remove('scale-95');
+                    pitchModalBox.classList.add('scale-100');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closePitchModalLayer() {
+                if(pitchModal) {
+                    pitchModal.classList.add('opacity-0', 'pointer-events-none');
+                    pitchModalBox.classList.remove('scale-100');
+                    pitchModalBox.classList.add('scale-95');
+                    document.body.style.overflow = '';
+                    
+                    // Reset form after close animation
+                    setTimeout(() => {
+                        if (pitchForm) pitchForm.reset();
+                        if (pitchFormContainer) pitchFormContainer.classList.remove('hidden');
+                        if (pitchSuccessWrapper) {
+                            pitchSuccessWrapper.classList.add('hidden');
+                            pitchSuccessWrapper.classList.remove('flex');
+                        }
+                    }, 300);
+                }
+            }
+
+            if (pitchBtn) pitchBtn.addEventListener('click', openPitchModal);
+            if (pitchCloseBtn) pitchCloseBtn.addEventListener('click', closePitchModalLayer);
+            if (pitchBg) pitchBg.addEventListener('click', closePitchModalLayer);
+            if (pitchCloseSuccess) pitchCloseSuccess.addEventListener('click', closePitchModalLayer);
+
+            if (pitchForm) {
+                pitchForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('investor-name').value;
+                    const email = document.getElementById('investor-email').value;
+                    const linkedin = document.getElementById('investor-linkedin').value;
+                    
+                    if (email && name) {
+                        pitchSubmit.innerHTML = '<span class="animate-pulse" data-i18n="modal_processing">PROCESSANDO...</span>';
+                        if (typeof translatePage === "function") translatePage();
+
+                        try {
+                            // --- Integração ClickMax Webhook (Passa sua URL do Clickmax AQUI) ---
+                            // const webhookUrl = 'SUA_URL_DO_WEBHOOK_DO_CLICKMAX_AQUI';
+                            // await fetch(webhookUrl, {
+                            //    method: 'POST',
+                            //    headers: { 'Content-Type': 'application/json' },
+                            //    body: JSON.stringify({ name, email, linkedin, origin: 'pitch_form' })
+                            // });
+
+                            // Simulando disparo de sucesso para teste local
+                            await new Promise(resolve => setTimeout(resolve, 1500));
+
+                            pitchFormContainer.classList.add('hidden');
+                            pitchSuccessWrapper.classList.remove('hidden');
+                            pitchSuccessWrapper.classList.add('flex');
+                        } catch (error) {
+                            console.error('Erro ao enviar pitch request:', error);
+                            pitchSubmit.innerHTML = '<span data-i18n="modal_pitch_submit">SOLICITAR ACESSO</span>';
+                            if (typeof translatePage === "function") translatePage();
+                            alert('Erro ao enviar a solicitação, tente novamente.');
+                        }
+                    }
+                });
+            }
         })();
     </script>
 </body>

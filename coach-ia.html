@@ -304,9 +304,9 @@
         <div class="absolute right-0 bottom-0 w-1/3 h-1/2 bg-orange-900/10 blur-[150px] z-10"></div>
     </div>
 
-    <!-- NAVEGAÇÃO SUPERIOR (Camada Superior Independente) -->
-    <div class="fixed top-0 left-0 w-full z-50 bg-[#010206] border-b border-white/10">
-        <nav class="flex items-center justify-between py-2 px-4 md:px-8 max-w-[1400px] mx-auto w-full">
+    <!-- NAVEGAÇÃO SUPERIOR (Flutuante) -->
+    <div class="fixed top-0 left-0 w-full z-50 pt-6 px-4 md:px-8">
+        <nav class="flex items-center justify-between py-3 px-6 max-w-[1400px] mx-auto w-full bg-[#010206]/80 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl">
             <!-- Logo -->
             <a href="index.html"
                 class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity">
@@ -322,10 +322,9 @@
 
             <!-- Links de navegação (centro) -->
             <div translate="no" class="hidden lg:flex items-center gap-10 text-[14px] font-black tracking-[0.2em] uppercase text-white/60">
-                <a href="index.html" class="hover:text-white transition-all" data-i18n="nav_home">Home</a>
-                <a href="como-funciona.html" class="hover:text-white transition-all" data-i18n="nav_how_it_works">How it Works</a>
-                <a href="coach-ia.html" class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all" data-i18n="nav_hero_fitness">Hero Fitness</a>
-                <a href="roadmap.html" class="hover:text-white transition-all" data-i18n="nav_roadmap">Roadmap</a>
+                <a href="index.html" class="hover:text-white transition-all" data-i18n="nav_home">Início</a>
+                <a href="como-funciona.html" class="hover:text-white transition-all" data-i18n="nav_how_it_works">Como Funciona</a>
+                <a href="coach-ia.html" class="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all" data-i18n="nav_hero_fitness">Hero</a>
                 <a href="whitepaper.html" class="hover:text-white transition-all" data-i18n="nav_whitepaper">Whitepaper</a>
                 <a href="early-access.html" class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 drop-shadow-[0_0_12px_rgba(249,115,22,0.7)] animate-pulse transition-all" data-i18n="nav_early_access">Early Access</a>
             </div>
@@ -793,12 +792,11 @@
 
         <!-- RODAPÉ ESTATÍSTICO E LEGAL -->
         <footer
-            class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-20 uppercase">
+            class="mt-auto py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black tracking-[0.6em] opacity-60 uppercase text-center md:text-left">
             <div class="flex flex-col gap-2">
-                <p data-i18n="footer_rights">© 2026 FIRST RUNNER // RE-CODING THE HUMAN POTENTIAL</p>
-                <p data-i18n="footer_status">SYNC-STABLE: 100% // NEURAL-LINK: CALIBRATED</p>
+                <p data-i18n="footer_rights">© 2026 FIRST RUNNER</p>
             </div>
-            <div class="flex gap-16 font-black italic">
+            <div class="flex flex-col sm:flex-row gap-6 sm:gap-16 font-black italic items-center">
                 <a href="#" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_privacy">Privacy</a>
                 <a href="whitepaper.html" class="hover:opacity-100 transition-all hover:tracking-[0.8em]" data-i18n="footer_neural_network">Neural
                     Network</a>
@@ -1507,10 +1505,9 @@
         </button>
         <!-- Nav links -->
         <nav class="flex flex-col items-center gap-8">
-            <a href="index.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_home">Home</a>
-            <a href="como-funciona.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_how_it_works">How it Works</a>
-            <a href="coach-ia.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_hero_fitness">Hero Fitness</a>
-            <a href="roadmap.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_roadmap">Roadmap</a>
+            <a href="index.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_home">Início</a>
+            <a href="como-funciona.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_how_it_works">Como Funciona</a>
+            <a href="coach-ia.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_hero_fitness">Hero</a>
             <a href="whitepaper.html" class="text-2xl font-black tracking-[0.3em] uppercase text-white/60 hover:text-white transition-all" data-i18n="nav_whitepaper">Whitepaper</a>
             <a href="early-access.html" class="text-2xl font-black tracking-[0.3em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500" data-i18n="nav_early_access">Early Access</a>
         </nav>
