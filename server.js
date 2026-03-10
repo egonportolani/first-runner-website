@@ -14,18 +14,25 @@ app.use(express.static(path.join(__dirname, '/'))); // Serve os HTMLs e assets d
 // Nosso Backend / Rota da API Gemini
 app.post('/api/chat', async (req, res) => {
     try {
-        const { message } = req.body;
+        const { message, imageBase64 } = req.body;
         const apiKey = process.env.GEMINI_API_KEY;
 
         if (!apiKey || apiKey === 'coloque_sua_chave_aqui') {
             return res.status(500).json({ error: 'GEMINI_API_KEY não configurada no .env' });
         }
 
-        // Import clássico para Node
-        const fetch = require('node-fetch');
+        // System Prompt Otimizado pra Respostas Rápidas de Voz e Visão
+        const systemInstruction = "Você é o Core, a IA de voz do aplicativo fitness First Runner. Responda APENAS com mensagens extremamente curtas, diretas e faladas (1 a 2 frases curtas no máximo), simulando um assistente de voz em tempo real treinando um corredor de rua. Se o usuário enviar uma imagem (Live Vision), analise a paisagem, o trajeto ou o terreno e faça um comentário rápido como se estivesse vendo pelos óculos inteligentes do corredor (exemplo: 'Terreno irregular à frente, ajuste a passada', 'Belo parque, mantenha o foco na trilha'). Não crie listas, pontos nem textos longos. Use tons esportivos ou cyberpunks. Responda no idioma Português do Brasil. Suas respostas DEVEM ser em formato JSON estrito com exatamente dois campos obrigatórios: 'texto' (a resposta) e 'humor' ('calmo', 'animado', 'alerta', ou 'misterioso'). NUNCA use markdown, nem blocos ```json.";
 
-        // System Prompt Otimizado pra Respostas Rápidas de Voz
-        const systemInstruction = "Você é o Core, a IA de voz do aplicativo fitness First Runner. Responda APENAS com mensagens extremamente curtas, diretas e faladas (1 a 2 frases curtas no máximo), simulando um assistente de voz em tempo real treinando um corredor de rua. Não crie listas, pontos nem textos longos. Use tons esportivos ou cyberpunks. Responda no idioma Português do Brasil. Suas respostas DEVEM ser em formato JSON estrito com exatamente dois campos obrigatórios: 'texto' (a resposta que será falada pelo robô) e 'humor' ('calmo', 'animado', 'alerta', ou 'misterioso'). NUNCA use markdown, nem blocos ```json.";
+        const parts = [{ text: message || "Analise meu ambiente e trajeto atual." }];
+        if (imageBase64) {
+            parts.push({
+                inline_data: {
+                    mime_type: "image/jpeg",
+                    data: imageBase64
+                }
+            });
+        }
 
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
@@ -35,7 +42,7 @@ app.post('/api/chat', async (req, res) => {
                     parts: [{ text: systemInstruction }]
                 },
                 contents: [
-                    { role: "user", parts: [{ text: message }] }
+                    { role: "user", parts: parts }
                 ],
                 generationConfig: {
                     temperature: 0.7,

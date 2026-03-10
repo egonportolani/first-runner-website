@@ -1410,6 +1410,12 @@
             };
 
             voiceBtn.addEventListener('click', () => {
+                // Desbloqueia o áudio em navegadores mobile rigorosos (iOS/Safari)
+                if (window.speechSynthesis) {
+                    const unlockMsg = new SpeechSynthesisUtterance('');
+                    window.speechSynthesis.speak(unlockMsg);
+                }
+
                 try {
                     if (!isListening) {
                         recognition.start();
@@ -1426,6 +1432,57 @@
             });
         } else {
             voiceBtn.style.display = 'none';
+        }
+
+        // Live Vision Logic
+        const visionBtn = document.getElementById('vision-btn');
+        if (visionBtn) {
+            visionBtn.addEventListener('click', async () => {
+                // Desbloqueia o áudio mobile
+                if (window.speechSynthesis) window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+
+                try {
+                    addTerminalMessage("Booting optical sensors...", "system");
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                    const video = document.createElement('video');
+                    video.srcObject = stream;
+                    video.play();
+                    
+                    addTerminalMessage("Vision stabilized. Analyzing surroundings...", "system");
+                    
+                    // Espera a câmera focar por 1 segundo
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth || 640;
+                    canvas.height = video.videoHeight || 480;
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    
+                    // Desliga a câmera
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                    // Extrai o JPEG Base64
+                    const base64Image = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+                    addTerminalMessage("Image captured. Sending to Neural Core.", "system");
+                    
+                    // Envia pra mesma função de chat, mas agora passando a imagem e requisitando visão
+                    try {
+                        const response = await fetch('https://first-run-live-coach-1015260177557.us-central1.run.app/api/chat', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ message: "Analise detalhadamente em 1 frase curta o que estou vendo no meu trajeto pela câmera.", imageBase64: base64Image })
+                        });
+                        if (!response.ok) throw new Error("API Offline");
+                        const data = await response.json();
+                        processAIResponse(data.text);
+                    } catch (error) {
+                        processAIResponse(JSON.stringify({texto: "Erro na conexão visual. Sensores ópticos inoperantes no momento.", humor: "alerta"}));
+                    }
+                    
+                } catch (e) {
+                    addTerminalMessage("ERROR: OPTICAL SENSORS DENIED OR UNAVAILABLE.", "system");
+                }
+            });
         }
 
         // Iniciar quando o DOM estiver pronto
