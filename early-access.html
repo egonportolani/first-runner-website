@@ -533,7 +533,7 @@
                             console.error('Erro ao enviar pitch request:', error);
                             pitchSubmit.innerHTML = '<span data-i18n="modal_pitch_submit">SOLICITAR ACESSO</span>';
                             if (typeof translatePage === "function") translatePage();
-                            alert('Erro ao enviar a solicitação, tente novamente.');
+                            alert('Erro: ' + error.message);
                         }
                     }
                 });
