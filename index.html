@@ -424,7 +424,7 @@
                     } catch (error) {
                         console.error('Erro ao enviar para a db:', error);
                         waitlistSubmit.innerHTML = '<span data-i18n="modal_submit_button">CADASTRAR</span>';
-                        alert('Por favor, configure as credenciais do Firebase no código-fonte primeiro.');
+                        alert('Erro ao conectar ao banco de dados: ' + error.message);
                     }
                 }
             });
