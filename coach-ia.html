@@ -1062,16 +1062,18 @@
         }
 
         let isSpeaking = false; // Flag to prevent feedback loop
+        let currentAIText = ""; // The exact text currently being spoken
+
+        function normalizeText(str) {
+            return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, '');
+        }
 
         function speakResponse(text) {
             if (!window.speechSynthesis) return;
             window.speechSynthesis.cancel();
             
-            // Pausar o microfone enquanto a IA fala
             isSpeaking = true;
-            if (recognition && isListening) {
-                recognition.stop();
-            }
+            currentAIText = text;
 
             const msg = new SpeechSynthesisUtterance(text);
             const currentLang = localStorage.getItem('first_runner_lang') || 'pt';
@@ -1427,20 +1429,32 @@
                 addTerminalMessage("Synchronizing audio... Live listening active.", "system");
             };
 
-            // Interruption mechanic: cancel speech synthesis when user starts talking
+            // Interruption mechanic using acoustic text filtering
             recognition.onspeechstart = () => {
-                if (window.speechSynthesis && window.speechSynthesis.speaking) {
-                    window.speechSynthesis.cancel();
-                    addTerminalMessage("[ AI INTERRUPTED BY USER ]", "system");
-                }
+                // Removemos o cancelamento agressivo aqui porque ele seria engatilhado 
+                // pela própria voz da IA saindo da caixa de som.
+                // A interrupção real acontece agora no onresult (abaixo).
             };
 
             recognition.onresult = (event) => {
-                if (isSpeaking) return; // Ignore audio se a IA estiver falando
-                
                 // Get the latest result only since continuous = true
                 const current = event.resultIndex;
                 const text = event.results[current][0].transcript;
+                
+                if (isSpeaking) {
+                    const normAI = normalizeText(currentAIText);
+                    const normUser = normalizeText(text);
+                    
+                    // Se o que o microfone ouviu é só um pedaço do que a IA está falando, é eco. Ignorar.
+                    if (normAI.includes(normUser) || normUser.includes(normAI)) {
+                        return;
+                    } else {
+                        // O texto difere da fala da IA. Alguém interrompeu de verdade!
+                        if (window.speechSynthesis) window.speechSynthesis.cancel();
+                        isSpeaking = false;
+                        addTerminalMessage("[ AI INTERRUPTED BY USER ]", "system");
+                    }
+                }
                 
                 addTerminalMessage(`Voice command detected: "${text}"`, "system");
                 handleChat(text);
