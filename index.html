@@ -319,6 +319,32 @@
     <!-- Inicializar Ícones Lucide -->
     <script>
         lucide.createIcons();
+    </script>
+    
+    <!-- Firebase SDK (Modular) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // COLOQUE SUAS CREDENCIAIS DO FIREBASE AQUI
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY",
+            authDomain: "firstrun-74ce2.firebaseapp.com",
+            projectId: "firstrun-74ce2",
+            storageBucket: "firstrun-74ce2.appspot.com",
+            messagingSenderId: "SEU_SENDER_ID",
+            appId: "SEU_APP_ID"
+        };
+
+        // Inicializa o Firebase e o Firestore
+        let app, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            console.log("🔥 Firebase inicializado com sucesso.");
+        } catch (error) {
+            console.warn("⚠️ Firebase não configurado corretamente. Aguardando credenciais reais.");
+        }
 
         // Waitlist Modal Logic
         const waitlistBtn = document.getElementById('open-waitlist-modal');
@@ -331,7 +357,6 @@
 
         function openModal() {
             waitlistModal.classList.remove('hidden');
-            // Allow display block to render before triggering opacity transition
             setTimeout(() => {
                 waitlistModal.classList.remove('opacity-0', 'pointer-events-none');
                 waitlistModal.querySelector('.relative').classList.remove('scale-95');
@@ -345,7 +370,6 @@
             waitlistModal.querySelector('.relative').classList.add('scale-95');
             setTimeout(() => {
                 waitlistModal.classList.add('hidden');
-                // Reset form state after closing
                 if (waitlistSuccess && waitlistForm) {
                     waitlistSuccess.classList.add('hidden');
                     waitlistSuccess.classList.remove('flex');
@@ -353,8 +377,7 @@
                     waitlistForm.reset();
                     const btnSpan = waitlistSubmit.querySelector('span');
                     if (btnSpan) btnSpan.setAttribute('data-i18n', 'modal_submit_button');
-                    translatePage(); // Ensure button text is reset to current language
-                    lucide.createIcons();
+                    // translatePage() will be called globally if needed
                 }
             }, 300);
         }
@@ -379,40 +402,28 @@
                 e.preventDefault();
                 const email = document.getElementById('waitlist-email').value;
                 if (email) {
-                    // Simulate API request styling
                     waitlistSubmit.innerHTML = '<span class="animate-pulse" data-i18n="modal_processing">PROCESSANDO...</span>';
-                    translatePage(); // Show translated "Processing"
-
-                    // --- Integração Opção 1: Webhook do ClickMax ---
-                    // Cole aqui a URL gerada pelo ClickMax:
-                    const webhookUrl = 'SUA_URL_DO_WEBHOOK_DO_CLICKMAX_AQUI'; 
 
                     try {
-                        /* Descomente este bloco quando tiver a URL do ClickMax
-                        const response = await fetch(webhookUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ email: email })
-                        });
-
-                        if (!response.ok) {
-                            throw new Error('Falha ao enviar email');
+                        // Verifica se o DB está instanciado antes de tentar salvar
+                        if (!db) {
+                            throw new Error("Firebase não configurado.");
                         }
-                        */
-                        
-                        // Fake delay to show loading state (remover em produção)
-                        await new Promise(resolve => setTimeout(resolve, 1500));
+
+                        // Salva no Firestore (Coleção: waitlist)
+                        await addDoc(collection(db, "waitlist"), {
+                            email: email,
+                            timestamp: serverTimestamp(),
+                            source: "index_hero"
+                        });
 
                         waitlistForm.classList.add('hidden');
                         waitlistSuccess.classList.remove('hidden');
                         waitlistSuccess.classList.add('flex');
                     } catch (error) {
-                        console.error('Erro ao enviar para a lista de espera:', error);
+                        console.error('Erro ao enviar para a db:', error);
                         waitlistSubmit.innerHTML = '<span data-i18n="modal_submit_button">CADASTRAR</span>';
-                        translatePage();
-                        alert('Ocorreu um erro ao cadastrar. Tente novamente.');
+                        alert('Por favor, configure as credenciais do Firebase no código-fonte primeiro.');
                     }
                 }
             });
