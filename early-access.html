@@ -339,6 +339,33 @@
         lucide.createIcons();
     </script>
 
+    <!-- Firebase SDK (Modular) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // COLOQUE SUAS CREDENCIAIS DO FIREBASE AQUI
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY",
+            authDomain: "firstrun-74ce2.firebaseapp.com",
+            projectId: "firstrun-74ce2",
+            storageBucket: "firstrun-74ce2.appspot.com",
+            messagingSenderId: "SEU_SENDER_ID",
+            appId: "SEU_APP_ID"
+        };
+
+        // Inicializa o Firebase e o Firestore
+        let app, windowDb;
+        try {
+            app = initializeApp(firebaseConfig);
+            windowDb = getFirestore(app);
+            window.db = windowDb; // Expose to the other script tag
+            console.log("🔥 Firebase inicializado com sucesso no Early Access.");
+        } catch (error) {
+            console.warn("⚠️ Firebase não configurado corretamente. Aguardando credenciais reais.");
+        }
+    </script>
+
     <!-- ===== MOBILE MENU OVERLAY ===== -->
     <div id="mobile-menu" class="fixed inset-0 z-[200] bg-[#010206]/97 backdrop-blur-2xl flex flex-col items-center justify-center gap-10 text-center opacity-0 pointer-events-none transition-opacity duration-300">
         <!-- Close button -->
@@ -484,16 +511,19 @@
                         if (typeof translatePage === "function") translatePage();
 
                         try {
-                            // --- Integração ClickMax Webhook (Passa sua URL do Clickmax AQUI) ---
-                            // const webhookUrl = 'SUA_URL_DO_WEBHOOK_DO_CLICKMAX_AQUI';
-                            // await fetch(webhookUrl, {
-                            //    method: 'POST',
-                            //    headers: { 'Content-Type': 'application/json' },
-                            //    body: JSON.stringify({ name, email, linkedin, origin: 'pitch_form' })
-                            // });
+                            // Verifica se o DB está instanciado antes de tentar salvar
+                            if (!db) {
+                                throw new Error("Firebase não configurado.");
+                            }
 
-                            // Simulando disparo de sucesso para teste local
-                            await new Promise(resolve => setTimeout(resolve, 1500));
+                            // Salva no Firestore (Coleção: investors)
+                            await addDoc(collection(db, "investors"), {
+                                name: name,
+                                email: email,
+                                linkedin: linkedin || "",
+                                timestamp: serverTimestamp(),
+                                source: "pitch_form"
+                            });
 
                             pitchFormContainer.classList.add('hidden');
                             pitchSuccessWrapper.classList.remove('hidden');
