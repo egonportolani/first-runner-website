@@ -1061,9 +1061,17 @@
             }, 5000);
         }
 
+        let isSpeaking = false; // Flag to prevent feedback loop
+
         function speakResponse(text) {
             if (!window.speechSynthesis) return;
             window.speechSynthesis.cancel();
+            
+            // Pausar o microfone enquanto a IA fala
+            isSpeaking = true;
+            if (recognition && isListening) {
+                recognition.stop();
+            }
 
             const msg = new SpeechSynthesisUtterance(text);
             const currentLang = localStorage.getItem('first_runner_lang') || 'pt';
@@ -1071,6 +1079,14 @@
             
             msg.rate = 1.1; // Um pouco mais rápido/dinâmico
             msg.pitch = 0.85; // Voz mais grave/robótica
+            
+            // Ligar o microfone de volta quando a IA terminar
+            msg.onend = () => {
+                isSpeaking = false;
+                if (isListening && recognition) {
+                    try { recognition.start(); } catch(e){}
+                }
+            };
             
             let talkInterval = setInterval(() => {
                 if (window.speechSynthesis.speaking) {
@@ -1420,6 +1436,8 @@
             };
 
             recognition.onresult = (event) => {
+                if (isSpeaking) return; // Ignore audio se a IA estiver falando
+                
                 // Get the latest result only since continuous = true
                 const current = event.resultIndex;
                 const text = event.results[current][0].transcript;
@@ -1443,8 +1461,8 @@
             };
 
             recognition.onend = () => {
-                // Auto-restart to keep the live agent listening, unless manually stopped
-                if (isListening) {
+                // Auto-restart to keep the live agent listening, unless manually stopped or AI is talking
+                if (isListening && !isSpeaking) {
                     try {
                         recognition.start();
                     } catch(e) {
@@ -1452,7 +1470,7 @@
                          voiceBtn.querySelector('span').innerText = 'ACTIVATE VOICE LINK';
                          isListening = false;
                     }
-                } else {
+                } else if (!isListening) {
                     voiceBtn.classList.remove('text-red-500', 'bg-red-500/20', 'border-red-500/50');
                     voiceBtn.querySelector('span').innerText = 'ACTIVATE VOICE LINK';
                 }
