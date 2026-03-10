@@ -945,10 +945,23 @@
             }
         }
 
-        const GEMINI_API_KEY = "AIzaSyDLV2NZfpOJkXBb6daEXRUFMX0ETTYhR1w";
+        let GEMINI_API_KEY = localStorage.getItem("first_runner_gemini_key");
+
+        function requireAPIKey() {
+            if (!GEMINI_API_KEY) {
+                GEMINI_API_KEY = prompt("[ACESSO NEURAL] Insira sua Google Gemini API Key para ativar o The Operator:");
+                if (GEMINI_API_KEY) {
+                    localStorage.setItem("first_runner_gemini_key", GEMINI_API_KEY.trim());
+                }
+            }
+            return GEMINI_API_KEY;
+        }
 
         async function callGemini(textPrompt, imageBase64 = null) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+            const key = requireAPIKey();
+            if (!key) throw new Error("Access Denied: API Key Missing.");
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`;
             
             const systemInstruction = "Você é o 'The Operator', uma Inteligência Artificial Cyberpunk de treinamento fitness e sobrevivência corporativa. Aja sempre como essa IA durante o roleplay. Responda em Português de forma curta (1 a 2 frases no máximo), direta, intensa, fria-militar e ultra-motivacional. O ano é 2026. IMPORTANTE: RETORNE APENAS UM JSON VÁLIDO contendo as chaves 'texto' (com sua fala de IA treinadora) e 'humor' ('calmo', 'alerta', 'animado', 'misterioso'). Exemplo de resposta: {\"texto\": \"Seus batimentos subiram, mas é agora que o código separa humanos de máquinas. Mantenha o Pace. A rua é sua hoje.\", \"humor\": \"alerta\"}";
 
@@ -993,6 +1006,14 @@
                 processAIResponse(responseText);
             } catch (error) {
                 console.error("Gemini API Error:", error);
+                
+                // Exibe o erro real no terminal HUD para debug instantâneo
+                addTerminalMessage(`SYS ERR: ${error.message}`, "system");
+                
+                if (error.message.includes("leaked") || error.message.includes("403")) {
+                    localStorage.removeItem("first_runner_gemini_key"); // Força pedir de novo
+                    GEMINI_API_KEY = null;
+                }
                 
                 // Fallback em caso de erro de rede ou cota excedida
                 setTimeout(() => {
