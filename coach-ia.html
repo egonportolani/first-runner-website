@@ -916,15 +916,6 @@
             animate(); // <-- Restart the loop
             window.addEventListener('resize', onWindowResize);
 
-            // Clique para testar TTS da IA
-            container.addEventListener('click', () => {
-                if (!window.speechSynthesis.speaking) {
-                    addTerminalMessage("Systems online. Initiating neural scan...", "system");
-                    // Opcional: Trigger uma saudação automática
-                    handleChat("Hello, Core. Introduce yourself.");
-                }
-            });
-
             // Voice specific UI click triggers activation
             // the main click listener handles voice activation setup below
         }
