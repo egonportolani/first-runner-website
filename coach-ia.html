@@ -947,51 +947,44 @@
             }
         }
 
-        // Hardcoded API Key for Hackathon Judges
-        let GEMINI_API_KEY = "AIzaSyDLV2NZfpOJkXBb6daEXRUFMX0ETTYhR1w";
-
-        function requireAPIKey() {
-            return GEMINI_API_KEY;
-        }
-
         async function callGemini(textPrompt, imageBase64 = null) {
-            const key = requireAPIKey();
-            if (!key) throw new Error("Access Denied: API Key Missing.");
-
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`;
+            const url = `/api/gemini`;
             
-            const systemInstruction = "Você é o 'The Operator', uma Inteligência Artificial Cyberpunk de treinamento fitness e sobrevivência corporativa. Aja sempre como essa IA durante o roleplay. Responda em Português de forma curta (1 a 2 frases no máximo), direta, intensa, fria-militar e ultra-motivacional. O ano é 2026. IMPORTANTE: RETORNE APENAS UM JSON VÁLIDO contendo as chaves 'texto' (com sua fala de IA treinadora) e 'humor' ('calmo', 'alerta', 'animado', 'misterioso'). Exemplo de resposta: {\"texto\": \"Seus batimentos subiram, mas é agora que o código separa humanos de máquinas. Mantenha o Pace. A rua é sua hoje.\", \"humor\": \"alerta\"}";
+            const payload = {};
+            if (textPrompt) payload.textPrompt = textPrompt;
+            if (imageBase64) payload.imageBase64 = imageBase64;
 
-            let contentsParts = [];
-            if (textPrompt) contentsParts.push({ text: textPrompt });
-            if (imageBase64) {
-                contentsParts.push({
-                    inline_data: {
-                        mime_type: "image/jpeg",
-                        data: imageBase64
-                    }
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
+
+                if (!response.ok) {
+                    const errStatus = response.status;
+                    let errMsg = '';
+                    try {
+                        const errData = await response.json();
+                        errMsg = errData.error || errData.details;
+                    } catch(e) {
+                         errMsg = await response.text();
+                    }
+
+                    if (errStatus === 500 && String(errMsg).includes("GEMINI_API_KEY")) {
+                         throw new Error(`Config Error: Vercel Environmental Variable 'GEMINI_API_KEY' is missing.`);
+                    }
+
+                    throw new Error(`Secure API Error (${errStatus}): ${errMsg}`);
+                }
+
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+
+            } catch(e) {
+                console.error("Vercel Gemini Fetch Error:", e);
+                throw e; // Lança para o catch de fora
             }
-
-            const payload = {
-                system_instruction: { parts: { text: systemInstruction } },
-                contents: [{ parts: contentsParts }],
-                generationConfig: { responseMimeType: "application/json" }
-            };
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                 const err = await response.text();
-                 throw new Error(`Gemini API Error: ${err}`);
-            }
-
-            const data = await response.json();
-            return data.candidates[0].content.parts[0].text;
         }
 
         async function handleChat(message) {
