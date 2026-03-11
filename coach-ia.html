@@ -263,6 +263,17 @@
             box-shadow: 0 0 10px #ffaa00, 0 0 20px rgba(255, 170, 0, 0.4);
         }
     </style>
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#010206">
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("/sw.js");
+            });
+        }
+    </script>
 </head>
 
 <body
@@ -1095,6 +1106,11 @@
             
             isSpeaking = true;
             currentAIText = text;
+            
+            // Haptic Feedback: The Operator assumes control
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]); // Pulsar duplo forte
+            }
 
             const msg = new SpeechSynthesisUtterance(text);
             const currentLang = localStorage.getItem('first_runner_lang') || 'pt';
@@ -1448,6 +1464,9 @@
                 voiceBtn.classList.add('text-red-500', 'bg-red-500/20', 'border-red-500/50');
                 voiceBtn.querySelector('span').innerText = 'NEURAL LINK ACTIVE';
                 addTerminalMessage("Synchronizing audio... Live listening active.", "system");
+                
+                // Haptic Feedback: Neural Link Open
+                if (navigator.vibrate) navigator.vibrate([200]);
             };
 
             // Interruption mechanic using acoustic text filtering
@@ -1474,6 +1493,8 @@
                         if (window.speechSynthesis) window.speechSynthesis.cancel();
                         isSpeaking = false;
                         addTerminalMessage("[ AI INTERRUPTED BY USER ]", "system");
+                        // Haptic Feedback: Interruption Warning
+                        if (navigator.vibrate) navigator.vibrate([50, 50, 50, 50, 200]);
                     }
                 }
                 
