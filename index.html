@@ -64,6 +64,17 @@
             animation: kenburns 30s ease-in-out infinite;
         }
     </style>
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#010206">
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("/sw.js");
+            });
+        }
+    </script>
 </head>
 
 <body class="relative w-full bg-[#010206] text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased">
