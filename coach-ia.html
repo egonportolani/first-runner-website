@@ -449,7 +449,7 @@
             <div class="relative w-full h-full bg-[#0a1526]/80 backdrop-blur-3xl rounded-[40px] border border-cyan-500/20 overflow-hidden shadow-[0_0_50px_rgba(0,243,255,0.1)] flex flex-col font-mono">
                 
                 <!-- TARGET RINGS (SVG BACKGROUND - SCI-FI SHIELD) -->
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden -translate-y-8 md:-translate-y-16">
                     <!-- Base Glass Shield (Outer Segments) -->
                     <svg viewBox="0 0 800 800" class="absolute w-[80%] md:w-[520px] aspect-square transition-transform duration-1000 hud-animate-float" id="hud-ring-base">
                         <defs>
@@ -515,10 +515,10 @@
                 </div>
 
                 <!-- Canvas do Three.js -->
-                <div id="oracle-canvas-container" class="absolute inset-0 z-10 flex items-center justify-center"></div>
+                <div id="oracle-canvas-container" class="absolute inset-0 z-10 flex items-center justify-center -translate-y-8 md:-translate-y-16"></div>
 
                 <!-- GLASS DOME LAYER (Over Three.js) -->
-                <div class="absolute inset-0 z-[15] pointer-events-none flex items-center justify-center">
+                <div class="absolute inset-0 z-[15] pointer-events-none flex items-center justify-center -translate-y-8 md:-translate-y-16">
                     <svg viewBox="0 0 800 800" class="w-[75%] md:w-[480px] aspect-square transition-transform duration-1000 hud-animate-float">
                         <!-- Main Glass Dome Body -->
                         <circle cx="400" cy="400" r="280" fill="url(#glass-dome-grad)" stroke="#22d3ee" stroke-width="0.5" opacity="0.6" />
