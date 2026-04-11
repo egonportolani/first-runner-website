@@ -63,6 +63,27 @@
         .animate-kenburns {
             animation: kenburns 30s ease-in-out infinite;
         }
+
+        /* Atmosferas Dinâmicas */
+        .atmosphere-intense {
+            transition: all 1s ease-in-out;
+            box-shadow: inset 0 0 100px rgba(255, 0, 0, 0.2);
+        }
+        
+        .atmosphere-intense h1 {
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+            color: #fca5a5;
+        }
+
+        .atmosphere-calm {
+            transition: all 1s ease-in-out;
+            box-shadow: inset 0 0 100px rgba(34, 211, 238, 0.1);
+        }
+        
+        .atmosphere-calm h1 {
+            text-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
+            color: #a5f3fc;
+        }
     </style>
 
     <!-- PWA -->
@@ -221,6 +242,52 @@
                         </svg>
                     </div>
                 </section>
+            </div>
+
+            <!-- SYSTEM UPDATES (Dev Log) -->
+            <div class="relative z-40 w-full max-w-5xl mt-12 mb-8 px-4 sm:px-0">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent to-cyan-500/50"></div>
+                    <div class="flex flex-col items-center">
+                        <h2 class="text-2xl md:text-3xl font-black tracking-[0.2em] uppercase text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" data-i18n="index_updates_title">SYSTEM UPDATES</h2>
+                        <span class="text-[10px] font-bold tracking-[0.4em] text-cyan-400 opacity-80" data-i18n="index_updates_subtitle">NEURAL FEED: PROTOCOLO NEON</span>
+                    </div>
+                    <div class="h-[1px] flex-1 bg-gradient-to-l from-transparent to-cyan-500/50"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Update 01 -->
+                    <div class="group relative p-6 bg-[#0a0c10]/60 backdrop-blur-xl border border-white/5 rounded-2xl hover:border-cyan-500/30 transition-all duration-500 overflow-hidden shadow-2xl">
+                        <div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
+                            <i data-lucide="zap" class="w-12 h-12 text-cyan-400"></i>
+                        </div>
+                        <span class="text-[10px] font-black tracking-widest text-cyan-500/60 mb-2 block" data-i18n="update_01_date">31 MAR 2026</span>
+                        <h3 class="text-lg font-black tracking-wider text-white mb-3 group-hover:text-cyan-400 transition-colors" data-i18n="update_01_title">THE SOUND OF FUTURE: NATIVE AUDIO</h3>
+                        <p class="text-xs md:text-sm text-white/60 leading-relaxed font-medium uppercase tracking-tight" data-i18n="update_01_desc">Integramos o Gemini 2.5 Flash Native Audio. O Oráculo agora processa sua voz e responde com latência zero, permitindo interrupções naturais (barge-in).</p>
+                        <div class="mt-6 flex items-center gap-2 opacity-40 group-hover:opacity-100 transition-opacity">
+                            <span class="text-[9px] font-black tracking-[0.2em] text-white">STATUS: ENCRYPTED</span>
+                            <div class="h-1 w-12 bg-cyan-500/20 rounded-full overflow-hidden">
+                                <div class="h-full bg-cyan-400 w-2/3"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update 02 -->
+                    <div class="group relative p-6 bg-[#0a0c10]/60 backdrop-blur-xl border border-white/5 rounded-2xl hover:border-purple-500/30 transition-all duration-500 overflow-hidden shadow-2xl">
+                        <div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
+                            <i data-lucide="layers" class="w-12 h-12 text-purple-400"></i>
+                        </div>
+                        <span class="text-[10px] font-black tracking-widest text-purple-500/60 mb-2 block" data-i18n="update_02_date">28 MAR 2026</span>
+                        <h3 class="text-lg font-black tracking-wider text-white mb-3 group-hover:text-purple-400 transition-colors" data-i18n="update_02_title">PROTOCOLO NEON: UI UPGRADE</h3>
+                        <p class="text-xs md:text-sm text-white/60 leading-relaxed font-medium uppercase tracking-tight" data-i18n="update_02_desc">Nova interface tática com cores vibrantes e Hud de alta performance. O mapa 3D agora renderiza zonas de combate com 60fps constantes.</p>
+                        <div class="mt-6 flex items-center gap-2 opacity-40 group-hover:opacity-100 transition-opacity">
+                            <span class="text-[9px] font-black tracking-[0.2em] text-white">STATUS: STABLE</span>
+                            <div class="h-1 w-12 bg-purple-500/20 rounded-full overflow-hidden">
+                                <div class="h-full bg-purple-400 w-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </main>

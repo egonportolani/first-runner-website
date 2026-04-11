@@ -172,7 +172,17 @@ window.translations = {
         "login_forgot": "Esqueceu a senha?",
         "login_submit": "Estabelecer Uplink",
         "login_or": "Ou Sincronize Via",
-        "login_footer_signup": "Ainda não é um First Runner? <a href=\"cadastro.html\" class=\"text-cyan-400 hover:text-cyan-300 ml-1 transition-colors relative z-10\">Recrute-se agora</a>"
+        "login_footer_signup": "Ainda não é um First Runner? <a href=\"cadastro.html\" class=\"text-cyan-400 hover:text-cyan-300 ml-1 transition-colors relative z-10\">Recrute-se agora</a>",
+
+        // Updates Section
+        "index_updates_title": "SYSTEM UPDATES",
+        "index_updates_subtitle": "NEURAL FEED: PROTOCOLO NEON",
+        "update_01_date": "31 MAR 2026",
+        "update_01_title": "O SOM DO FUTURO: ÁUDIO NATIVO",
+        "update_01_desc": "Integramos o Gemini 2.5 Flash Native Audio. O Oráculo agora processa sua voz e responde com latência zero, permitindo interrupções naturais (barge-in) durante a corrida.",
+        "update_02_date": "28 MAR 2026",
+        "update_02_title": "PROTOCOLO NEON: UI UPGRADE",
+        "update_02_desc": "Nova interface tática com cores vibrantes e Hud de alta performance. O mapa 3D agora renderiza zonas de combate com 60fps constantes."
     },
     "en": {
         // Common Nav
@@ -347,7 +357,17 @@ window.translations = {
         "login_forgot": "Forgot password?",
         "login_submit": "Establish Uplink",
         "login_or": "Or Sync Via",
-        "login_footer_signup": "Not a First Runner yet? <a href=\"cadastro.html\" class=\"text-cyan-400 hover:text-cyan-300 ml-1 transition-colors relative z-10\">Recruit now</a>"
+        "login_footer_signup": "Not a First Runner yet? <a href=\"cadastro.html\" class=\"text-cyan-400 hover:text-cyan-300 ml-1 transition-colors relative z-10\">Recruit now</a>",
+
+        // Updates Section
+        "index_updates_title": "SYSTEM UPDATES",
+        "index_updates_subtitle": "NEURAL FEED: NEON PROTOCOL",
+        "update_01_date": "MAR 31, 2026",
+        "update_01_title": "THE SOUND OF FUTURE: NATIVE AUDIO",
+        "update_01_desc": "Gemini 2.5 Flash Native Audio integration. The Oracle now processes your voice and responds with zero latency, allowing for natural interruptions (barge-in) during your run.",
+        "update_02_date": "MAR 28, 2026",
+        "update_02_title": "NEON PROTOCOL: UI UPGRADE",
+        "update_02_desc": "New tactical interface with vibrant colors and high-performance HUD. The 3D map now renders combat zones at a steady 60fps."
     }
 };
 
