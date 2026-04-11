@@ -121,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             addTerminalMessage('ORACLE', geminiText);
+            syncAtmosphere(geminiText);
             speakText(geminiText);
             
         } catch (error) {
@@ -137,6 +138,26 @@ document.addEventListener('DOMContentLoaded', () => {
         voiceBtn.classList.replace('text-purple-400', 'text-cyan-400');
         voiceBtn.classList.replace('text-red-400', 'text-cyan-400');
         if (window.lucide) window.lucide.createIcons();
+    }
+
+    function syncAtmosphere(text) {
+        const lowerText = text.toLowerCase();
+        const body = document.body;
+        
+        // Intense keywords
+        const intenseWords = ['combate', 'rival', 'acelera', 'rápido', 'perigo', 'corre', 'combat', 'fast', 'speed', 'danger', 'sprint'];
+        // Calm keywords
+        const calmWords = ['recuperação', 'respira', 'calma', 'trote', 'reserva', 'recovery', 'breathe', 'calm', 'relax'];
+
+        if (intenseWords.some(word => lowerText.includes(word))) {
+            console.log("🔥 Atmosphere: INTENSE");
+            body.classList.add('atmosphere-intense');
+            setTimeout(() => body.classList.remove('atmosphere-intense'), 5000);
+        } else if (calmWords.some(word => lowerText.includes(word))) {
+            console.log("🌊 Atmosphere: CALM");
+            body.classList.add('atmosphere-calm');
+            setTimeout(() => body.classList.remove('atmosphere-calm'), 5000);
+        }
     }
     
     recognition.onstart = function() {
