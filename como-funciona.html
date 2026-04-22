@@ -200,7 +200,37 @@
             </p>
         </header>
 
-        <!-- CONTEÚDO MAP-TO-EARN -->
+        <!-- CONTEÚDO THE ORACLE (NOVO) -->
+        <section class="max-w-5xl mx-auto w-full mb-16 px-4 md:px-0">
+            <div class="backdrop-blur-[60px] bg-gradient-to-r from-cyan-900/20 to-purple-900/20 border border-cyan-500/30 rounded-[32px] p-10 relative overflow-hidden flex flex-col md:flex-row items-center gap-10 shadow-[0_0_50px_rgba(34,211,238,0.15)] group hover:border-cyan-400/60 transition-colors">
+                <!-- Efeito de pulso de áudio no fundo -->
+                <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px] animate-pulse pointer-events-none"></div>
+
+                <div class="w-full md:w-1/3 flex justify-center relative z-10">
+                    <div class="relative w-40 h-40 flex items-center justify-center">
+                        <div class="absolute inset-0 border-4 border-cyan-400/30 rounded-full animate-[spin_4s_linear_infinite]"></div>
+                        <div class="absolute inset-2 border-4 border-purple-500/40 rounded-full border-t-transparent animate-[spin_3s_linear_infinite_reverse]"></div>
+                        <div class="w-24 h-24 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(34,211,238,0.6)] animate-pulse">
+                            <i data-lucide="mic" class="w-10 h-10 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 relative z-10 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                        <span class="text-[10px] font-black tracking-[0.4em] text-cyan-400 uppercase">Live Voice API Integration</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight text-white mb-4" data-i18n="how_oracle_title">
+                        THE ORACLE // GEMINI LIVE
+                    </h2>
+                    <p class="text-sm md:text-base text-white/80 font-medium leading-relaxed" data-i18n="how_oracle_desc">
+                        Corra com um agente neural no seu ouvido. A IA processa sua localização GPS e a posse de territórios ao redor em tempo real, fornecendo orientações táticas por voz para você dominar a cidade.
+                    </p>
+                </div>
+            </div>
+        </section>        <!-- CONTEÚDO MAP-TO-EARN -->
         <section class="max-w-5xl mx-auto w-full mb-20">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Passo 1 -->
@@ -256,25 +286,21 @@
             class="mt-16 backdrop-blur-[60px] bg-gradient-to-r from-black/80 to-transparent border border-white/10 rounded-[32px] p-10 flex flex-col md:flex-row items-center gap-10">
             <div class="w-full md:w-1/3 flex justify-center">
                 <div
-                    class="relative w-48 h-48 bg-white/5 rounded-full border border-white/20 flex items-center justify-center p-4">
+                    class="relative w-48 h-48 bg-white/5 rounded-full border border-purple-500/30 flex items-center justify-center p-4 shadow-[0_0_30px_rgba(168,85,247,0.2)]">
                     <div
-                        class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=600')] bg-cover bg-center rounded-full opacity-60 grayscale blur-[2px]">
+                        class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=600')] bg-cover bg-center rounded-full opacity-40 grayscale blur-[2px]">
                     </div>
-                    <div class="absolute inset-0 bg-cyan-500/20 mix-blend-color rounded-full"></div>
-                    <i data-lucide="map-pin"
-                        class="w-16 h-16 text-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.8)] z-10 animate-bounce"></i>
+                    <div class="absolute inset-0 bg-purple-900/30 mix-blend-color rounded-full"></div>
+                    <div class="relative z-10 w-20 h-20 bg-black/50 backdrop-blur-md border border-purple-500/50 rounded-full flex items-center justify-center animate-pulse">
+                        <i data-lucide="headphones" class="w-10 h-10 text-purple-400 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]"></i>
+                    </div>
                 </div>
             </div>
             <div class="flex-1">
                 <h4 class="text-2xl font-black uppercase tracking-tight text-white mb-4" data-i18n="how_example_title">Exemplo Prático: <span
                         class="text-cyan-400 italic">O Parque Central</span></h4>
-                <p class="text-sm text-white/60 font-medium leading-relaxed mb-6" data-i18n="how_example_p1">Imagine que ninguém correu ainda no Parque
-                    da sua cidade hoje. Você vai lá e corre 3km seguindo a rota do app. <b>BOOM! O Parque fica Azul (sua cor
-                        favorita) no mapa de todos os jogadores da região.</b> Você ganha a insígnia de "Dono do Parque" e
-                    ganha 'Energy Cells' pelas Views.</p>
-                <p class="text-sm text-white/60 font-medium leading-relaxed" data-i18n="how_example_p2">Na terça-feira, a "Marina" vai lá e corre os
-                    mesmos 3km num tempo 20 segundos menor. <b>Ela tomou seu território! O Parque agora é Rosa.</b> É hora
-                    de você treinar, voltar lá e recuperar o lugar que é seu por direito.</p>
+                <p class="text-base text-white/70 font-medium leading-relaxed mb-6 bg-black/30 p-5 rounded-2xl border-l-2 border-purple-500" data-i18n="how_example_p1">Você está correndo pelo Parque. De repente, o Oráculo avisa no fone: <i class="text-purple-400">'Alvo detectado. O corredor rival Marina está a 20 segundos de quebrar seu recorde. Aumente o pace para 5:00 min/km para defender o parque.'</i></p>
+                <p class="text-base text-white/70 font-medium leading-relaxed bg-black/30 p-5 rounded-2xl border-l-2 border-cyan-500 mt-4" data-i18n="how_example_p2">Você acelera. Seu batimento sobe. O Oráculo confirma: <i class="text-cyan-400">'Ameaça neutralizada. O território permanece sob seu controle.'</i> Você ganha XP e 'Energy Cells' pela defesa bem-sucedida.</p>
             </div>
         </div>
 
