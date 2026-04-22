@@ -16,8 +16,8 @@ window.translations = {
         "footer_terminal": "Terminal",
 
         // Index Page
-        "index_hero_title": "CONQUISTE <br class=\"block sm:hidden\" />A CIDADE",
-        "index_hero_subtitle": "SUBSTITUA SEU APP DE FITNESS CHATO POR UM JOGO DE DOMINAÇÃO TERRITORIAL.",
+        "index_hero_title": "SUBSTITUA SEU APP DE FITNESS CHATO<br/>POR UM JOGO DE <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 italic\">DOMINAÇÃO TERRITORIAL.</span>",
+        "index_hero_subtitle": "CAMINHANDO, CORRENDO E PEDALANDO.",
         "index_badge_ai": "A GAMIFICAÇÃO DO ESFORÇO REAL",
         "index_cta_waitlist": "ENTRAR NA WAITLIST",
         "index_app_stores_title": "Em breve na play store e apple store",
@@ -203,8 +203,8 @@ window.translations = {
         "footer_terminal": "Terminal",
 
         // Index Page
-        "index_hero_title": "CONQUER <br class=\"block sm:hidden\" />THE CITY",
-        "index_hero_subtitle": "REPLACING BORING FITNESS TRACKERS WITH A AAA TERRITORY DOMINATION GAME.",
+        "index_hero_title": "REPLACE YOUR BORING FITNESS APP<br/>WITH A <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 italic\">TURF WAR GAME.</span>",
+        "index_hero_subtitle": "WALKING, RUNNING AND CYCLING.",
         "index_badge_ai": "GAMIFYING REAL-WORLD SWEAT",
         "index_cta_waitlist": "JOIN THE WAITLIST",
         "index_app_stores_title": "Coming soon to the Play Store and Apple Store",
