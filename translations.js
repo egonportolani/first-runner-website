@@ -41,9 +41,9 @@ window.translations = {
         "how_step3_title": "3. Defenda ou Roube!",
         "how_step3_desc": "Você ganha a posse do bairro por \"X\" dias. Durante esse tempo, chame seus amigos para tentar roubar seu circuito quebrando seu Recorde. Quanto mais territórios conectados, maior a sua patente mundial.",
         "how_example_title": "Exemplo Prático: <span class=\"text-cyan-400 italic\">O Parque Central</span>",
-        "how_example_p1": "Imagine que ninguém correu ainda no Parque da sua cidade hoje. Você vai lá e corre 3km seguindo a rota do app. <b>BOOM! O Parque fica Azul (sua cor favorita) no mapa de todos os jogadores da região.</b> Você ganha a insígnia de \"Dono do Parque\" e ganha criptomoedas $RUN pelas Views.",
+        "how_example_p1": "Imagine que ninguém correu ainda no Parque da sua cidade hoje. Você vai lá e corre 3km seguindo a rota do app. <b>BOOM! O Parque fica Azul (sua cor favorita) no mapa de todos os jogadores da região.</b> Você ganha a insígnia de \"Dono do Parque\" e ganha 'Energy Cells' pelas Views.",
         "how_example_p2": "Na terça-feira, a \"Marina\" vai lá e corre os mesmos 3km num tempo 20 segundos menor. <b>Ela tomou seu território! O Parque agora é Rosa.</b> É hora de você treinar, voltar lá e recuperar o lugar que é seu por direito.",
-        "how_mechanics_label": "Visão de Mecânica Map-to-Earn (Web3 Tracked)",
+        "how_mechanics_label": "Visão de Mecânica Map-to-Earn (GPS Tracked)",
         
         // Coach IA Page
         "coach_hero_badge": "Built for the Gemini API Developer Competition",
@@ -71,7 +71,7 @@ window.translations = {
         "early_founder_feat1": "Título \"[FOUNDER]\" no nome",
         "early_founder_feat2": "Geração Mensal Estendida de Tinta",
         "early_founder_feat3": "Acesso ao Aplicativo 30 dias Antes",
-        "early_founder_cta": "MINTAR PASSE",
+        "early_founder_cta": "GARANTIR PASSE",
         "early_seed_title": "Elite Operative Pack",
         "early_seed_tag": "Apoiador Estratégico",
         "early_seed_sub": "Status VIP & Itens Cosméticos Iniciais",
@@ -226,9 +226,9 @@ window.translations = {
         "how_step3_title": "3. Defend or Steal!",
         "how_step3_desc": "You gain ownership of the neighborhood for \"X\" days. During this time, call your friends to try and steal your circuit by breaking your record. The more connected territories, the higher your global rank.",
         "how_example_title": "Practical Example: <span class=\"text-cyan-400 italic\">Central Park</span>",
-        "how_example_p1": "Imagine that no one has run in your city's park today yet. You go there and run 3km following the app's route. <b>BOOM! The park turns Blue (your favorite color) on the maps of all players in the region.</b> You earn the \"Park Owner\" badge and earn $RUN cryptocurrencies for the views.",
+        "how_example_p1": "Imagine that no one has run in your city's park today yet. You go there and run 3km following the app's route. <b>BOOM! The park turns Blue (your favorite color) on the maps of all players in the region.</b> You earn the \"Park Owner\" badge and earn 'Energy Cells' for the views.",
         "how_example_p2": "On Tuesday, \"Marina\" goes there and runs the same 3km in a time 20 seconds faster. <b>She took your territory! The park is now Pink.</b> It's time for you to train, go back there and reclaim what is rightfully yours.",
-        "how_mechanics_label": "Map-to-Earn Mechanics View (Web3 Tracked)",
+        "how_mechanics_label": "Map-to-Earn Mechanics View (GPS Tracked)",
 
         // Coach IA Page
         "coach_hero_badge": "Built for the Gemini API Developer Competition",
