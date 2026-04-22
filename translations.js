@@ -17,8 +17,8 @@ window.translations = {
 
         // Index Page
         "index_hero_title": "CONQUISTE <br class=\"block sm:hidden\" />A CIDADE",
-        "index_hero_subtitle": "CAMINHANDO, CORRENDO E PEDALANDO.",
-        "index_badge_ai": "IMPULSIONADO POR I.A.",
+        "index_hero_subtitle": "SUBSTITUA SEU APP DE FITNESS CHATO POR UM JOGO DE DOMINAÇÃO TERRITORIAL.",
+        "index_badge_ai": "A GAMIFICAÇÃO DO ESFORÇO REAL",
         "index_cta_waitlist": "ENTRAR NA WAITLIST",
         "index_app_stores_title": "Em breve na play store e apple store",
         
@@ -33,7 +33,7 @@ window.translations = {
 
         // Como Funciona Page
         "how_hero_title": "COMO O JOGO <br /><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 italic\">FUNCIONA</span>",
-        "how_hero_subtitle": "Não é só sobre correr. É sobre tática territorial ativa. Conquiste bairros no modelo First Run ou perca tudo para o próximo corredor.",
+        "how_hero_subtitle": "Cardio não precisa ser uma obrigação. Converta calorias queimadas no mundo real em 'Energy Cells' para construir bases e dominar quarteirões da sua cidade em um mapa 3D imersivo.",
         "how_step1_title": "1. Escolha o Circuito",
         "how_step1_desc": "Abra o app e veja o mapa da sua cidade dividido em distritos, parques e quadras (como um tabuleiro gigante). Escolha uma área vazia ou tomada por um rival e aperte START para registrar sua corrida via GPS.",
         "how_step2_title": "2. O \"First Run\"",
@@ -202,8 +202,8 @@ window.translations = {
 
         // Index Page
         "index_hero_title": "CONQUER <br class=\"block sm:hidden\" />THE CITY",
-        "index_hero_subtitle": "WALKING, RUNNING, AND CYCLING.",
-        "index_badge_ai": "POWERED BY A.I.",
+        "index_hero_subtitle": "REPLACING BORING FITNESS TRACKERS WITH A AAA TERRITORY DOMINATION GAME.",
+        "index_badge_ai": "GAMIFYING REAL-WORLD SWEAT",
         "index_cta_waitlist": "JOIN THE WAITLIST",
         "index_app_stores_title": "Coming soon to the Play Store and Apple Store",
 
@@ -218,7 +218,7 @@ window.translations = {
 
         // Como Funciona Page
         "how_hero_title": "HOW THE GAME <br /><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 italic\">WORKS</span>",
-        "how_hero_subtitle": "It's not just about running. It's about active territorial tactics. Conquer neighborhoods in First Run mode or lose everything to the next runner.",
+        "how_hero_subtitle": "Cardio shouldn't be a chore. Convert real-world burned calories into 'Energy Cells' to build bases and dominate city blocks on an immersive 3D map.",
         "how_step1_title": "1. Choose the Circuit",
         "how_step1_desc": "Open the app and see the map of your city divided into districts, parks and blocks (like a giant game board). Choose an empty area or one taken by a rival and press START to record your run via GPS.",
         "how_step2_title": "2. The \"First Run\"",
