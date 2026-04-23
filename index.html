@@ -18,13 +18,23 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="translations.js"></script>
     <script src="language-manager.js"></script>
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.0.51/build/spline-viewer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #010206;
+            background-color: #000;
+            margin: 0;
+        }
+
+        #city-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
         }
 
         /* Pulsação Sutil Global */
@@ -33,54 +43,31 @@
         }
 
         @keyframes pulse-glow {
-
-            0%,
-            100% {
-                opacity: 1;
-                filter: brightness(1);
-            }
-
-            50% {
-                opacity: 0.8;
-                filter: brightness(1.2);
-            }
+            0%, 100% { opacity: 1; filter: brightness(1); }
+            50% { opacity: 0.8; filter: brightness(1.2); }
         }
 
-        /* Ken Burns: zoom suave no fundo */
+        /* Ken Burns */
         @keyframes kenburns {
-            0% {
-                transform: scale(1) translate(0, 0);
-            }
-
-            50% {
-                transform: scale(1.08) translate(-1%, -0.5%);
-            }
-
-            100% {
-                transform: scale(1) translate(0, 0);
-            }
+            0% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.08) translate(-1%, -0.5%); }
+            100% { transform: scale(1) translate(0, 0); }
         }
+        .animate-kenburns { animation: kenburns 30s ease-in-out infinite; }
 
-        .animate-kenburns {
-            animation: kenburns 30s ease-in-out infinite;
-        }
-
-        /* Atmosferas Dinâmicas */
+        /* Atmosferas */
         .atmosphere-intense {
             transition: all 1s ease-in-out;
             box-shadow: inset 0 0 100px rgba(255, 0, 0, 0.2);
         }
-        
         .atmosphere-intense h1 {
             text-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
             color: #fca5a5;
         }
-
         .atmosphere-calm {
             transition: all 1s ease-in-out;
             box-shadow: inset 0 0 100px rgba(34, 211, 238, 0.1);
         }
-        
         .atmosphere-calm h1 {
             text-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
             color: #a5f3fc;
@@ -89,7 +76,7 @@
 
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#010206">
+    <meta name="theme-color" content="#000000">
     <script>
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", () => {
@@ -116,19 +103,224 @@
     <!-- End Meta Pixel Code -->
 </head>
 
-<body class="relative w-full bg-[#010206] text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased">
+<body class="relative w-full bg-black text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased">
 
-    <!-- CAMADA 1: FUNDO FULL SCREEN 3D (SPLINE) -->
-    <div class="fixed inset-0 z-0 overflow-hidden bg-black pointer-events-auto">
-        <!-- Overlay escuro para garantir leitura da UI -->
-        <div class="absolute inset-0 bg-black/30 z-10 pointer-events-none"></div>
-        
-        <!-- Spline 3D Scene (Placeholder: Cena 3D Dark/Neon) -->
-        <spline-viewer url="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" class="absolute inset-0 w-full h-full z-0"></spline-viewer>
-
+    <!-- CAMADA 1: FUNDO 3D — Cidade Noturna com Ruas Pintadas (Three.js) -->
+    <canvas id="city-canvas"></canvas>
+    <div class="fixed inset-0 z-[1] pointer-events-none">
+        <!-- Overlay gradiente para legibilidade -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
         <!-- Grão cinematográfico sutil -->
-        <div class="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-20 pointer-events-none"></div>
+        <div class="absolute inset-0 opacity-[0.04] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
     </div>
+
+    <!-- Three.js City Engine -->
+    <script>
+    (function() {
+        const canvas = document.getElementById('city-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000);
+
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.012);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+        camera.position.set(0, 35, 45);
+        camera.lookAt(0, 0, 0);
+
+        // ---- MOUSE TRACKING ----
+        let mouseX = 0, mouseY = 0;
+        let targetCamX = 0, targetCamZ = 45;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        // ---- NEON COLORS (Territory Domination) ----
+        const neonColors = [
+            new THREE.Color(0x00e5ff), // Cyan
+            new THREE.Color(0xaa00ff), // Purple
+            new THREE.Color(0xff6d00), // Orange
+            new THREE.Color(0x00e676), // Green
+            new THREE.Color(0xff1744), // Red
+            new THREE.Color(0x2979ff), // Blue
+        ];
+
+        // ---- CITY GRID ----
+        const gridSize = 14;
+        const blockSize = 3.5;
+        const streetWidth = 1.2;
+        const cellSize = blockSize + streetWidth;
+        const buildings = [];
+
+        // Buildings (dark blocks)
+        const buildingMat = new THREE.MeshStandardMaterial({
+            color: 0x080810,
+            roughness: 0.9,
+            metalness: 0.1,
+        });
+
+        for (let x = -gridSize; x <= gridSize; x++) {
+            for (let z = -gridSize; z <= gridSize; z++) {
+                const height = 0.3 + Math.random() * 4.5 + (Math.random() > 0.85 ? 6 : 0);
+                const geo = new THREE.BoxGeometry(blockSize, height, blockSize);
+                const mesh = new THREE.Mesh(geo, buildingMat);
+                mesh.position.set(x * cellSize, height / 2, z * cellSize);
+                mesh.castShadow = true;
+                scene.add(mesh);
+                buildings.push(mesh);
+
+                // Subtle window lights on tall buildings
+                if (height > 4) {
+                    const windowColor = neonColors[Math.floor(Math.random() * neonColors.length)].clone();
+                    windowColor.multiplyScalar(0.15);
+                    const edgeMat = new THREE.MeshBasicMaterial({ color: windowColor });
+                    const edgeGeo = new THREE.BoxGeometry(blockSize + 0.02, height + 0.02, blockSize + 0.02);
+                    const edgeMesh = new THREE.Mesh(edgeGeo, edgeMat);
+                    edgeMesh.position.copy(mesh.position);
+                    edgeMesh.material.wireframe = true;
+                    scene.add(edgeMesh);
+                }
+            }
+        }
+
+        // ---- PAINTED STREETS (The key visual!) ----
+        const streetGroup = new THREE.Group();
+        scene.add(streetGroup);
+
+        // Horizontal streets
+        for (let z = -gridSize; z <= gridSize; z++) {
+            const color = neonColors[Math.abs(z) % neonColors.length];
+            const intensity = 0.4 + Math.random() * 0.6;
+            const mat = new THREE.MeshBasicMaterial({
+                color: color.clone().multiplyScalar(intensity),
+                transparent: true,
+                opacity: 0.7,
+            });
+            const geo = new THREE.PlaneGeometry((gridSize * 2 + 1) * cellSize, streetWidth * 0.9);
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.rotation.x = -Math.PI / 2;
+            mesh.position.set(0, 0.02, z * cellSize + blockSize / 2 + streetWidth / 2);
+            streetGroup.add(mesh);
+        }
+
+        // Vertical streets
+        for (let x = -gridSize; x <= gridSize; x++) {
+            const color = neonColors[Math.abs(x + 3) % neonColors.length];
+            const intensity = 0.4 + Math.random() * 0.6;
+            const mat = new THREE.MeshBasicMaterial({
+                color: color.clone().multiplyScalar(intensity),
+                transparent: true,
+                opacity: 0.7,
+            });
+            const geo = new THREE.PlaneGeometry(streetWidth * 0.9, (gridSize * 2 + 1) * cellSize);
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.rotation.x = -Math.PI / 2;
+            mesh.position.set(x * cellSize + blockSize / 2 + streetWidth / 2, 0.02, 0);
+            streetGroup.add(mesh);
+        }
+
+        // ---- GROUND GLOW under streets ----
+        const glowGeo = new THREE.PlaneGeometry((gridSize * 2 + 2) * cellSize, (gridSize * 2 + 2) * cellSize);
+        const glowMat = new THREE.MeshBasicMaterial({ color: 0x050510, transparent: true, opacity: 1 });
+        const ground = new THREE.Mesh(glowGeo, glowMat);
+        ground.rotation.x = -Math.PI / 2;
+        ground.position.y = -0.01;
+        scene.add(ground);
+
+        // ---- ANIMATED LIGHT TRAILS (runners on streets) ----
+        const trails = [];
+        const trailCount = 40;
+
+        for (let i = 0; i < trailCount; i++) {
+            const isHorizontal = Math.random() > 0.5;
+            const streetIdx = Math.floor(Math.random() * (gridSize * 2 + 1)) - gridSize;
+            const color = neonColors[Math.floor(Math.random() * neonColors.length)];
+
+            const trailGeo = new THREE.SphereGeometry(0.15, 8, 8);
+            const trailMat = new THREE.MeshBasicMaterial({ color: color });
+            const trailMesh = new THREE.Mesh(trailGeo, trailMat);
+
+            // Point light for glow
+            const light = new THREE.PointLight(color, 2, 8);
+
+            const speed = 0.02 + Math.random() * 0.06;
+            const direction = Math.random() > 0.5 ? 1 : -1;
+            const extent = (gridSize + 1) * cellSize;
+
+            let pos;
+            if (isHorizontal) {
+                pos = -extent * direction;
+                trailMesh.position.set(pos, 0.3, streetIdx * cellSize + blockSize / 2 + streetWidth / 2);
+            } else {
+                pos = -extent * direction;
+                trailMesh.position.set(streetIdx * cellSize + blockSize / 2 + streetWidth / 2, 0.3, pos);
+            }
+
+            light.position.copy(trailMesh.position);
+            scene.add(trailMesh);
+            scene.add(light);
+
+            trails.push({ mesh: trailMesh, light, isHorizontal, speed, direction, extent, pos });
+        }
+
+        // ---- AMBIENT LIGHTING ----
+        const ambientLight = new THREE.AmbientLight(0x111122, 0.5);
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight(0x222244, 0.3);
+        dirLight.position.set(10, 30, 10);
+        scene.add(dirLight);
+
+        // ---- ANIMATION LOOP ----
+        let time = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.008;
+
+            // Smooth camera follow mouse
+            targetCamX = mouseX * 15;
+            const targetCamY = 35 - mouseY * 5;
+            camera.position.x += (targetCamX - camera.position.x) * 0.02;
+            camera.position.y += (targetCamY - camera.position.y) * 0.02;
+            camera.position.z = 45 + Math.sin(time * 0.3) * 3;
+            camera.lookAt(mouseX * 5, 0, mouseY * 3 - 5);
+
+            // Animate trails
+            for (const trail of trails) {
+                trail.pos += trail.speed * trail.direction;
+                if (Math.abs(trail.pos) > trail.extent) {
+                    trail.pos = -trail.extent * trail.direction;
+                }
+
+                if (trail.isHorizontal) {
+                    trail.mesh.position.x = trail.pos;
+                } else {
+                    trail.mesh.position.z = trail.pos;
+                }
+                trail.light.position.copy(trail.mesh.position);
+            }
+
+            // Pulse street colors subtly
+            streetGroup.children.forEach((street, i) => {
+                const pulse = 0.55 + Math.sin(time * 2 + i * 0.4) * 0.2;
+                street.material.opacity = pulse;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // ---- RESIZE ----
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    })();
+    </script>
 
     <!-- NAVEGAÇÃO SUPERIOR (Flutuante) -->
     <div class="fixed top-0 left-0 w-full z-50 pt-6 px-4 md:px-8 pointer-events-none">
