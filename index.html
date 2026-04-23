@@ -17,13 +17,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;500;600;700;900&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             overflow-x: hidden;
             background-color: #050505;
+        }
+
+        .font-syncopate {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
         }
 
         .bg-layer {
@@ -39,6 +44,14 @@
             z-index: 0;
         }
 
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
         .btn-neon {
             background: rgba(0,0,0,0.6);
             border: 2px solid #f97316;
@@ -50,7 +63,7 @@
         .btn-neon:hover {
             background: #f97316;
             color: #000;
-            box-shadow: 0 0 30px rgba(249, 115, 22, 0.8), inset 0 0 15px rgba(249, 115, 22, 0.4);
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.8);
             transform: scale(1.03);
         }
 
@@ -69,13 +82,14 @@
 
 <body class="relative w-full text-white font-sans overflow-x-hidden selection:bg-orange-500/30 antialiased h-screen">
 
-    <!-- FUNDO: IMAGEM GERADA -->
+    <!-- FUNDO -->
     <div class="bg-layer"></div>
+    <div class="overlay"></div>
 
     <!-- INTERFACE -->
     <div class="relative z-10 flex flex-col h-screen w-full">
         
-        <!-- NAVBAR MINIMALISTA -->
+        <!-- NAVBAR -->
         <nav class="fixed top-4 left-4 right-4 lg:left-8 lg:right-8 glass-nav rounded-[20px] px-8 py-5 flex items-center justify-between z-50">
             <a href="index.html" class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition-opacity">
                 <svg class="w-8 h-8 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]" viewBox="0 0 40 40" fill="none">
@@ -101,12 +115,18 @@
             </div>
         </nav>
 
-        <!-- CTA FLUTUANTE NA BASE -->
-        <div class="fixed bottom-12 left-0 right-0 flex justify-center z-20">
-            <a href="early-access.html" class="btn-neon px-12 py-4 rounded-full text-sm font-bold tracking-[0.2em] uppercase text-white">
+        <!-- HERO CENTRAL -->
+        <main class="flex-grow flex flex-col items-center justify-center text-center px-4">
+            <h1 class="font-syncopate text-5xl md:text-7xl lg:text-[110px] leading-[0.9] text-white drop-shadow-2xl uppercase italic">
+                FIRST RUNNER
+            </h1>
+            <p class="mt-6 text-xs md:text-sm font-bold tracking-[0.25em] text-white/80 uppercase">
+                Conquer your city. Paint your path.
+            </p>
+            <a href="early-access.html" class="mt-10 btn-neon px-12 py-4 rounded-full text-sm font-bold tracking-[0.2em] uppercase text-white">
                 JOIN THE RACE
             </a>
-        </div>
+        </main>
     </div>
 
     <script>
