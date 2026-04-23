@@ -17,18 +17,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             overflow-x: hidden;
             background-color: #050505;
-        }
-
-        .font-syncopate {
-            font-family: 'Syncopate', sans-serif;
-            font-weight: 700;
         }
 
         .bg-layer {
@@ -44,43 +39,26 @@
             z-index: 0;
         }
 
-        .overlay {
-            position: fixed;
-            inset: 0;
-            /* Gradient from left to right to make the text pop while keeping the right side vibrant */
-            background: linear-gradient(to right, rgba(10,12,20,0.95) 0%, rgba(10,12,20,0.5) 50%, rgba(10,12,20,0.05) 100%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .glass-panel {
-            background: rgba(30, 32, 45, 0.4);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-        }
-
-        .glass-button {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .btn-neon {
+            background: rgba(0,0,0,0.6);
+            border: 2px solid #f97316;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.4), inset 0 0 10px rgba(249, 115, 22, 0.15);
+            backdrop-filter: blur(8px);
             transition: all 0.3s ease;
         }
         
-        .glass-button:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        .btn-neon:hover {
+            background: #f97316;
+            color: #000;
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.8), inset 0 0 15px rgba(249, 115, 22, 0.4);
+            transform: scale(1.03);
         }
-        
-        /* Neon map path animation */
-        .path-line {
-            stroke-dasharray: 200;
-            stroke-dashoffset: 200;
-            animation: drawPath 4s forwards ease-out;
-        }
-        @keyframes drawPath {
-            to { stroke-dashoffset: 0; }
+
+        .glass-nav {
+            background: rgba(8, 11, 18, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
     </style>
 
@@ -89,110 +67,46 @@
     <meta name="theme-color" content="#000000">
 </head>
 
-<body class="relative w-full text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased h-screen">
+<body class="relative w-full text-white font-sans overflow-x-hidden selection:bg-orange-500/30 antialiased h-screen">
 
-    <!-- CAMADA 1: FUNDO ESTÁTICO (IMAGEM) -->
+    <!-- FUNDO: IMAGEM GERADA -->
     <div class="bg-layer"></div>
-    <div class="overlay"></div>
 
-    <!-- CAMADA 2: INTERFACE DO USUÁRIO -->
-    <div class="relative z-10 flex flex-col h-screen w-full max-w-[1600px] mx-auto px-6 md:px-12 py-8 pointer-events-none">
+    <!-- INTERFACE -->
+    <div class="relative z-10 flex flex-col h-screen w-full">
         
-        <!-- NAVEGAÇÃO SUPERIOR (PILL SHAPE) -->
-        <nav class="glass-panel rounded-full px-6 py-4 flex items-center justify-between w-full max-w-5xl mx-auto pointer-events-auto">
-            
-            <!-- Left Icons -->
-            <div class="flex items-center gap-3">
-                <button class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.4)] text-cyan-400 hover:bg-cyan-500/40 transition-colors">
-                    <i data-lucide="home" class="w-5 h-5 fill-cyan-400"></i>
-                </button>
-                <button class="w-10 h-10 rounded-xl glass-button flex items-center justify-center text-white/70 hover:text-white">
-                    <i data-lucide="route" class="w-5 h-5"></i>
-                </button>
-                <button class="w-10 h-10 rounded-xl glass-button flex items-center justify-center text-white/70 hover:text-white">
-                    <i data-lucide="settings" class="w-5 h-5"></i>
-                </button>
+        <!-- NAVBAR MINIMALISTA -->
+        <nav class="fixed top-4 left-4 right-4 lg:left-8 lg:right-8 glass-nav rounded-[20px] px-8 py-5 flex items-center justify-between z-50">
+            <a href="index.html" class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition-opacity">
+                <svg class="w-8 h-8 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]" viewBox="0 0 40 40" fill="none">
+                    <path d="M6 6H34V14H16V20H28V27H16V36H6V6Z" fill="white"/>
+                </svg>
+                <div class="flex flex-col leading-[0.9] font-black tracking-widest text-white text-lg uppercase" translate="no">
+                    <span>FIRST</span>
+                    <span>RUNNER</span>
+                </div>
+            </a>
+
+            <div class="hidden lg:flex items-center gap-10">
+                <a href="index.html" class="text-[11px] font-black tracking-[0.15em] uppercase text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]">HOME</a>
+                <a href="como-funciona.html" class="text-[11px] font-black tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">COMO FUNCIONA</a>
+                <a href="whitepaper.html" class="text-[11px] font-black tracking-[0.15em] uppercase text-white/50 hover:text-white transition-colors">WHITEPAPER</a>
+                <a href="early-access.html" class="text-[11px] font-black tracking-[0.15em] uppercase text-orange-500 hover:text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,0.4)]">EARLY ACCESS</a>
             </div>
 
-            <!-- Center Links -->
-            <div class="hidden md:flex items-center gap-10 text-[11px] font-bold tracking-[0.2em] text-white/60">
-                <a href="#" class="text-white relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-full after:h-[2px] after:bg-cyan-400 after:shadow-[0_0_8px_rgba(6,182,212,0.8)]">HOME</a>
-                <a href="#" class="hover:text-white transition-colors">FEATURES</a>
-                <a href="#" class="hover:text-white transition-colors">COMMUNITY</a>
-                <a href="#" class="hover:text-white transition-colors">PROFILE</a>
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-white p-2">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
             </div>
-
-            <!-- Right Icon -->
-            <button class="w-10 h-10 rounded-full glass-button flex items-center justify-center text-white/70 hover:text-white">
-                <i data-lucide="user" class="w-5 h-5"></i>
-            </button>
         </nav>
 
-        <!-- MAIN CONTENT (HERO & CARDS) -->
-        <main class="flex-grow flex flex-col lg:flex-row items-center justify-between w-full mt-10 pb-10">
-            
-            <!-- LEFT HERO TEXT -->
-            <div class="flex flex-col items-start text-left max-w-2xl pointer-events-auto">
-                <h1 class="font-syncopate text-6xl md:text-8xl lg:text-[110px] leading-[0.9] text-white drop-shadow-2xl uppercase">
-                    FIRST<br>RUNNER
-                </h1>
-                <p class="mt-8 text-sm md:text-lg font-medium tracking-[0.2em] text-white/80 uppercase">
-                    Conquer your city. Paint your path.
-                </p>
-                <a href="early-access.html" class="mt-10 px-8 py-4 rounded-full glass-button text-xs md:text-sm font-bold tracking-[0.2em] uppercase text-white inline-flex items-center gap-3">
-                    JOIN THE CHASE
-                </a>
-            </div>
-
-            <!-- RIGHT PROGRESS CARD (Glassmorphism) -->
-            <div class="hidden lg:block w-[400px] glass-panel rounded-3xl p-6 pointer-events-auto mt-auto lg:mt-0 lg:mb-10 lg:mr-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 relative overflow-hidden group">
-                <!-- Inner glow hover effect -->
-                <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-purple-500/0 group-hover:from-cyan-500/10 group-hover:to-purple-500/10 transition-all duration-500 pointer-events-none"></div>
-                
-                <!-- Header -->
-                <div class="flex items-center gap-3 mb-6 relative z-10">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-orange-400 to-purple-500 p-[2px]">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full rounded-full bg-black object-cover" alt="User Profile" />
-                    </div>
-                    <span class="text-sm font-medium tracking-wide text-white/90">User Progress</span>
-                </div>
-
-                <!-- Fake Map Container -->
-                <div class="w-full h-[180px] bg-[#0c0f1a]/80 rounded-xl mb-6 relative overflow-hidden border border-white/5">
-                    <!-- City Grid Pattern -->
-                    <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px;"></div>
-                    
-                    <!-- Drawn Route SVG -->
-                    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 180" fill="none">
-                        <!-- Orange Path -->
-                        <path d="M120,60 L140,110 L190,130 L220,80" stroke="#f97316" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-[0_0_8px_rgba(249,115,22,0.8)] path-line"/>
-                        <!-- Cyan Path -->
-                        <path d="M220,80 L280,60 L320,100 L270,120 Z" stroke="#06b6d4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] path-line" style="animation-delay: 0.5s"/>
-                        
-                        <!-- Nodes -->
-                        <circle cx="120" cy="60" r="6" fill="#050505" stroke="#f97316" stroke-width="3" />
-                        <circle cx="220" cy="80" r="8" fill="#06b6d4" stroke="#ffffff" stroke-width="2" class="drop-shadow-[0_0_10px_rgba(6,182,212,1)]" />
-                        <circle cx="320" cy="100" r="5" fill="#f97316" stroke="#f97316" stroke-width="2" class="drop-shadow-[0_0_8px_rgba(249,115,22,1)]" />
-                    </svg>
-
-                    <!-- Avatar Marker on Map -->
-                    <div class="absolute top-[48px] left-[108px] w-6 h-6 rounded-full border-2 border-white bg-black z-10 shadow-[0_0_15px_rgba(255,255,255,0.5)]">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full rounded-full" />
-                    </div>
-                </div>
-
-                <!-- Progress Bar -->
-                <div class="relative z-10">
-                    <div class="flex justify-between items-end mb-2">
-                        <span class="text-xs font-bold tracking-[0.15em] text-white uppercase">Territory Claimed: <span class="text-cyan-400">45%</span></span>
-                    </div>
-                    <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div class="h-full bg-gradient-to-r from-cyan-400 to-purple-500 w-[45%] rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
-                    </div>
-                </div>
-            </div>
-
-        </main>
+        <!-- CTA FLUTUANTE NA BASE -->
+        <div class="fixed bottom-12 left-0 right-0 flex justify-center z-20">
+            <a href="early-access.html" class="btn-neon px-12 py-4 rounded-full text-sm font-bold tracking-[0.2em] uppercase text-white">
+                JOIN THE RACE
+            </a>
+        </div>
     </div>
 
     <script>
