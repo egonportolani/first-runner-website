@@ -16,16 +16,19 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="translations.js"></script>
-    <script src="language-manager.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;500;600;700&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             overflow-x: hidden;
             background-color: #050505;
+        }
+
+        .font-syncopate {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
         }
 
         .bg-layer {
@@ -44,128 +47,152 @@
         .overlay {
             position: fixed;
             inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.3) 100%);
+            /* Gradient from left to right to make the text pop while keeping the right side vibrant */
+            background: linear-gradient(to right, rgba(10,12,20,0.95) 0%, rgba(10,12,20,0.5) 50%, rgba(10,12,20,0.05) 100%);
             z-index: 1;
             pointer-events: none;
+        }
+
+        .glass-panel {
+            background: rgba(30, 32, 45, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-button {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Neon map path animation */
+        .path-line {
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+            animation: drawPath 4s forwards ease-out;
+        }
+        @keyframes drawPath {
+            to { stroke-dashoffset: 0; }
         }
     </style>
 
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
-    <!-- Meta Pixel Code -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1959330144663699');
-      fbq('track', 'PageView');
-    </script>
 </head>
 
-<body class="relative w-full text-white font-sans overflow-x-hidden selection:bg-orange-500/30 antialiased">
+<body class="relative w-full text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased h-screen">
 
-    <!-- CAMADA 1: FUNDO ESTÁTICO -->
+    <!-- CAMADA 1: FUNDO ESTÁTICO (IMAGEM) -->
     <div class="bg-layer"></div>
     <div class="overlay"></div>
 
-    <div class="relative z-10 flex flex-col min-h-screen">
-        <!-- NAVEGAÇÃO SUPERIOR (Larga como no React) -->
-        <nav class="fixed top-4 left-4 right-4 lg:left-8 lg:right-8 backdrop-blur-xl bg-[#080b12]/90 border border-white/5 rounded-[20px] px-8 py-5 flex items-center justify-between z-50 shadow-2xl pointer-events-auto">
-            <!-- Logótipo -->
-            <a href="index.html" class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition-opacity">
-                <!-- Ícone F -->
-                <svg class="w-9 h-9 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 6H34V14H16V20H28V27H16V36H6V6Z" fill="white"/>
-                </svg>
-                <!-- Texto Logo -->
-                <div class="flex flex-col leading-[0.9] font-black tracking-widest text-white text-xl uppercase" translate="no">
-                    <span>FIRST</span>
-                    <span>RUNNER</span>
-                </div>
-            </a>
-
-            <!-- Desktop Menu -->
-            <div class="hidden lg:flex items-center gap-10">
-                <a href="index.html" class="text-[12px] font-black tracking-[0.15em] transition-all uppercase cursor-pointer text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]" data-i18n="nav_home">INÍCIO</a>
-                <a href="como-funciona.html" class="text-[12px] font-black tracking-[0.15em] transition-all uppercase cursor-pointer text-white/50 hover:text-white" data-i18n="nav_how_it_works">COMO FUNCIONA</a>
-                <a href="#" class="text-[12px] font-black tracking-[0.15em] transition-all uppercase cursor-pointer text-white/50 hover:text-white">HERO</a>
-                <a href="whitepaper.html" class="text-[12px] font-black tracking-[0.15em] transition-all uppercase cursor-pointer text-white/50 hover:text-white">WHITEPAPER</a>
-                <a href="early-access.html" class="text-[12px] font-black tracking-[0.15em] transition-all uppercase cursor-pointer text-orange-500 hover:text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,0.4)]" data-i18n="nav_early_access">EARLY ACCESS</a>
-            </div>
-
-            <!-- Language Switcher & Mobile Menu -->
-            <div class="flex items-center gap-4 pointer-events-auto">
-                <button onclick="LanguageManager.toggleLanguage()" class="flex items-center gap-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
-                    <i data-lucide="globe" class="w-4 h-4"></i>
-                    <span id="current-lang-display">PT</span>
+    <!-- CAMADA 2: INTERFACE DO USUÁRIO -->
+    <div class="relative z-10 flex flex-col h-screen w-full max-w-[1600px] mx-auto px-6 md:px-12 py-8 pointer-events-none">
+        
+        <!-- NAVEGAÇÃO SUPERIOR (PILL SHAPE) -->
+        <nav class="glass-panel rounded-full px-6 py-4 flex items-center justify-between w-full max-w-5xl mx-auto pointer-events-auto">
+            
+            <!-- Left Icons -->
+            <div class="flex items-center gap-3">
+                <button class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.4)] text-cyan-400 hover:bg-cyan-500/40 transition-colors">
+                    <i data-lucide="home" class="w-5 h-5 fill-cyan-400"></i>
                 </button>
-                <button class="lg:hidden text-white p-2">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
+                <button class="w-10 h-10 rounded-xl glass-button flex items-center justify-center text-white/70 hover:text-white">
+                    <i data-lucide="route" class="w-5 h-5"></i>
+                </button>
+                <button class="w-10 h-10 rounded-xl glass-button flex items-center justify-center text-white/70 hover:text-white">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
                 </button>
             </div>
+
+            <!-- Center Links -->
+            <div class="hidden md:flex items-center gap-10 text-[11px] font-bold tracking-[0.2em] text-white/60">
+                <a href="#" class="text-white relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-full after:h-[2px] after:bg-cyan-400 after:shadow-[0_0_8px_rgba(6,182,212,0.8)]">HOME</a>
+                <a href="#" class="hover:text-white transition-colors">FEATURES</a>
+                <a href="#" class="hover:text-white transition-colors">COMMUNITY</a>
+                <a href="#" class="hover:text-white transition-colors">PROFILE</a>
+            </div>
+
+            <!-- Right Icon -->
+            <button class="w-10 h-10 rounded-full glass-button flex items-center justify-center text-white/70 hover:text-white">
+                <i data-lucide="user" class="w-5 h-5"></i>
+            </button>
         </nav>
 
-        <!-- CONTEÚDO PRINCIPAL (Flutuando sobre o Fundo) -->
-        <main class="flex-grow flex flex-col items-center justify-center text-center px-4 w-full pt-32 pb-20 pointer-events-none">
+        <!-- MAIN CONTENT (HERO & CARDS) -->
+        <main class="flex-grow flex flex-col lg:flex-row items-center justify-between w-full mt-10 pb-10">
             
-            <h1 class="text-5xl md:text-[80px] lg:text-[130px] font-black italic tracking-tighter text-white drop-shadow-2xl leading-none">
-                <span translate="no">FIRST RUNNER</span>
-            </h1>
-            <p class="mt-6 text-xs md:text-xl font-medium tracking-[0.15em] text-white/90 uppercase drop-shadow-md" data-i18n="hero_subtitle">
-                Conquiste a sua cidade, Seja O PRIMEIRO CORREDOR
-            </p>
-            <a href="early-access.html" class="pointer-events-auto mt-10 px-10 py-4 rounded-full border-2 border-orange-500 bg-[#050505]/60 backdrop-blur-md text-white text-sm font-bold tracking-widest hover:bg-orange-500 hover:text-black transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_40px_rgba(249,115,22,0.6)]" data-i18n="hero_cta">
-                JUNTAR À CORRIDA
-            </a>
+            <!-- LEFT HERO TEXT -->
+            <div class="flex flex-col items-start text-left max-w-2xl pointer-events-auto">
+                <h1 class="font-syncopate text-6xl md:text-8xl lg:text-[110px] leading-[0.9] text-white drop-shadow-2xl uppercase">
+                    FIRST<br>RUNNER
+                </h1>
+                <p class="mt-8 text-sm md:text-lg font-medium tracking-[0.2em] text-white/80 uppercase">
+                    Conquer your city. Paint your path.
+                </p>
+                <a href="early-access.html" class="mt-10 px-8 py-4 rounded-full glass-button text-xs md:text-sm font-bold tracking-[0.2em] uppercase text-white inline-flex items-center gap-3">
+                    JOIN THE CHASE
+                </a>
+            </div>
 
-            <!-- Badges Inferiores -->
-            <div class="w-full max-w-5xl mx-auto px-4 mt-20 pointer-events-auto">
-                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-                    <!-- Google Cloud Badge -->
-                    <div class="flex items-center justify-between w-full md:w-auto px-8 py-5 bg-black/50 backdrop-blur-xl border border-white/5 rounded-2xl md:rounded-full shadow-2xl hover:bg-black/60 transition-colors cursor-default">
-                        <div class="flex flex-col text-left mr-10">
-                            <span class="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 uppercase">Gemini Live <span class="text-white">Agent Challenge</span></span>
-                            <span class="text-[10px] font-bold tracking-widest text-white/50 uppercase mt-1">Submit by March 16, 2026</span>
-                        </div>
-                        <div class="flex flex-col items-end">
-                            <span class="text-[8px] font-black tracking-[0.2em] text-white/40 uppercase mb-1">Powered by</span>
-                            <div class="flex items-center gap-2">
-                                <span class="text-sm font-bold tracking-wider text-white">Google Cloud</span>
-                                <!-- Sparkle icon simplificado -->
-                                <svg class="w-6 h-6 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/>
-                                </svg>
-                            </div>
-                        </div>
+            <!-- RIGHT PROGRESS CARD (Glassmorphism) -->
+            <div class="hidden lg:block w-[400px] glass-panel rounded-3xl p-6 pointer-events-auto mt-auto lg:mt-0 lg:mb-10 lg:mr-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 relative overflow-hidden group">
+                <!-- Inner glow hover effect -->
+                <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-purple-500/0 group-hover:from-cyan-500/10 group-hover:to-purple-500/10 transition-all duration-500 pointer-events-none"></div>
+                
+                <!-- Header -->
+                <div class="flex items-center gap-3 mb-6 relative z-10">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-orange-400 to-purple-500 p-[2px]">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full rounded-full bg-black object-cover" alt="User Profile" />
+                    </div>
+                    <span class="text-sm font-medium tracking-wide text-white/90">User Progress</span>
+                </div>
+
+                <!-- Fake Map Container -->
+                <div class="w-full h-[180px] bg-[#0c0f1a]/80 rounded-xl mb-6 relative overflow-hidden border border-white/5">
+                    <!-- City Grid Pattern -->
+                    <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px;"></div>
+                    
+                    <!-- Drawn Route SVG -->
+                    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 180" fill="none">
+                        <!-- Orange Path -->
+                        <path d="M120,60 L140,110 L190,130 L220,80" stroke="#f97316" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-[0_0_8px_rgba(249,115,22,0.8)] path-line"/>
+                        <!-- Cyan Path -->
+                        <path d="M220,80 L280,60 L320,100 L270,120 Z" stroke="#06b6d4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] path-line" style="animation-delay: 0.5s"/>
+                        
+                        <!-- Nodes -->
+                        <circle cx="120" cy="60" r="6" fill="#050505" stroke="#f97316" stroke-width="3" />
+                        <circle cx="220" cy="80" r="8" fill="#06b6d4" stroke="#ffffff" stroke-width="2" class="drop-shadow-[0_0_10px_rgba(6,182,212,1)]" />
+                        <circle cx="320" cy="100" r="5" fill="#f97316" stroke="#f97316" stroke-width="2" class="drop-shadow-[0_0_8px_rgba(249,115,22,1)]" />
+                    </svg>
+
+                    <!-- Avatar Marker on Map -->
+                    <div class="absolute top-[48px] left-[108px] w-6 h-6 rounded-full border-2 border-white bg-black z-10 shadow-[0_0_15px_rgba(255,255,255,0.5)]">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full rounded-full" />
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-xs font-bold tracking-[0.15em] text-white uppercase">Territory Claimed: <span class="text-cyan-400">45%</span></span>
+                    </div>
+                    <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-cyan-400 to-purple-500 w-[45%] rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
                     </div>
                 </div>
             </div>
-        </main>
 
-        <!-- FOOTER -->
-        <footer class="relative z-10 w-full border-t border-white/5 bg-[#080b12]/90 backdrop-blur-xl py-8 pointer-events-auto">
-            <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="flex items-center gap-3 opacity-50 hover:opacity-100 transition-opacity cursor-pointer">
-                    <svg viewBox="0 0 100 100" class="w-6 h-6 shrink-0">
-                        <path d="M 0 0 H 100 L 80 20 H 20 V 40 H 80 L 60 60 H 20 V 80 L 0 100 Z" fill="white" />
-                    </svg>
-                    <span class="text-sm font-black tracking-widest text-white uppercase" translate="no">First Runner</span>
-                </div>
-                
-                <div class="flex items-center gap-6 text-[10px] font-bold tracking-[0.2em] text-white/40">
-                    <a href="#" class="hover:text-white transition-colors">TERMS</a>
-                    <a href="#" class="hover:text-white transition-colors">PRIVACY</a>
-                    <a href="#" class="hover:text-white transition-colors">X (TWITTER)</a>
-                    <a href="#" class="hover:text-white transition-colors">DISCORD</a>
-                </div>
-            </div>
-        </footer>
+        </main>
     </div>
 
     <script>
