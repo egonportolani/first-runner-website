@@ -72,13 +72,14 @@
     </script>
 </head>
 
-<body class="relative w-full bg-black text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased">
+<body class="relative w-full bg-[#050505] text-white font-sans overflow-x-hidden selection:bg-orange-500/30 antialiased">
 
     <!-- CAMADA 1: FUNDO 3D REALISTA (InstancedMesh Metropolis) -->
     <canvas id="city-canvas"></canvas>
     
     <div class="fixed inset-0 z-[1] pointer-events-none">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80"></div>
+        <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/40 to-black/90 pointer-events-none"></div>
         <div class="absolute inset-0 opacity-[0.06] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
     </div>
 
@@ -92,16 +93,17 @@
         renderer.setClearColor(0x020204);
 
         const scene = new THREE.Scene();
-        // Fog urbano espesso (efeito de metrÛpole infinita)
+        // Fog urbano espesso (efeito de metr√≥pole infinita)
         scene.fog = new THREE.FogExp2(0x020204, 0.012);
 
         const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 400);
-        camera.position.set(0, 20, 70);
-        camera.lookAt(0, 0, 0);
+        // C√¢mera muito mais alta, focando nas ruas de neon como um Drone
+        camera.position.set(0, 45, 55);
+        camera.lookAt(0, -10, 0);
 
         // ---- POST PROCESSING (BLOOM) ----
         const renderScene = new THREE.RenderPass(scene, camera);
-        const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.8, 0.6, 0.2);
+        const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 2.0, 0.6, 0.2);
         const composer = new THREE.EffectComposer(renderer);
         composer.addPass(renderScene);
         composer.addPass(bloomPass);
@@ -131,7 +133,6 @@
             ctxCanvas.height = 1024;
             const ctx = ctxCanvas.getContext('2d');
 
-            // Fundo da fachada (Vidro escuro)
             ctx.fillStyle = '#06060a';
             ctx.fillRect(0, 0, 512, 1024);
 
@@ -143,12 +144,10 @@
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
                     const margin = 2;
-                    // Probabilidade da janela estar acesa (estilo prÈdio de escritÛrio ‡ noite)
-                    if (Math.random() > 0.8) {
-                        // Cor da luz (Luz quente amarelada ou monitor ciano)
+                    if (Math.random() > 0.85) { // Janelas mais escassas
                         const isWarm = Math.random() > 0.4;
                         ctx.fillStyle = isWarm ? '#ffea99' : '#baddff';
-                        ctx.globalAlpha = 0.5 + Math.random() * 0.5;
+                        ctx.globalAlpha = 0.4 + Math.random() * 0.4;
                         ctx.fillRect(c * windowW + margin, r * windowH + margin, windowW - margin * 2, windowH - margin * 2);
                     }
                 }
@@ -157,9 +156,8 @@
             const texture = new THREE.CanvasTexture(ctxCanvas);
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(2, 4); // Repete a textura pelos prÈdios altos
+            texture.repeat.set(2, 4); 
             
-            // Filtros para evitar embaÁamento nas janelas
             texture.magFilter = THREE.NearestFilter;
             texture.minFilter = THREE.LinearMipmapLinearFilter;
             return texture;
@@ -169,26 +167,23 @@
         const cityEmissiveMap = createCityTexture(); 
 
         const buildingMat = new THREE.MeshStandardMaterial({
-            color: 0x11111a, // Base met·lica escura
-            roughness: 0.2,  // Reflexivo
-            metalness: 0.8,  // Muito met·lico
+            color: 0x11111a, 
+            roughness: 0.2,  
+            metalness: 0.8,  
             map: cityMap,
             emissive: 0xffffff,
             emissiveMap: cityEmissiveMap,
-            emissiveIntensity: 0.7 // Faz as janelas brilharem pro Bloom
+            emissiveIntensity: 0.5 
         });
 
-        // ==========================================
-        // GERADOR DE CIDADE MASSIVA (InstancedMesh)
-        // ==========================================
-        const gridRadius = 24; // 48x48 quarteirıes = mais de 2000 prÈdios
+        const gridRadius = 24; 
         const blockSize = 3.5;
-        const streetWidth = 1.5;
+        const streetWidth = 2.0; // Ruas ligeiramente mais largas para destacar o neon
         const cellSize = blockSize + streetWidth;
         const buildingCount = (gridRadius * 2 + 1) * (gridRadius * 2 + 1);
 
         const buildingGeo = new THREE.BoxGeometry(1, 1, 1);
-        buildingGeo.translate(0, 0.5, 0); // PivÙ na base para escalar
+        buildingGeo.translate(0, 0.5, 0);
 
         const cityInstancedMesh = new THREE.InstancedMesh(buildingGeo, buildingMat, buildingCount);
         scene.add(cityInstancedMesh);
@@ -200,22 +195,21 @@
             for (let z = -gridRadius; z <= gridRadius; z++) {
                 const dist = Math.sqrt(x*x + z*z);
                 
-                // DistribuiÁ„o de altura de metrÛpole (centro denso e alto)
-                const baseHeight = Math.max(2, 20 - dist * 0.6);
-                let height = baseHeight + Math.random() * 10;
+                // Pr√©dios um pouco mais baixos para vermos mais as ruas
+                const baseHeight = Math.max(1, 14 - dist * 0.5);
+                let height = baseHeight + Math.random() * 8;
                 
-                // Super Arranha-cÈus
-                if (Math.random() > 0.96 && dist < 15) {
-                    height += 25 + Math.random() * 15;
+                if (Math.random() > 0.97 && dist < 15) {
+                    height += 15 + Math.random() * 10;
                 }
                 
-                // PraÁas
-                if (Math.random() > 0.92) {
-                    height = 0.5;
+                // Mais espa√ßos vazios para destacar avenidas
+                if (Math.random() > 0.88) {
+                    height = 0.2;
                 }
 
-                const scaleX = blockSize * (0.7 + Math.random() * 0.4);
-                const scaleZ = blockSize * (0.7 + Math.random() * 0.4);
+                const scaleX = blockSize * (0.6 + Math.random() * 0.4);
+                const scaleZ = blockSize * (0.6 + Math.random() * 0.4);
 
                 dummy.position.set(x * cellSize, 0, z * cellSize);
                 dummy.scale.set(scaleX, height, scaleZ);
@@ -227,16 +221,13 @@
         }
         cityInstancedMesh.instanceMatrix.needsUpdate = true;
 
-        // ==========================================
-        // RUAS NEON E ASFALTO
-        // ==========================================
         const streetGroup = new THREE.Group();
         scene.add(streetGroup);
 
         for (let z = -gridRadius; z <= gridRadius; z++) {
-            if (Math.abs(z) > 12 && Math.random() > 0.4) continue;
+            if (Math.abs(z) > 12 && Math.random() > 0.3) continue;
             const color = neonColors[Math.abs(z) % neonColors.length].clone();
-            color.multiplyScalar(2.0); 
+            color.multiplyScalar(2.5); // Mais brilho na rua
             const mat = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.8 });
             const geo = new THREE.PlaneGeometry((gridRadius * 2 + 1) * cellSize, streetWidth * 0.7);
             const mesh = new THREE.Mesh(geo, mat);
@@ -246,9 +237,9 @@
         }
 
         for (let x = -gridRadius; x <= gridRadius; x++) {
-            if (Math.abs(x) > 12 && Math.random() > 0.4) continue;
+            if (Math.abs(x) > 12 && Math.random() > 0.3) continue;
             const color = neonColors[Math.abs(x + 3) % neonColors.length].clone();
-            color.multiplyScalar(2.0);
+            color.multiplyScalar(2.5);
             const mat = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.8 });
             const geo = new THREE.PlaneGeometry(streetWidth * 0.7, (gridRadius * 2 + 1) * cellSize);
             const mesh = new THREE.Mesh(geo, mat);
@@ -257,11 +248,10 @@
             streetGroup.add(mesh);
         }
 
-        // Asfalto reflexivo (Ch„o)
         const groundGeo = new THREE.PlaneGeometry((gridRadius * 2 + 2) * cellSize, (gridRadius * 2 + 2) * cellSize);
         const groundMat = new THREE.MeshStandardMaterial({ 
             color: 0x010101, 
-            roughness: 0.05, // Muito polido (Asfalto molhado refletindo a cidade)
+            roughness: 0.05,
             metalness: 0.5
         });
         const ground = new THREE.Mesh(groundGeo, groundMat);
@@ -269,25 +259,22 @@
         ground.position.y = 0;
         scene.add(ground);
 
-        // ==========================================
-        // TR¡FEGO / CORREDORES (Trails Animados)
-        // ==========================================
         const trails = [];
-        const trailCount = 120; 
+        const trailCount = 150; // Mais tr√¢nsito nas ruas
 
         for (let i = 0; i < trailCount; i++) {
             const isHorizontal = Math.random() > 0.5;
             const streetIdx = Math.floor(Math.random() * (gridRadius * 2 + 1)) - gridRadius;
             const baseColor = neonColors[Math.floor(Math.random() * neonColors.length)].clone();
-            const coreColor = baseColor.clone().lerp(new THREE.Color(0xffffff), 0.8).multiplyScalar(4.0);
+            const coreColor = baseColor.clone().lerp(new THREE.Color(0xffffff), 0.8).multiplyScalar(5.0);
 
-            const trailGeo = new THREE.SphereGeometry(0.25, 8, 8);
+            const trailGeo = new THREE.SphereGeometry(0.3, 8, 8);
             const trailMat = new THREE.MeshBasicMaterial({ color: coreColor });
             const trailMesh = new THREE.Mesh(trailGeo, trailMat);
 
-            const light = new THREE.PointLight(baseColor, 4, 25); 
+            const light = new THREE.PointLight(baseColor, 5, 20); 
 
-            const speed = 0.05 + Math.random() * 0.1;
+            const speed = 0.05 + Math.random() * 0.15;
             const direction = Math.random() > 0.5 ? 1 : -1;
             const extent = gridRadius * cellSize;
 
@@ -307,36 +294,28 @@
             trails.push({ mesh: trailMesh, light, isHorizontal, speed, direction, extent, pos });
         }
 
-        // ==========================================
-        // ILUMINA«√O GLOBAL
-        // ==========================================
         scene.add(new THREE.AmbientLight(0x1a1a2e, 1.2)); 
         const dirLight = new THREE.DirectionalLight(0x223355, 1.5);
         dirLight.position.set(30, 60, -30);
         scene.add(dirLight);
 
-        // Hemisphere light para o cÈu noturno
         const hemiLight = new THREE.HemisphereLight(0x0f172a, 0x000000, 1.5);
         scene.add(hemiLight);
 
-        // ==========================================
-        // ANIMA«√O E RENDER
-        // ==========================================
         let time = 0;
         function animate() {
             requestAnimationFrame(animate);
             time += 0.005;
 
-            // Parallax cinem·tico da c‚mera
+            // Drone Parallax - Movimento mais a√©reo
             const targetCamX = mouseX * 25;
-            const targetCamY = 18 - mouseY * 12;
+            const targetCamY = 45 - mouseY * 15;
             camera.position.x += (targetCamX - camera.position.x) * 0.015;
             camera.position.y += (targetCamY - camera.position.y) * 0.015;
             
-            // Foco da c‚mera (olhando levemente para baixo na cidade)
-            camera.lookAt(mouseX * 10, 5, -20 + mouseY * 10);
+            // Focando diretamente para o ch√£o/ruas
+            camera.lookAt(mouseX * 15, -10, -10 + mouseY * 15);
 
-            // Anima os corredores (Trails)
             for (const trail of trails) {
                 trail.pos += trail.speed * trail.direction;
                 if (Math.abs(trail.pos) > trail.extent) trail.pos = -trail.extent * trail.direction;
@@ -345,7 +324,6 @@
                 trail.light.position.copy(trail.mesh.position);
             }
 
-            // Pulso das ruas neon
             streetGroup.children.forEach((street, i) => {
                 street.material.opacity = 0.6 + Math.sin(time * 4 + i * 0.2) * 0.3;
             });
@@ -364,110 +342,99 @@
     })();
     </script>
 
-    <!-- NAVEGA«√O SUPERIOR (Flutuante) -->
-    <div class="fixed top-0 left-0 w-full z-50 pt-6 px-4 md:px-8 pointer-events-none">
-        <nav class="flex items-center justify-between py-3 px-6 max-w-[1400px] mx-auto w-full bg-black/40 backdrop-blur-2xl border border-white/5 rounded-2xl shadow-2xl pointer-events-auto">
-            <!-- Logo -->
-            <a href="index.html"
-                class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity">
-                <!-- Õcone F geomÈtrico -->
-                <svg viewBox="0 0 100 100" class="w-10 h-10 shrink-0 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
-                    <path d="M 0 0 H 100 L 80 20 H 20 V 40 H 80 L 60 60 H 20 V 80 L 0 100 Z" fill="white" />
+    <div class="relative z-10 flex flex-col min-h-screen">
+        <!-- NAVEGA√á√ÉO SUPERIOR (Larga como no React) -->
+        <nav class="fixed top-4 left-4 right-4 lg:left-8 lg:right-8 backdrop-blur-xl bg-[#080b12]/90 border border-white/5 rounded-[20px] px-8 py-5 flex items-center justify-between z-50 shadow-2xl pointer-events-auto">
+            <!-- Log√≥tipo -->
+            <a href="index.html" class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition-opacity">
+                <!-- √çcone F -->
+                <svg class="w-9 h-9 drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 6H34V14H16V20H28V27H16V36H6V6Z" fill="white"/>
                 </svg>
-                <div class="flex flex-col justify-center" translate="no">
-                    <span class="text-lg font-black leading-none tracking-wider text-white uppercase">FIRST</span>
-                    <span class="text-lg font-black leading-none tracking-wider text-white uppercase">RUNNER</span>
+                <!-- Texto Logo -->
+                <div class="flex flex-col leading-[0.9] font-black tracking-widest text-white text-xl uppercase" translate="no">
+                    <span>FIRST</span>
+                    <span>RUNNER</span>
                 </div>
             </a>
 
             <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center gap-8 text-sm font-bold tracking-widest text-white/70">
-                <a href="index.html" class="hover:text-white transition-colors" data-i18n="nav_home">INÕCIO</a>
-                <a href="como-funciona.html" class="hover:text-white transition-colors" data-i18n="nav_how_it_works">COMO FUNCIONA</a>
-                <a href="#" class="hover:text-white transition-colors">HERO</a>
-                <a href="whitepaper.html" class="hover:text-white transition-colors">WHITEPAPER</a>
-                <a href="early-access.html" class="text-orange-400 hover:text-orange-300 transition-colors drop-shadow-[0_0_8px_rgba(251,146,60,0.5)]" data-i18n="nav_early_access">EARLY ACCESS</a>
+            <div class="hidden lg:flex items-center gap-10">
+                <a href="index.html" class="text-[12px] font-black tracking-[0.15em] transition-all uppercase cursor-pointer text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]" data-i18n="nav_home">IN√çCIO</a>
+                <a href="como-funciona.html" class="text-[12px] font-black tracking-[0.15em] transition-all uppercase cursor-pointer text-white/50 hover:text-white" data-i18n="nav_how_it_works">COMO FUNCIONA</a>
+                <a href="#" class="text-[12px] font-black tracking-[0.15em] transition-all uppercase cursor-pointer text-white/50 hover:text-white">HERO</a>
+                <a href="whitepaper.html" class="text-[12px] font-black tracking-[0.15em] transition-all uppercase cursor-pointer text-white/50 hover:text-white">WHITEPAPER</a>
+                <a href="early-access.html" class="text-[12px] font-black tracking-[0.15em] transition-all uppercase cursor-pointer text-orange-500 hover:text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,0.4)]" data-i18n="nav_early_access">EARLY ACCESS</a>
             </div>
 
-            <!-- Language Switcher -->
-            <div class="hidden md:flex items-center gap-4">
+            <!-- Language Switcher & Mobile Menu -->
+            <div class="flex items-center gap-4 pointer-events-auto">
                 <button onclick="LanguageManager.toggleLanguage()" class="flex items-center gap-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
                     <i data-lucide="globe" class="w-4 h-4"></i>
                     <span id="current-lang-display">PT</span>
-                    <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                </button>
+                <button class="lg:hidden text-white p-2">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
-
-            <!-- Mobile Menu Toggle -->
-            <button class="md:hidden text-white p-2">
-                <i data-lucide="menu" class="w-6 h-6"></i>
-            </button>
         </nav>
-    </div>
 
-    <!-- CONTE⁄DO PRINCIPAL (Flutuando sobre o 3D) -->
-    <main class="relative z-10 w-full min-h-screen flex flex-col justify-center pt-32 pb-20 pointer-events-none">
-        
-        <!-- Hero Section Principal -->
-        <div class="flex-1 flex flex-col items-center justify-center w-full px-4 text-center mt-[-5vh]">
-            <h1 class="text-4xl md:text-6xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.95] max-w-5xl mx-auto drop-shadow-2xl">
-                <span class="block text-white" data-i18n="hero_title_1">SUBSTITUA SEU APP DE</span>
-                <span class="block text-white" data-i18n="hero_title_2">FITNESS CHATO</span>
-                <span class="block text-white" data-i18n="hero_title_3">POR UM JOGO DE</span>
-                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-orange-500 pb-2 italic drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" data-i18n="hero_title_4">DOMINA«√O TERRITORIAL.</span>
+        <!-- CONTE√öDO PRINCIPAL (Flutuando sobre o 3D) -->
+        <main class="flex-grow flex flex-col items-center justify-center text-center px-4 w-full pt-32 pb-20 pointer-events-none">
+            
+            <h1 class="text-5xl md:text-[80px] lg:text-[130px] font-black italic tracking-tighter text-white drop-shadow-2xl leading-none">
+                <span translate="no">FIRST RUNNER</span>
             </h1>
+            <p class="mt-6 text-xs md:text-xl font-medium tracking-[0.15em] text-white/90 uppercase drop-shadow-md" data-i18n="hero_subtitle">
+                Conquiste a sua cidade, Seja O PRIMEIRO CORREDOR
+            </p>
+            <a href="early-access.html" class="pointer-events-auto mt-10 px-10 py-4 rounded-full border-2 border-orange-500 bg-[#050505]/60 backdrop-blur-md text-white text-sm font-bold tracking-widest hover:bg-orange-500 hover:text-black transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_40px_rgba(249,115,22,0.6)]" data-i18n="hero_cta">
+                JUNTAR √Ä CORRIDA
+            </a>
 
-            <div class="mt-16 pointer-events-auto">
-                <a href="early-access.html" class="group relative inline-flex items-center justify-center px-10 py-5 text-lg font-black tracking-widest text-black uppercase transition-all duration-300 bg-white rounded-full hover:scale-105 hover:bg-gray-100 shadow-[0_0_30px_rgba(255,255,255,0.3)]">
-                    <span data-i18n="hero_cta">ENTRAR NA WAITLIST</span>
-                    <div class="absolute inset-0 rounded-full border border-white/50 opacity-0 group-hover:animate-ping"></div>
-                </a>
-            </div>
-        </div>
-
-        <!-- Badges Inferiores -->
-        <div class="w-full max-w-5xl mx-auto px-4 mt-20 pointer-events-auto">
-            <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-                <!-- Google Cloud Badge -->
-                <div class="flex items-center justify-between w-full md:w-auto px-8 py-5 bg-black/50 backdrop-blur-xl border border-white/5 rounded-2xl md:rounded-full shadow-2xl hover:bg-black/60 transition-colors cursor-default">
-                    <div class="flex flex-col text-left mr-10">
-                        <span class="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 uppercase">Gemini Live <span class="text-white">Agent Challenge</span></span>
-                        <span class="text-[10px] font-bold tracking-widest text-white/50 uppercase mt-1">Submit by March 16, 2026</span>
-                    </div>
-                    <div class="flex flex-col items-end">
-                        <span class="text-[8px] font-black tracking-[0.2em] text-white/40 uppercase mb-1">Powered by</span>
-                        <div class="flex items-center gap-2">
-                            <span class="text-sm font-bold tracking-wider text-white">Google Cloud</span>
-                            <!-- Sparkle icon simplificado -->
-                            <svg class="w-6 h-6 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/>
-                            </svg>
+            <!-- Badges Inferiores -->
+            <div class="w-full max-w-5xl mx-auto px-4 mt-20 pointer-events-auto">
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                    <!-- Google Cloud Badge -->
+                    <div class="flex items-center justify-between w-full md:w-auto px-8 py-5 bg-black/50 backdrop-blur-xl border border-white/5 rounded-2xl md:rounded-full shadow-2xl hover:bg-black/60 transition-colors cursor-default">
+                        <div class="flex flex-col text-left mr-10">
+                            <span class="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 uppercase">Gemini Live <span class="text-white">Agent Challenge</span></span>
+                            <span class="text-[10px] font-bold tracking-widest text-white/50 uppercase mt-1">Submit by March 16, 2026</span>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-[8px] font-black tracking-[0.2em] text-white/40 uppercase mb-1">Powered by</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-bold tracking-wider text-white">Google Cloud</span>
+                                <!-- Sparkle icon simplificado -->
+                                <svg class="w-6 h-6 text-orange-400" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/>
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
 
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="relative z-10 w-full border-t border-white/5 bg-black/80 backdrop-blur-xl py-12 mt-20 pointer-events-auto">
-        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-3 opacity-50 hover:opacity-100 transition-opacity cursor-pointer">
-                <svg viewBox="0 0 100 100" class="w-6 h-6 shrink-0">
-                    <path d="M 0 0 H 100 L 80 20 H 20 V 40 H 80 L 60 60 H 20 V 80 L 0 100 Z" fill="white" />
-                </svg>
-                <span class="text-sm font-black tracking-widest text-white uppercase">First Runner</span>
+        <!-- FOOTER -->
+        <footer class="relative z-10 w-full border-t border-white/5 bg-[#080b12]/90 backdrop-blur-xl py-8 pointer-events-auto">
+            <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3 opacity-50 hover:opacity-100 transition-opacity cursor-pointer">
+                    <svg viewBox="0 0 100 100" class="w-6 h-6 shrink-0">
+                        <path d="M 0 0 H 100 L 80 20 H 20 V 40 H 80 L 60 60 H 20 V 80 L 0 100 Z" fill="white" />
+                    </svg>
+                    <span class="text-sm font-black tracking-widest text-white uppercase" translate="no">First Runner</span>
+                </div>
+                
+                <div class="flex items-center gap-6 text-[10px] font-bold tracking-[0.2em] text-white/40">
+                    <a href="#" class="hover:text-white transition-colors">TERMS</a>
+                    <a href="#" class="hover:text-white transition-colors">PRIVACY</a>
+                    <a href="#" class="hover:text-white transition-colors">X (TWITTER)</a>
+                    <a href="#" class="hover:text-white transition-colors">DISCORD</a>
+                </div>
             </div>
-            
-            <div class="flex items-center gap-6 text-xs font-bold tracking-widest text-white/40">
-                <a href="#" class="hover:text-white transition-colors">TERMS</a>
-                <a href="#" class="hover:text-white transition-colors">PRIVACY</a>
-                <a href="#" class="hover:text-white transition-colors">X (TWITTER)</a>
-                <a href="#" class="hover:text-white transition-colors">DISCORD</a>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script>
         lucide.createIcons();
