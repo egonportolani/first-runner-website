@@ -392,8 +392,8 @@
             app = initializeApp(firebaseConfig);
             windowDb = getFirestore(app);
             analytics = getAnalytics(app);
-            window.db = windowDb; // Expose to the other script tag
-            console.log("🔥 Firebase inicializado com sucesso no Early Access.");
+            window._frDb = windowDb; // Internal ref
+            console.log("Firebase initialized.");
         } catch (error) {
             console.warn("⚠️ Firebase não configurado corretamente. Aguardando credenciais reais.");
         }
@@ -545,12 +545,12 @@
 
                         try {
                             // Verifica se o DB está instanciado antes de tentar salvar
-                            if (!db) {
+                            if (!window._frDb) {
                                 throw new Error("Firebase não configurado.");
                             }
 
                             // Salva no Firestore (Coleção: investors)
-                            await addDoc(collection(db, "investors"), {
+                            await addDoc(collection(window._frDb, "investors"), {
                                 name: name,
                                 email: email,
                                 linkedin: linkedin || "",

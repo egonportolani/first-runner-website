@@ -1,24 +1,64 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// === SECURITY MIDDLEWARE ===
+// CORS: Only allow requests from our own domain
+app.use(cors({
+    origin: [
+        'https://www.firstrunner.com.br',
+        'https://firstrunner.com.br',
+        'http://localhost:3000' // Dev only
+    ],
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type']
+}));
+
+// JSON body size limit (prevents memory exhaustion attacks)
+app.use(express.json({ limit: '1mb' }));
+
+// Rate limiting for API routes (15 requests per minute per IP)
+const apiLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 15,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Too many requests, please try again later.' }
+});
+
+// Security headers
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'geolocation=(self), microphone=(self), camera=(self)');
+    next();
+});
+
 app.use(express.static(path.join(__dirname, '/'))); // Serve os HTMLs e assets da pasta raiz
 
 // Nosso Backend / Rota da API Gemini
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', apiLimiter, async (req, res) => {
     try {
         const { message, imageBase64 } = req.body;
+
+        // Input validation
+        if (message && typeof message !== 'string') {
+            return res.status(400).json({ error: 'Invalid input' });
+        }
+        if (message && message.length > 2000) {
+            return res.status(400).json({ error: 'Message too long (max 2000 chars)' });
+        }
+
         const apiKey = process.env.GEMINI_API_KEY;
 
         if (!apiKey || apiKey === 'coloque_sua_chave_aqui') {
-            return res.status(500).json({ error: 'GEMINI_API_KEY não configurada no .env' });
+            return res.status(500).json({ error: 'API key not configured.' });
         }
 
         // System Prompt Otimizado pra Respostas Rápidas de Voz e Visão
@@ -55,7 +95,7 @@ app.post('/api/chat', async (req, res) => {
         
         if (!response.ok) {
             console.error("Gemini API Error:", data);
-            return res.status(500).json({ error: 'Falha no Gemini', details: data });
+            return res.status(500).json({ error: 'AI service temporarily unavailable.' });
         }
         
         const jsonTextOutput = data.candidates?.[0]?.content?.parts?.[0]?.text || '{"texto": "Erro nos sensores neurais.", "humor": "alerta"}';
@@ -70,5 +110,5 @@ app.post('/api/chat', async (req, res) => {
 
 // Iniciando o servidor
 app.listen(PORT, () => {
-    console.log(`[FIRST-RUNNER] Link Neural ativo. Servidor rodando em http://localhost:${PORT}`);
+    console.log(`[FIRST-RUNNER] Server running on http://localhost:${PORT}`);
 });
