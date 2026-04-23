@@ -18,39 +18,35 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="translations.js"></script>
     <script src="language-manager.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #000;
             margin: 0;
             overflow-x: hidden;
+            background-color: #050505;
         }
 
-        #city-canvas {
+        .bg-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
+            background-image: url('assets/isometric_dark_city.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             z-index: 0;
         }
 
-        .atmosphere-intense h1 {
-            text-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
-            color: #fca5a5;
-        }
-        .atmosphere-calm h1 {
-            text-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
-            color: #a5f3fc;
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.9) 100%);
+            z-index: 1;
+            pointer-events: none;
         }
     </style>
 
@@ -72,275 +68,11 @@
     </script>
 </head>
 
-<body class="relative w-full bg-[#050505] text-white font-sans overflow-x-hidden selection:bg-orange-500/30 antialiased">
+<body class="relative w-full text-white font-sans overflow-x-hidden selection:bg-orange-500/30 antialiased">
 
-    <!-- CAMADA 1: FUNDO 3D REALISTA (InstancedMesh Metropolis) -->
-    <canvas id="city-canvas"></canvas>
-    
-    <div class="fixed inset-0 z-[1] pointer-events-none">
-        <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/40 to-black/90 pointer-events-none"></div>
-        <div class="absolute inset-0 opacity-[0.06] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
-    </div>
-
-    <!-- Three.js AAA Procedural City Engine -->
-    <script>
-    (function() {
-        const canvas = document.getElementById('city-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x020204);
-
-        const scene = new THREE.Scene();
-        // Fog urbano espesso (efeito de metrópole infinita)
-        scene.fog = new THREE.FogExp2(0x020204, 0.012);
-
-        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 400);
-        // Câmera muito mais alta, focando nas ruas de neon como um Drone
-        camera.position.set(0, 45, 55);
-        camera.lookAt(0, -10, 0);
-
-        // ---- POST PROCESSING (BLOOM) ----
-        const renderScene = new THREE.RenderPass(scene, camera);
-        const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 2.0, 0.6, 0.2);
-        const composer = new THREE.EffectComposer(renderer);
-        composer.addPass(renderScene);
-        composer.addPass(bloomPass);
-
-        // ---- MOUSE TRACKING ----
-        let mouseX = 0, mouseY = 0;
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-        });
-
-        const neonColors = [
-            new THREE.Color(0x00e5ff), // Cyan
-            new THREE.Color(0xd500f9), // Purple
-            new THREE.Color(0xff6d00), // Orange
-            new THREE.Color(0x00e676), // Green
-            new THREE.Color(0xff1744), // Red
-            new THREE.Color(0x2979ff), // Blue
-        ];
-
-        // ==========================================
-        // TEXTURAS PROCEDURAIS (JANELAS REALISTAS)
-        // ==========================================
-        function createCityTexture() {
-            const ctxCanvas = document.createElement('canvas');
-            ctxCanvas.width = 512;
-            ctxCanvas.height = 1024;
-            const ctx = ctxCanvas.getContext('2d');
-
-            ctx.fillStyle = '#06060a';
-            ctx.fillRect(0, 0, 512, 1024);
-
-            const rows = 40;
-            const cols = 20;
-            const windowW = 512 / cols;
-            const windowH = 1024 / rows;
-
-            for (let r = 0; r < rows; r++) {
-                for (let c = 0; c < cols; c++) {
-                    const margin = 2;
-                    if (Math.random() > 0.85) { // Janelas mais escassas
-                        const isWarm = Math.random() > 0.4;
-                        ctx.fillStyle = isWarm ? '#ffea99' : '#baddff';
-                        ctx.globalAlpha = 0.4 + Math.random() * 0.4;
-                        ctx.fillRect(c * windowW + margin, r * windowH + margin, windowW - margin * 2, windowH - margin * 2);
-                    }
-                }
-            }
-            ctx.globalAlpha = 1.0;
-            const texture = new THREE.CanvasTexture(ctxCanvas);
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(2, 4); 
-            
-            texture.magFilter = THREE.NearestFilter;
-            texture.minFilter = THREE.LinearMipmapLinearFilter;
-            return texture;
-        }
-
-        const cityMap = createCityTexture();
-        const cityEmissiveMap = createCityTexture(); 
-
-        const buildingMat = new THREE.MeshStandardMaterial({
-            color: 0x11111a, 
-            roughness: 0.2,  
-            metalness: 0.8,  
-            map: cityMap,
-            emissive: 0xffffff,
-            emissiveMap: cityEmissiveMap,
-            emissiveIntensity: 0.5 
-        });
-
-        const gridRadius = 24; 
-        const blockSize = 3.5;
-        const streetWidth = 2.0; // Ruas ligeiramente mais largas para destacar o neon
-        const cellSize = blockSize + streetWidth;
-        const buildingCount = (gridRadius * 2 + 1) * (gridRadius * 2 + 1);
-
-        const buildingGeo = new THREE.BoxGeometry(1, 1, 1);
-        buildingGeo.translate(0, 0.5, 0);
-
-        const cityInstancedMesh = new THREE.InstancedMesh(buildingGeo, buildingMat, buildingCount);
-        scene.add(cityInstancedMesh);
-
-        const dummy = new THREE.Object3D();
-        let instanceIdx = 0;
-
-        for (let x = -gridRadius; x <= gridRadius; x++) {
-            for (let z = -gridRadius; z <= gridRadius; z++) {
-                const dist = Math.sqrt(x*x + z*z);
-                
-                // Prédios um pouco mais baixos para vermos mais as ruas
-                const baseHeight = Math.max(1, 14 - dist * 0.5);
-                let height = baseHeight + Math.random() * 8;
-                
-                if (Math.random() > 0.97 && dist < 15) {
-                    height += 15 + Math.random() * 10;
-                }
-                
-                // Mais espaços vazios para destacar avenidas
-                if (Math.random() > 0.88) {
-                    height = 0.2;
-                }
-
-                const scaleX = blockSize * (0.6 + Math.random() * 0.4);
-                const scaleZ = blockSize * (0.6 + Math.random() * 0.4);
-
-                dummy.position.set(x * cellSize, 0, z * cellSize);
-                dummy.scale.set(scaleX, height, scaleZ);
-                dummy.updateMatrix();
-
-                cityInstancedMesh.setMatrixAt(instanceIdx, dummy.matrix);
-                instanceIdx++;
-            }
-        }
-        cityInstancedMesh.instanceMatrix.needsUpdate = true;
-
-        const streetGroup = new THREE.Group();
-        scene.add(streetGroup);
-
-        for (let z = -gridRadius; z <= gridRadius; z++) {
-            if (Math.abs(z) > 12 && Math.random() > 0.3) continue;
-            const color = neonColors[Math.abs(z) % neonColors.length].clone();
-            color.multiplyScalar(2.5); // Mais brilho na rua
-            const mat = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.8 });
-            const geo = new THREE.PlaneGeometry((gridRadius * 2 + 1) * cellSize, streetWidth * 0.7);
-            const mesh = new THREE.Mesh(geo, mat);
-            mesh.rotation.x = -Math.PI / 2;
-            mesh.position.set(0, 0.05, z * cellSize + blockSize / 2 + streetWidth / 2);
-            streetGroup.add(mesh);
-        }
-
-        for (let x = -gridRadius; x <= gridRadius; x++) {
-            if (Math.abs(x) > 12 && Math.random() > 0.3) continue;
-            const color = neonColors[Math.abs(x + 3) % neonColors.length].clone();
-            color.multiplyScalar(2.5);
-            const mat = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.8 });
-            const geo = new THREE.PlaneGeometry(streetWidth * 0.7, (gridRadius * 2 + 1) * cellSize);
-            const mesh = new THREE.Mesh(geo, mat);
-            mesh.rotation.x = -Math.PI / 2;
-            mesh.position.set(x * cellSize + blockSize / 2 + streetWidth / 2, 0.05, 0);
-            streetGroup.add(mesh);
-        }
-
-        const groundGeo = new THREE.PlaneGeometry((gridRadius * 2 + 2) * cellSize, (gridRadius * 2 + 2) * cellSize);
-        const groundMat = new THREE.MeshStandardMaterial({ 
-            color: 0x010101, 
-            roughness: 0.05,
-            metalness: 0.5
-        });
-        const ground = new THREE.Mesh(groundGeo, groundMat);
-        ground.rotation.x = -Math.PI / 2;
-        ground.position.y = 0;
-        scene.add(ground);
-
-        const trails = [];
-        const trailCount = 150; // Mais trânsito nas ruas
-
-        for (let i = 0; i < trailCount; i++) {
-            const isHorizontal = Math.random() > 0.5;
-            const streetIdx = Math.floor(Math.random() * (gridRadius * 2 + 1)) - gridRadius;
-            const baseColor = neonColors[Math.floor(Math.random() * neonColors.length)].clone();
-            const coreColor = baseColor.clone().lerp(new THREE.Color(0xffffff), 0.8).multiplyScalar(5.0);
-
-            const trailGeo = new THREE.SphereGeometry(0.3, 8, 8);
-            const trailMat = new THREE.MeshBasicMaterial({ color: coreColor });
-            const trailMesh = new THREE.Mesh(trailGeo, trailMat);
-
-            const light = new THREE.PointLight(baseColor, 5, 20); 
-
-            const speed = 0.05 + Math.random() * 0.15;
-            const direction = Math.random() > 0.5 ? 1 : -1;
-            const extent = gridRadius * cellSize;
-
-            let pos = -extent * direction + Math.random() * extent * 2;
-            
-            if (isHorizontal) {
-                trailMesh.position.set(pos, 0.5, streetIdx * cellSize + blockSize / 2 + streetWidth / 2);
-                trailMesh.scale.set(4, 1, 1);
-            } else {
-                trailMesh.position.set(streetIdx * cellSize + blockSize / 2 + streetWidth / 2, 0.5, pos);
-                trailMesh.scale.set(1, 1, 4);
-            }
-
-            light.position.copy(trailMesh.position);
-            scene.add(trailMesh);
-            scene.add(light);
-            trails.push({ mesh: trailMesh, light, isHorizontal, speed, direction, extent, pos });
-        }
-
-        scene.add(new THREE.AmbientLight(0x1a1a2e, 1.2)); 
-        const dirLight = new THREE.DirectionalLight(0x223355, 1.5);
-        dirLight.position.set(30, 60, -30);
-        scene.add(dirLight);
-
-        const hemiLight = new THREE.HemisphereLight(0x0f172a, 0x000000, 1.5);
-        scene.add(hemiLight);
-
-        let time = 0;
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.005;
-
-            // Drone Parallax - Movimento mais aéreo
-            const targetCamX = mouseX * 25;
-            const targetCamY = 45 - mouseY * 15;
-            camera.position.x += (targetCamX - camera.position.x) * 0.015;
-            camera.position.y += (targetCamY - camera.position.y) * 0.015;
-            
-            // Focando diretamente para o chão/ruas
-            camera.lookAt(mouseX * 15, -10, -10 + mouseY * 15);
-
-            for (const trail of trails) {
-                trail.pos += trail.speed * trail.direction;
-                if (Math.abs(trail.pos) > trail.extent) trail.pos = -trail.extent * trail.direction;
-                if (trail.isHorizontal) trail.mesh.position.x = trail.pos;
-                else trail.mesh.position.z = trail.pos;
-                trail.light.position.copy(trail.mesh.position);
-            }
-
-            streetGroup.children.forEach((street, i) => {
-                street.material.opacity = 0.6 + Math.sin(time * 4 + i * 0.2) * 0.3;
-            });
-
-            composer.render();
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            composer.setSize(window.innerWidth, window.innerHeight);
-        });
-    })();
-    </script>
+    <!-- CAMADA 1: FUNDO ESTÁTICO -->
+    <div class="bg-layer"></div>
+    <div class="overlay"></div>
 
     <div class="relative z-10 flex flex-col min-h-screen">
         <!-- NAVEGAÇÃO SUPERIOR (Larga como no React) -->
@@ -379,7 +111,7 @@
             </div>
         </nav>
 
-        <!-- CONTEÚDO PRINCIPAL (Flutuando sobre o 3D) -->
+        <!-- CONTEÚDO PRINCIPAL (Flutuando sobre o Fundo) -->
         <main class="flex-grow flex flex-col items-center justify-center text-center px-4 w-full pt-32 pb-20 pointer-events-none">
             
             <h1 class="text-5xl md:text-[80px] lg:text-[130px] font-black italic tracking-tighter text-white drop-shadow-2xl leading-none">
