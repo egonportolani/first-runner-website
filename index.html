@@ -111,222 +111,82 @@
 
 <body class="relative w-full bg-black text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 antialiased">
 
-    <!-- CAMADA 1: FUNDO 3D — Cidade Noturna com Ruas Pintadas (Three.js) -->
-    <canvas id="city-canvas"></canvas>
-    <div class="fixed inset-0 z-[1] pointer-events-none">
-        <!-- Overlay gradiente para legibilidade (reduzido para destacar o bloom) -->
-        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80"></div>
-        <!-- Grão cinematográfico sutil com mix-blend para não matar o brilho -->
-        <div class="absolute inset-0 opacity-[0.06] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
+    <!-- CAMADA 1: FUNDO AAA (Arte Prerenderizada + Ken Burns + Partículas) -->
+    <div class="fixed inset-0 z-0 overflow-hidden bg-black pointer-events-auto">
+        <!-- Imagem de Fundo Alta Qualidade -->
+        <div class="absolute inset-0 bg-[url('assets/aaa-city-neon.png')] bg-cover bg-center bg-no-repeat w-[110%] h-[110%] -left-[5%] -top-[5%] animate-kenburns opacity-100"></div>
+        
+        <!-- Overlay escuro para garantir leitura da UI e efeito de profundidade nas bordas -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-[#010206] z-10 pointer-events-none"></div>
+        
+        <!-- Partículas Flutuantes 3D (Poeira Neon) -->
+        <canvas id="particles-canvas" class="absolute inset-0 w-full h-full z-20 mix-blend-screen pointer-events-none"></canvas>
+
+        <!-- Grão cinematográfico sutil -->
+        <div class="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay z-30 pointer-events-none"></div>
     </div>
 
     <!-- Three.js City Engine com Post-Processing (Bloom) -->
+    <!-- Sistema Leve de Partículas -->
     <script>
-    (function() {
-        const canvas = document.getElementById('city-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x000000);
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
 
-        const scene = new THREE.Scene();
-        // Cinematic Fog (Profundidade)
-        scene.fog = new THREE.FogExp2(0x000003, 0.015);
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
 
-        // Câmera Isométrica Dramática
-        const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
-        camera.position.set(0, 25, 55);
-        camera.lookAt(0, -5, 0);
+        const particles = [];
+        const colors = ['#00e5ff', '#d500f9', '#ff6d00']; // Cyan, Purple, Orange neon
 
-        // ---- POST PROCESSING (BLOOM) ----
-        const renderScene = new THREE.RenderPass(scene, camera);
-        const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 2.2, 0.7, 0.15);
-        const composer = new THREE.EffectComposer(renderer);
-        composer.addPass(renderScene);
-        composer.addPass(bloomPass);
+        for(let i=0; i<150; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                r: Math.random() * 2.5 + 0.5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.5 - 0.2, // flutuando levemente
+                opacity: Math.random() * 0.8 + 0.2,
+                glow: Math.random() * 5 + 5
+            });
+        }
 
-        // ---- MOUSE TRACKING ----
-        let mouseX = 0, mouseY = 0;
-        let targetCamX = 0, targetCamZ = 55;
+        let mouseX = width / 2;
+        let mouseY = height / 2;
         document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
-        // ---- NEON COLORS ----
-        const neonColors = [
-            new THREE.Color(0x00e5ff), // Cyan
-            new THREE.Color(0xd500f9), // Bright Purple
-            new THREE.Color(0xff6d00), // Orange
-            new THREE.Color(0x00e676), // Green
-            new THREE.Color(0xff1744), // Red
-            new THREE.Color(0x2979ff), // Blue
-        ];
-
-        // ---- CITY GRID ----
-        const gridSize = 16;
-        const blockSize = 3.2;
-        const streetWidth = 1.4;
-        const cellSize = blockSize + streetWidth;
-        const buildings = [];
-
-        // Prédios (Material metálico reflexivo - Glassmorphism)
-        const buildingMat = new THREE.MeshPhongMaterial({
-            color: 0x0a0a14, // Cor base visível, não mais preto absoluto
-            emissive: 0x000000,
-            specular: 0x444455, // Reflexos
-            shininess: 60, // Reflexo polido
-            flatShading: true, // Estética geométrica
-        });
-
-        for (let x = -gridSize; x <= gridSize; x++) {
-            for (let z = -gridSize; z <= gridSize; z++) {
-                const height = 0.5 + Math.random() * 5 + (Math.random() > 0.88 ? 8 : 0);
-                const geo = new THREE.BoxGeometry(blockSize, height, blockSize);
-                const mesh = new THREE.Mesh(geo, buildingMat);
-                mesh.position.set(x * cellSize, height / 2, z * cellSize);
-                scene.add(mesh);
-                buildings.push(mesh);
-
-                if (height > 5 && Math.random() > 0.6) {
-                    const windowColor = neonColors[Math.floor(Math.random() * neonColors.length)].clone();
-                    windowColor.multiplyScalar(2.0); // Força o bloom
-                    const edgeMat = new THREE.MeshBasicMaterial({ color: windowColor });
-                    const edgeGeo = new THREE.BoxGeometry(blockSize + 0.04, height + 0.04, blockSize + 0.04);
-                    const edgeMesh = new THREE.Mesh(edgeGeo, edgeMat);
-                    edgeMesh.position.copy(mesh.position);
-                    edgeMesh.material.wireframe = true;
-                    edgeMesh.material.transparent = true;
-                    edgeMesh.material.opacity = 0.15;
-                    scene.add(edgeMesh);
-                }
-            }
-        }
-
-        // ---- PAINTED STREETS ----
-        const streetGroup = new THREE.Group();
-        scene.add(streetGroup);
-
-        for (let z = -gridSize; z <= gridSize; z++) {
-            const color = neonColors[Math.abs(z) % neonColors.length].clone();
-            color.multiplyScalar(1.5); // Glow intenso
-            const mat = new THREE.MeshBasicMaterial({
-                color: color,
-                transparent: true,
-                opacity: 0.85,
-            });
-            const geo = new THREE.PlaneGeometry((gridSize * 2 + 1) * cellSize, streetWidth * 0.95);
-            const mesh = new THREE.Mesh(geo, mat);
-            mesh.rotation.x = -Math.PI / 2;
-            mesh.position.set(0, 0.03, z * cellSize + blockSize / 2 + streetWidth / 2);
-            streetGroup.add(mesh);
-        }
-
-        for (let x = -gridSize; x <= gridSize; x++) {
-            const color = neonColors[Math.abs(x + 3) % neonColors.length].clone();
-            color.multiplyScalar(1.5);
-            const mat = new THREE.MeshBasicMaterial({
-                color: color,
-                transparent: true,
-                opacity: 0.85,
-            });
-            const geo = new THREE.PlaneGeometry(streetWidth * 0.95, (gridSize * 2 + 1) * cellSize);
-            const mesh = new THREE.Mesh(geo, mat);
-            mesh.rotation.x = -Math.PI / 2;
-            mesh.position.set(x * cellSize + blockSize / 2 + streetWidth / 2, 0.03, 0);
-            streetGroup.add(mesh);
-        }
-
-        const glowGeo = new THREE.PlaneGeometry((gridSize * 2 + 2) * cellSize, (gridSize * 2 + 2) * cellSize);
-        const glowMat = new THREE.MeshBasicMaterial({ color: 0x010103, transparent: true, opacity: 1 });
-        const ground = new THREE.Mesh(glowGeo, glowMat);
-        ground.rotation.x = -Math.PI / 2;
-        ground.position.y = -0.01;
-        scene.add(ground);
-
-        // ---- LIGHT TRAILS ----
-        const trails = [];
-        const trailCount = 60;
-
-        for (let i = 0; i < trailCount; i++) {
-            const isHorizontal = Math.random() > 0.5;
-            const streetIdx = Math.floor(Math.random() * (gridSize * 2 + 1)) - gridSize;
-            const baseColor = neonColors[Math.floor(Math.random() * neonColors.length)].clone();
-            const coreColor = baseColor.clone().lerp(new THREE.Color(0xffffff), 0.5).multiplyScalar(5.0);
-
-            const trailGeo = new THREE.SphereGeometry(0.2, 8, 8);
-            const trailMat = new THREE.MeshBasicMaterial({ color: coreColor });
-            const trailMesh = new THREE.Mesh(trailGeo, trailMat);
-
-            const light = new THREE.PointLight(baseColor, 4, 15);
-
-            const speed = 0.03 + Math.random() * 0.08;
-            const direction = Math.random() > 0.5 ? 1 : -1;
-            const extent = (gridSize + 1) * cellSize;
-
-            let pos;
-            if (isHorizontal) {
-                pos = -extent * direction;
-                trailMesh.position.set(pos, 0.4, streetIdx * cellSize + blockSize / 2 + streetWidth / 2);
-                trailMesh.scale.set(3, 1, 1);
-            } else {
-                pos = -extent * direction;
-                trailMesh.position.set(streetIdx * cellSize + blockSize / 2 + streetWidth / 2, 0.4, pos);
-                trailMesh.scale.set(1, 1, 3);
-            }
-
-            light.position.copy(trailMesh.position);
-            scene.add(trailMesh);
-            scene.add(light);
-            trails.push({ mesh: trailMesh, light, isHorizontal, speed, direction, extent, pos });
-        }
-
-        // ---- LIGHTING ----
-        // Luz ambiente mais forte para revelar as faces dos prédios
-        scene.add(new THREE.AmbientLight(0x222233, 1.2));
-        
-        // Luz direcional simulando luar
-        const dirLight = new THREE.DirectionalLight(0x555577, 1.0);
-        dirLight.position.set(20, 50, -20);
-        scene.add(dirLight);
-
-        // ---- LOOP ----
-        let time = 0;
         function animate() {
-            requestAnimationFrame(animate);
-            time += 0.006;
+            ctx.clearRect(0, 0, width, height);
 
-            targetCamX = mouseX * 20;
-            const targetCamY = 25 - mouseY * 8;
-            camera.position.x += (targetCamX - camera.position.x) * 0.015;
-            camera.position.y += (targetCamY - camera.position.y) * 0.015;
-            camera.position.z = 55 + Math.sin(time * 0.2) * 5;
-            camera.lookAt(mouseX * 8, -5, mouseY * 5 - 10);
+            for(let p of particles) {
+                // Parallax suave com o mouse
+                p.x += p.vx - (mouseX - width/2) * 0.0002;
+                p.y += p.vy - (mouseY - height/2) * 0.0002;
 
-            for (const trail of trails) {
-                trail.pos += trail.speed * trail.direction;
-                if (Math.abs(trail.pos) > trail.extent) trail.pos = -trail.extent * trail.direction;
-                if (trail.isHorizontal) trail.mesh.position.x = trail.pos;
-                else trail.mesh.position.z = trail.pos;
-                trail.light.position.copy(trail.mesh.position);
+                if (p.y < -10) p.y = height + 10;
+                if (p.y > height + 10) p.y = -10;
+                if (p.x < -10) p.x = width + 10;
+                if (p.x > width + 10) p.x = -10;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.opacity;
+                ctx.shadowBlur = p.glow;
+                ctx.shadowColor = p.color;
+                ctx.fill();
             }
-
-            streetGroup.children.forEach((street, i) => {
-                street.material.opacity = 0.6 + Math.sin(time * 2.5 + i * 0.5) * 0.25;
-            });
-
-            composer.render();
+            requestAnimationFrame(animate);
         }
-
         animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            composer.setSize(window.innerWidth, window.innerHeight);
-        });
-    })();
     </script>
 
     <!-- NAVEGAÇÃO SUPERIOR (Flutuante) -->
