@@ -18,6 +18,8 @@ window.translations = {
         // Index Page
         "index_hero_title": "SUBSTITUA SEU APP DE FITNESS CHATO<br/>POR UM JOGO DE <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 italic\">DOMINAÇÃO TERRITORIAL.</span>",
         "index_hero_subtitle": "CAMINHANDO, CORRENDO E PEDALANDO.",
+        "index_hero_new_subtitle": "Conquiste sua cidade. Pinte seu caminho.",
+        "index_hero_new_cta": "ENTRAR NA CORRIDA",
         "index_badge_ai": "A GAMIFICAÇÃO DO ESFORÇO REAL",
         "index_cta_waitlist": "ENTRAR NA WAITLIST",
         "index_app_stores_title": "Em breve na play store e apple store",
@@ -205,6 +207,8 @@ window.translations = {
         // Index Page
         "index_hero_title": "REPLACE YOUR BORING FITNESS APP<br/>WITH A <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 italic\">TURF WAR GAME.</span>",
         "index_hero_subtitle": "WALKING, RUNNING AND CYCLING.",
+        "index_hero_new_subtitle": "Conquer your city. Paint your path.",
+        "index_hero_new_cta": "JOIN THE RACE",
         "index_badge_ai": "GAMIFYING REAL-WORLD SWEAT",
         "index_cta_waitlist": "JOIN THE WAITLIST",
         "index_app_stores_title": "Coming soon to the Play Store and Apple Store",
