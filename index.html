@@ -171,10 +171,12 @@
         const buildings = [];
 
         // Prédios (Material metálico reflexivo - Glassmorphism)
-        const buildingMat = new THREE.MeshStandardMaterial({
-            color: 0x020205,
-            roughness: 0.15,
-            metalness: 0.85,
+        const buildingMat = new THREE.MeshPhongMaterial({
+            color: 0x0a0a14, // Cor base visível, não mais preto absoluto
+            emissive: 0x000000,
+            specular: 0x444455, // Reflexos
+            shininess: 60, // Reflexo polido
+            flatShading: true, // Estética geométrica
         });
 
         for (let x = -gridSize; x <= gridSize; x++) {
@@ -280,9 +282,12 @@
         }
 
         // ---- LIGHTING ----
-        scene.add(new THREE.AmbientLight(0x0a0a1a, 0.4));
-        const dirLight = new THREE.DirectionalLight(0x222244, 0.2);
-        dirLight.position.set(10, 40, -10);
+        // Luz ambiente mais forte para revelar as faces dos prédios
+        scene.add(new THREE.AmbientLight(0x222233, 1.2));
+        
+        // Luz direcional simulando luar
+        const dirLight = new THREE.DirectionalLight(0x555577, 1.0);
+        dirLight.position.set(20, 50, -20);
         scene.add(dirLight);
 
         // ---- LOOP ----
