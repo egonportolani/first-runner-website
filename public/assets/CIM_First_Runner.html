@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIM - First Runner</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #050505;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .a4-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #111;
+            padding: 60px 80px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border-top: 4px solid #22d3ee;
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+        .meta {
+            text-align: center;
+            color: #888;
+            margin-bottom: 50px;
+            font-size: 0.9rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+            color: #22d3ee;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        p, li {
+            font-size: 1.05rem;
+            color: #bbb;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        strong {
+            color: #fff;
+        }
+        .footer-note {
+            margin-top: 60px;
+            font-size: 0.8rem;
+            text-align: center;
+            color: #555;
+            font-style: italic;
+        }
+        .print-btn {
+            display: block;
+            width: fit-content;
+            margin: 0 auto 30px auto;
+            padding: 10px 20px;
+            background: #22d3ee;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+        }
+        .print-btn:hover { background: #fff; }
+        @media print {
+            body { background: #fff; color: #000; padding: 0; }
+            .a4-container { box-shadow: none; padding: 0; background: #fff; border-top: none; }
+            h1, strong { color: #000; }
+            h2 { color: #000; border-bottom: 1px solid #ccc; }
+            p, li { color: #333; }
+            .print-btn { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">Export To PDF / Print</button>
+
+    <div class="a4-container">
+        <h1>Confidential Information Memorandum (CIM)</h1>
+        <div class="meta">
+            <strong>Project Name:</strong> First Runner <br>
+            <strong>Date:</strong> April 2026
+        </div>
+
+        <h2>1. Executive Summary</h2>
+        <p><strong>First Runner</strong> is an innovative, cross-platform fitness application that bridges the gap between physical health, artificial intelligence, and immersive gamification mechanics. Designed as a "Cyberpunk-themed Turf War," the application transforms daily outdoor runs into an immersive, localized competitive experience.</p>
+        <p>Powered by <strong>Google's Gemini 2.5 Flash Native</strong>, First Runner features a state-of-the-art AI Coach (The Oracle) capable of zero-latency, context-aware audio interactions. Users run to capture real-world hexagonal territories (Turfs) while earning virtual currency ('Energy Cells') and cosmetic rewards.</p>
+        <p><strong>Status:</strong> The V2 Protocol is currently deployed, marking a major architectural leap with advanced AI audio capabilities. It is positioned as a strong contender in the <strong>Gemini Live Agent Challenge 2026</strong>.</p>
+
+        <h2>2. The Problem & Solution</h2>
+        <p><strong>The Problem:</strong> Traditional running apps (Strava, Nike Run Club) rely on static metric tracking, leading to high user churn and a lack of real-time emotional engagement. Furthermore, fitness tracking rarely provides dynamic, in-the-moment personalized coaching.</p>
+        <p><strong>The Solution:</strong> First Runner introduces an <strong>AI-driven gamified layer</strong>. Instead of running for stats, users run to "conquer" real-world map grids. The AI Coach provides real-time tactical advice based on GPS location and pace, actively conversing with the runner with sub-second latency. User engagement is retained through territorial defense, social "Guild" leaderboards, and an immersive virtual economy.</p>
+
+        <h2>3. Product & Technology</h2>
+        <p>First Runner is built on a robust, highly scalable, modern technology stack:</p>
+        <ul>
+            <li><strong>Mobile Client:</strong> Flutter (Cross-platform iOS & Android), featuring a 55-screen comprehensive UI with a premium Dark Mode/Neon aesthetic.</li>
+            <li><strong>AI Engine (The Oracle):</strong> Native implementation of <strong>Gemini 2.5 Flash Native Audio</strong>. Features "Zero-Latency Barge-in", allowing runners to interrupt the AI coach seamlessly using AudioContextAndroid without pausing the microphone.</li>
+            <li><strong>Backend & Cloud:</strong> Node.js backend hosted on <strong>Google Cloud Run</strong> utilizing raw WebSocket PCM for audio streaming.</li>
+            <li><strong>Database & Auth:</strong> Firebase ecosystem (Auth, Firestore for real-time territorial data, FCM for invasion alerts).</li>
+            <li><strong>Geolocation Engine:</strong> Real-time background GPS tracking via background services, injecting spatial telemetry into the AI's prompt context. H3 Hexagon grid system.</li>
+            <li><strong>Virtual Economy Engine:</strong> Native in-app balance system for 'Energy Cells' and cosmetic marketplace.</li>
+        </ul>
+
+        <h2>4. Market Opportunity</h2>
+        <p>The intersection of the Health & Fitness App market, AI Coaching, and GameFi is experiencing explosive growth. First Runner targets:</p>
+        <ul>
+            <li><strong>Casual & Hardcore Runners:</strong> Looking for increased motivation through gamification.</li>
+            <li><strong>Tech Enthusiasts & Gamers:</strong> Drawn to the Cyberpunk aesthetic and "Turf War" mechanics.</li>
+            <li><strong>Move-to-Earn Enthusiasts:</strong> Interested in earning rewards through real-world physical activity.</li>
+        </ul>
+
+        <h2>5. Competitive Advantage</h2>
+        <ul>
+            <li><strong>Context-Aware AI:</strong> Unlike generic audio cues, the Gemini integration knows the user's exact pace and whether they are approaching a rival territory.</li>
+            <li><strong>Always-On Gamification:</strong> The map tracker operates transparently in the background, pinging real-time push notifications of invasions.</li>
+            <li><strong>Aesthetic & Immersion:</strong> High-fidelity tactical HUD.</li>
+        </ul>
+
+        <h2>6. Monetization Strategy</h2>
+        <p>First Runner is engineered for multiple revenue streams:</p>
+        <ul>
+            <li><strong>Freemium SaaS Model:</strong> Basic metric tracking is free. Premium subscriptions unlock advanced AI Oracle analytics and unlimited interactive voice minutes.</li>
+            <li><strong>In-App Purchases / Marketplace:</strong> Cosmetic digital assets (Urban Skins, VFX trails) for runner avatars and territory markers.</li>
+            <li><strong>B2B Geo-Ads:</strong> Local businesses sponsor "Pit Stops" during missions.</li>
+        </ul>
+
+        <h2>7. Development Roadmap</h2>
+        <ul>
+            <li><strong>Phase 1 (Current):</strong> V2 Deployment, AI Audio stabilization, Core Turf War mechanics.</li>
+            <li><strong>Phase 2:</strong> iOS App Store optimization and official multi-platform synced launch.</li>
+            <li><strong>Phase 3:</strong> Advanced Guild/Clan wars mechanics with localized worldwide leaderboards.</li>
+            <li><strong>Phase 4:</strong> Full deployment of virtual economy, Battle Pass system, and cosmetic marketplace for distributed rewards.</li>
+        </ul>
+
+        <p class="footer-note">This Confidential Information Memorandum is intended solely for preliminary review by prospective investors and strategic partners of First Runner.</p>
+    </div>
+
+</body>
+</html>

@@ -9,12 +9,15 @@ const PORT = process.env.PORT || 3000;
 
 // === SECURITY MIDDLEWARE ===
 // CORS: Only allow requests from our own domain
+const allowedOrigins = [
+    'https://www.firstrunner.com.br',
+    'https://firstrunner.com.br'
+];
+if (process.env.NODE_ENV !== 'production') {
+    allowedOrigins.push('http://localhost:3000');
+}
 app.use(cors({
-    origin: [
-        'https://www.firstrunner.com.br',
-        'https://firstrunner.com.br',
-        'http://localhost:3000' // Dev only
-    ],
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type']
 }));
@@ -37,10 +40,11 @@ app.use((req, res, next) => {
     res.setHeader('X-Frame-Options', 'DENY');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     res.setHeader('Permissions-Policy', 'geolocation=(self), microphone=(self), camera=(self)');
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com https://www.gstatic.com https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://generativelanguage.googleapis.com https://firestore.googleapis.com https://www.google-analytics.com https://www.facebook.com; media-src 'self' blob:; frame-src 'none';");
     next();
 });
 
-app.use(express.static(path.join(__dirname, '/'))); // Serve os HTMLs e assets da pasta raiz
+app.use(express.static(path.join(__dirname, 'public'))); // Serve APENAS arquivos públicos da pasta /public
 
 // Nosso Backend / Rota da API Gemini
 app.post('/api/chat', apiLimiter, async (req, res) => {

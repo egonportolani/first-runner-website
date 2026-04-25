@@ -1,0 +1,9 @@
+# First Runner - Robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /*.js$
+Disallow: /sw.js
+
+# Sitemap
+Sitemap: https://www.firstrunner.com.br/sitemap.xml
