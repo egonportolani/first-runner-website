@@ -8,6 +8,7 @@ window.translations = {
         "nav_early_access": "Early Access",
         "nav_login": "Entrar",
         "nav_get_started": "Começar",
+        "nav_whitelabel": "Para Organizadores",
         
         // Common Footer
         "footer_rights": "© 2026 FIRST RUNNER",
@@ -197,6 +198,7 @@ window.translations = {
         "nav_early_access": "Early Access",
         "nav_login": "Login",
         "nav_get_started": "Get Started",
+        "nav_whitelabel": "For Organizers",
 
         // Common Footer
         "footer_rights": "© 2026 FIRST RUNNER",
