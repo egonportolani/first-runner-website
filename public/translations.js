@@ -3,7 +3,7 @@ window.translations = {
         // Common Nav
         "nav_home": "Início",
         "nav_how_it_works": "Como Funciona",
-        "nav_hero_fitness": "Hero",
+        "nav_hero_fitness": "Pacer IA",
         "nav_whitepaper": "Whitepaper",
         "nav_early_access": "Early Access",
         "nav_login": "Entrar",
@@ -193,7 +193,7 @@ window.translations = {
         // Common Nav
         "nav_home": "Home",
         "nav_how_it_works": "How it Works",
-        "nav_hero_fitness": "Hero",
+        "nav_hero_fitness": "Pacer IA",
         "nav_whitepaper": "Whitepaper",
         "nav_early_access": "Early Access",
         "nav_login": "Login",
