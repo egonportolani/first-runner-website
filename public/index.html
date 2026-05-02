@@ -75,27 +75,6 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-
-        @keyframes neon-sweep {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .text-neon-sweep {
-            background: linear-gradient(
-                to right,
-                #ffffff 20%,
-                #00f3ff 40%,
-                #bc13fe 60%,
-                #ffffff 80%
-            );
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            animation: neon-sweep 4s linear infinite;
-        }
     </style>
 
     <!-- PWA -->
@@ -168,7 +147,7 @@
 
         <!-- HERO CENTRAL -->
         <main class="flex-grow flex flex-col items-center justify-center text-center px-4">
-            <h1 class="font-syncopate text-5xl md:text-7xl lg:text-[110px] leading-[0.9] text-neon-sweep drop-shadow-2xl uppercase italic">
+            <h1 class="font-syncopate text-5xl md:text-7xl lg:text-[110px] leading-[0.9] text-white drop-shadow-2xl uppercase italic">
                 FIRST RUNNER
             </h1>
             <p class="mt-6 text-xs md:text-sm font-bold tracking-[0.25em] text-white/80 uppercase" data-i18n="index_hero_new_subtitle">
